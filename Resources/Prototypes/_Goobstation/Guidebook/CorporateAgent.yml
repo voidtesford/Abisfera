@@ -1,0 +1,7 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+
+- type: guideEntry
+  id: CorporateAgents
+  name: "Корпоративный агент" # Corvax-Goob-Locale
+  text: "/ServerInfo/_Goobstation/Guidebook/Antagonist/CorporateAgent.xml"

@@ -1,0 +1,32 @@
+<!--
+SPDX-License-Identifier: MIT
+-->
+
+<DefaultWindow xmlns="https://spacestation14.io"
+               xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
+               xmlns:ui="clr-namespace:Content.Client.CrewManifest.UI"
+               Title="{Loc 'crew-manifest-window-title'}"
+               SetSize="450 750">
+    <BoxContainer Orientation="Vertical" VerticalExpand="True" HorizontalExpand="True">
+        <controls:StripeBack Name="StationNameContainer">
+            <PanelContainer>
+                <Label Name="StationName" Align="Center" />
+            </PanelContainer>
+        </controls:StripeBack>
+        <!-- CorvaxGoob Start - crew-manifest-search -->
+        <LineEdit Name="SearchBar"
+                  PlaceHolder="{Loc 'crew-manifest-search-placeholder'}"
+                  HorizontalExpand="True"
+                  Margin="2 4 2 2" />
+        <!-- CorvaxGoob End -->
+        <BoxContainer HorizontalExpand="True" VerticalExpand="True">
+            <ScrollContainer HorizontalExpand="True" VerticalExpand="True">
+                <!-- this MIGHT have race conditions -->
+                <ui:CrewManifestListing Name="CrewManifestListing" Orientation="Vertical" HorizontalExpand="True">
+                    <Label Text="{Loc 'crew-manifest-no-valid-station'}" HorizontalExpand="True" />
+                </ui:CrewManifestListing>
+                <!-- Crew manifest goes here. -->
+            </ScrollContainer>
+        </BoxContainer>
+    </BoxContainer>
+</DefaultWindow>

@@ -1,0 +1,64 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+using Content.Goobstation.Common.Changeling;
+using Content.Goobstation.Shared.Changeling.Components;
+using Content.Goobstation.Shared.InternalResources.EntitySystems;
+using Content.Shared.Weapons.Ranged.Events;
+using Content.Shared.Weapons.Ranged.Systems;
+
+namespace Content.Goobstation.Shared.Changeling.Systems;
+
+public sealed partial class ChangelingGunSystem : EntitySystem
+{
+    [Dependency] private SharedGunSystem _guns = default!;
+    [Dependency] private SharedInternalResourcesSystem _resource = default!;
+
+    public override void Initialize()
+    {
+        SubscribeLocalEvent<ChangelingChemicalsAmmoProviderComponent, TakeAmmoEvent>(OnChangelingTakeAmmo);
+        SubscribeLocalEvent<ChangelingChemicalsAmmoProviderComponent, GetAmmoCountEvent>(OnChangelingAmmoCount);
+    }
+
+    private void OnChangelingAmmoCount(Entity<ChangelingChemicalsAmmoProviderComponent> ent, ref GetAmmoCountEvent args)
+    {
+        var (uid, component) = ent;
+
+        var parent = Transform(uid).ParentUid;
+
+        if (!TryComp<ChangelingChemicalComponent>(parent, out var chemComp)
+            || chemComp.ResourceData == null)
+            return;
+
+        if (component.FireCost == 0)
+        {
+            args.Capacity = int.MaxValue;
+            args.Count = int.MaxValue;
+            return;
+        }
+
+        args.Capacity = (int) (chemComp.ResourceData.MaxAmount / component.FireCost);
+        args.Count = (int) (chemComp.ResourceData.CurrentAmount / component.FireCost);
+    }
+
+    private void OnChangelingTakeAmmo(Entity<ChangelingChemicalsAmmoProviderComponent> ent, ref TakeAmmoEvent args)
+    {
+        var (uid, component) = ent;
+
+        var parent = Transform(uid).ParentUid;
+
+        if (!TryComp<ChangelingChemicalComponent>(parent, out var chemComp)
+            || chemComp.ResourceData == null)
+            return;
+
+        for (var i = 0; i < args.Shots; i++)
+        {
+            if (chemComp.ResourceData.CurrentAmount < component.FireCost)
+                return;
+
+            _resource.TryUpdateResourcesAmount(parent, chemComp.ResourceData, -component.FireCost);
+
+            var shot = PredictedSpawnAtPosition(component.Proto, args.Coordinates); // Trauma - gun shooting is predicted
+            args.Ammo.Add((shot, _guns.EnsureShootable(shot)));
+        }
+    }
+}

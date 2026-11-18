@@ -1,0 +1,423 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: entity
+  id: EngineeringTechFab
+  parent: [BaseLatheLube]
+  name: engineering techfab
+  description: Prints equipment and circuitboards for use by engineering department.
+  components:
+  - type: Sprite
+    sprite: Structures/Machines/techfab.rsi
+    layers:
+    - state: icon
+      map: ["enum.LatheVisualLayers.IsRunning"]
+    - state: engi
+    - state: unlit
+      shader: unshaded
+      map: ["enum.PowerDeviceVisualLayers.Powered"]
+    - state: inserting
+      map: ["enum.MaterialStorageVisualLayers.Inserting"]
+    - state: panel
+      map: ["enum.WiresVisualLayers.MaintenancePanel"]
+  - type: Machine
+    board: EngineeringTechFabCircuitboard
+  - type: Lathe
+    idleState: icon
+    runningState: icon
+    staticPacks:
+    - SharedBoardsStatic
+    - EngineeringBoardsStatic
+    - CircuitFloorsStatic
+    - ToolsStatic
+    - PartsStatic
+    - AtmosStatic
+    - CablesStatic
+    - MaterialsStatic
+    - LightsStatic
+    - LatheMiscStatic
+    - PowerCellsStatic
+    - ElectronicsStatic
+    - MiscSignallersStatic
+    - NailgunStatic
+    - NailsStatic
+    - ReactorPartsBasic
+    - GlassStaticPack # CorvaxGoob
+    dynamicPacks:
+    - ConstructionBagOfHolding
+    - AdvancedTools
+    - AtmosTools
+    - EngineeringWeapons
+    - PowerCells
+    - Equipment
+    # - ServiceWeapons
+    - SpecOpsGoogles
+    - EngineeringBoards
+    - SharedBoards
+    - CameraBoards
+    - ShuttleBoards
+    - ShuttleBoardsGoob
+    - BluespaceTheory
+    - ScienceClothing
+    - UpgradeKits
+    - AdvancedEmitters        # Omu - advanced emitters
+    # CorvaxGoob Packs
+    - WorkBeltsSharedDynamic # WorkBelts-Techfab
+    - WokrBeltsEngDynamic # WorkBelts-Techfab
+    # Nuclear Reactor Packs
+    - ReactorCircuitboards
+    - ReactorFuelRods
+    - ReactorControlRods
+    - ReactorGasChannels
+    - ReactorHeatExchangers
+    - GasTurbineBlades
+    - GasTurbineStators
+    - NuclearSafetyTools
+  - type: EmagLatheRecipes
+    emagStaticPacks:
+    - NailgunEvilStatic
+    emagDynamicPacks:
+    - SecurityBoards # TF2 reference, go build fucking turrets
+    - MiningBoards
+  - type: MaterialStorage
+    whitelist:
+      tags:
+        - Sheet
+        - RawMaterial
+        - Ingot
+        - SheetPlasma
+  # CorvaxGoob-start
+  - type: LatheAnnouncing
+    channels: [Engineering]
+  - type: BlueprintReceiver
+    whitelist:
+      tags:
+      - BlueprintEngineeringTechFab
+  - type: ContainerContainer
+    containers:
+      machine_board: !type:Container
+      machine_parts: !type:Container
+      blueprint: !type:Container
+  - type: EmptyOnMachineDeconstruct
+    containers:
+    - blueprint
+  # CorvaxGoob-end
+
+- type: entity
+  id: CargoTechFab
+  parent: [BaseLatheLube]
+  name: cargo techfab
+  description: Prints equipment and circuitboards for use by cargo department.
+  components:
+  - type: Sprite
+    sprite: Structures/Machines/techfab.rsi
+    layers:
+    - state: icon
+      map: ["enum.LatheVisualLayers.IsRunning"]
+    - state: cargo
+    - state: unlit
+      shader: unshaded
+      map: ["enum.PowerDeviceVisualLayers.Powered"]
+    - state: inserting
+      map: ["enum.MaterialStorageVisualLayers.Inserting"]
+    - state: panel
+      map: ["enum.WiresVisualLayers.MaintenancePanel"]
+  - type: Machine
+    board: CargoTechFabCircuitboard
+  - type: Lathe
+    idleState: icon
+    runningState: icon
+    staticPacks:
+    - ToolsStatic
+    - SharedBoardsStatic
+    - CargoBoardsStatic
+    - CargoBoardsStaticGoob
+    - CablesStatic
+    - PartsStatic
+    - LatheMiscStatic
+    - PowerCellsStatic
+    - MiningToolsStatic
+    - MiscSignallersStatic
+    - CargoStatic
+    dynamicPacks:
+    - AdvancedTools
+    - Mining
+    - MiningLavaland # Lavaland Change
+    - PowerCells
+    - Equipment
+    # - ServiceWeapons
+    - MiningWeapons
+    - MiningBoards
+    - MiningUpgrades
+    - MechBoardsCargo
+    - MechWeaponsSalvage
+    - SpecOpsGoogles
+    - CargoBoards
+    - SharedBoards
+    - ShuttleBoards
+    - ShuttleBoardsGoob
+    - BluespaceTheory
+    - ScienceClothing
+    - ConstructionBagOfHolding
+    # CorvaxGoob Packs
+    - WorkBeltsSharedDynamic # WorkBelts-Techfab
+    - WorkBeltsSalDynamic # WorkBelts-Techfab
+  - type: EmagLatheRecipes
+    emagStaticPacks:
+    - SalvageExplosivesStatic # Seismic charges - they're pretty cheap in salvage vendor anyway so why not
+    emagDynamicPacks:
+    - SecurityExplosives
+  - type: MaterialStorage
+    whitelist:
+      tags:
+        - Sheet
+        - RawMaterial
+        - Ingot
+        - SheetPlasma
+  # CorvaxGoob-start
+  - type: LatheAnnouncing
+    channels: [Supply]
+  - type: BlueprintReceiver
+    whitelist:
+      tags:
+      - BlueprintCargoTechFab
+  - type: ContainerContainer
+    containers:
+      machine_board: !type:Container
+      machine_parts: !type:Container
+      blueprint: !type:Container
+  - type: EmptyOnMachineDeconstruct
+    containers:
+    - blueprint
+  # CorvaxGoob-end
+
+- type: entity
+  id: ScienceTechFab
+  parent: [BaseLatheLube]
+  name: science techfab
+  description: Prints equipment and circuitboards for use by science department.
+  components:
+  - type: Sprite
+    sprite: Structures/Machines/techfab.rsi
+    layers:
+    - state: icon
+      map: ["enum.LatheVisualLayers.IsRunning"]
+    - state: sci
+    - state: unlit
+      shader: unshaded
+      map: ["enum.PowerDeviceVisualLayers.Powered"]
+    - state: inserting
+      map: ["enum.MaterialStorageVisualLayers.Inserting"]
+    - state: panel
+      map: ["enum.WiresVisualLayers.MaintenancePanel"]
+  - type: Machine
+    board: ScienceTechFabCircuitboard
+  - type: Lathe
+    idleState: icon
+    runningState: icon
+    staticPacks:
+    - SharedBoardsStatic
+    - EngineeringBoardsStatic
+    - CircuitFloorsStatic
+    - MedicalBoardsStatic
+    - MedicalBoardsStaticGoob
+    - ChemistryStatic
+    - ToolsStatic
+    - PartsStatic
+    - LatheMiscStatic
+    - AtmosStatic
+    - CablesStatic
+    - MaterialsStatic
+    - BasicChemistryStatic
+    - LightsStatic
+    - PowerCellsStatic
+    - ElectronicsStatic
+    - SurgeryStatic
+    - ScienceBoardsStatic
+    - ScienceExplosives # Goobstation - Roundstart Grenade Tech
+    - GrenadeTriggersStatic # Goobstation - Roundstart Grenade Tech
+    - MiscSignallersStatic
+    dynamicPacks:
+    - AdvancedTools
+    - ScienceEquipment
+    - ScienceClothing
+    - ScienceWeapons
+    - AtmosTools
+    - EngineeringWeapons
+    - PowerCells
+    - Chemistry
+    - Janitor
+    - Equipment
+    - MedicalBoards #Goob
+    # - ServiceWeapons
+    - Surgery
+    - SpecOpsGoogles
+    - EngineeringBoards
+    - SharedBoards
+    - ScienceBoards
+    - ScienceBoardsGoob
+    - ShuttleBoards
+    - ShuttleBoardsGoob
+    - MedicalBoardsGoob
+    - BluespaceTheory
+    - ExperimentalScienceGoob
+    - MechBoardsScience
+    - Pinpointers
+    - Genetics
+    - XenobioPack
+    - XenobagHoldingPack
+    # Einstein Engines Packs
+    - Translators
+    - TranslatorImplanters
+    # CorvaxGoob Packs
+    - AdvancedRoboticsBoards # MutableLaws
+    - WorkBeltsSharedDynamic # WorkBelts-Techfab
+    - WokrBeltsSciDynamic # WorkBelts-Techfab
+  - type: EmagLatheRecipes
+    emagDynamicPacks:
+    - MechBoardsSecurity
+    - MechBoardsCargo
+    - MechBoardsCivilian # Evil ass traitor scientist in a honker... with a rocket launcher because the honker is emagged too.
+  - type: MaterialStorage
+    whitelist:
+      tags:
+        - Sheet
+        - RawMaterial
+        - Ingot
+        - SheetPlasma
+  # CorvaxGoob-start
+  - type: LatheAnnouncing
+    channels: [Science]
+  - type: BlueprintReceiver
+    whitelist:
+      tags:
+      - BlueprintScienceTechFab
+  - type: ContainerContainer
+    containers:
+      machine_board: !type:Container
+      machine_parts: !type:Container
+      blueprint: !type:Container
+  - type: EmptyOnMachineDeconstruct
+    containers:
+    - blueprint
+  # CorvaxGoob-end
+
+- type: entity
+  id: ServiceTechFab
+  parent: [BaseLatheLube]
+  name: service techfab
+  description: Prints equipment and circuitboards for use by service department.
+  components:
+  - type: Sprite
+    sprite: Structures/Machines/techfab.rsi
+    layers:
+    - state: icon
+      map: ["enum.LatheVisualLayers.IsRunning"]
+    - state: service
+    - state: unlit
+      shader: unshaded
+      map: ["enum.PowerDeviceVisualLayers.Powered"]
+    - state: inserting
+      map: ["enum.MaterialStorageVisualLayers.Inserting"]
+    - state: panel
+      map: ["enum.WiresVisualLayers.MaintenancePanel"]
+  - type: Machine
+    board: ServiceTechFabCircuitboard
+  - type: Lathe
+    idleState: icon
+    runningState: icon
+    staticPacks:
+    - ServiceBoardsStatic
+    - ServiceBoardsStaticGoob
+    - MaterialsStatic
+    - LightsStatic
+    - ServiceStatic
+    - PowerCellsStatic
+    - LatheMiscStatic
+    - HydroponicsStatic # CorvaxGoob
+    - PartsStatic
+    - ChemistryStatic
+    - TapeRecorderStatic
+    - CondimentStatic
+    dynamicPacks:
+    - Janitor
+    - Instruments
+    - FauxTiles
+    # - ServiceWeapons
+    - MedicalMisc
+    - MechBoardsCivilian
+    - MechWeaponsCivilian
+    - ServiceBoards
+    - SharedBoards
+    - CameraBoards
+    - ServiceTools
+    - ServiceBoardsGoob # goob
+    - EntertainmentPack # goob
+    - BartendingPack # goob
+    # Einstein Engines Packs
+    - Translators
+    # CorvaxGoob Packs
+    - WorkBeltsSerDynamic # WorkBelts-Techfab
+  - type: EmagLatheRecipes
+    emagStaticPacks:
+    - ServiceBoardsEvilStatic # Donk Co microwave circiutboard
+  - type: MaterialStorage
+    whitelist:
+      tags:
+        - Sheet
+        - RawMaterial
+        - Ingot
+        - SheetPlasma
+  # CorvaxGoob-start
+  - type: LatheAnnouncing
+    channels: [Service]
+  - type: BlueprintReceiver
+    whitelist:
+      tags:
+      - BlueprintServiceTechFab
+  - type: ContainerContainer
+    containers:
+      machine_board: !type:Container
+      machine_parts: !type:Container
+      blueprint: !type:Container
+  - type: EmptyOnMachineDeconstruct
+    containers:
+    - blueprint
+  # CorvaxGoob-end
+
+- type: entity
+  id: ERTTechFab
+  parent: [BaseLatheLube]
+  name: ERT techfab
+  description: Standard-issue ammunition and gear for Emergency Response Team deployments. Fast, basic, reliable.
+  components:
+    - type: Sprite
+      sprite: Structures/Machines/techfab.rsi
+      layers:
+        - state: icon
+          map: ["enum.LatheVisualLayers.IsRunning"]
+        - state: ert
+        - state: unlit
+          shader: unshaded
+          map: ["enum.PowerDeviceVisualLayers.Powered"]
+        - state: inserting
+          map: ["enum.MaterialStorageVisualLayers.Inserting"]
+        - state: panel
+          map: ["enum.WiresVisualLayers.MaintenancePanel"]
+    - type: Machine
+      board: ERTTechFabCircuitboard
+    - type: Lathe
+      idleState: icon
+      runningState: icon
+      staticPacks:
+      - SecurityAmmoStatic
+      - SecurityAmmoStaticGoob
+      - ERTAmmoStaticGoob
+      - SecurityHypoStatic
+      - SecurityEquipmentStaticGoob
+    - type: MaterialStorage
+      whitelist:
+        tags:
+          - Sheet
+          - RawMaterial
+          - Ingot
+          - SheetPlasma

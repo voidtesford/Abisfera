@@ -1,0 +1,104 @@
+using Content.Goobstation.Shared.Flashbang;
+using Content.Goobstation.Shared.Shadowling;
+using Content.Goobstation.Shared.Shadowling.Components;
+using Content.Goobstation.Shared.Shadowling.Systems;
+using Content.Server.GameTicking;
+using Content.Server.Objectives.Systems;
+using Content.Server.RoundEnd;
+using Content.Server.Storage.Components;
+using Content.Server.Storage.EntitySystems;
+using Content.Shared.Damage;
+using Content.Shared.Damage.Components;
+using Content.Shared.Damage.Systems;
+using Content.Shared.Inventory;
+using Content.Shared.Storage.Components;
+using Content.Shared.Stunnable;
+using Content.Shared.Weapons.Ranged.Events;
+using Robust.Shared.Random;
+using Robust.Shared.Timing;
+
+namespace Content.Goobstation.Server.Shadowling.Systems;
+
+/// <summary>
+/// This handles the Shadowling's System
+/// </summary>
+public sealed partial class ShadowlingSystem : SharedShadowlingSystem
+{
+    [Dependency] private EntityStorageSystem _entityStorage = default!;
+    [Dependency] private CodeConditionSystem _codeCondition = default!;
+    [Dependency] private InventorySystem _inventorySystem = default!;
+    [Dependency] private DamageableSystem _damageable = default!;
+    [Dependency] private RoundEndSystem _roundEnd = default!;
+    [Dependency] private GameTicker _gameTicker = default!;
+    [Dependency] private IGameTiming _timing = default!;
+
+    public override void Update(float frameTime)
+    {
+        base.Update(frameTime);
+
+        if (_gameTicker.RunLevel != GameRunLevel.InRound)
+            return;
+
+        var query = EntityQueryEnumerator<ShadowlingComponent>();
+        while (query.MoveNext(out var uid, out var comp))
+        {
+            if (comp.CurrentPhase != ShadowlingPhases.Ascension || comp.TimeAscended is null)
+                return;
+            if (_timing.CurTime - comp.TimeAscended < comp.AscensionRoundEndDelay)
+                return;
+
+            _roundEnd.EndRound(); // no more slop
+        }
+    }
+
+    public override void Initialize()
+    {
+        base.Initialize();
+
+        SubscribeLocalEvent<ShadowlingAscendEvent>(OnAscend);
+        SubscribeLocalEvent<ShadowlingComponent, GetFlashbangedEvent>(OnFlashBanged);
+    }
+
+    private void OnAscend(ShadowlingAscendEvent args)
+    {
+        if (TryComp<ShadowlingComponent>(args.ShadowlingAscended, out var comp))
+            _codeCondition.SetCompleted(args.ShadowlingAscended, comp.ObjectiveAscend);
+    }
+
+    // Trauma - moved BeforeGunShot to SharedShadowlingSystem since shooting is predicted
+
+    private void OnFlashBanged(EntityUid uid, ShadowlingComponent component, GetFlashbangedEvent args)
+    {
+        // Shadowling get damaged from flashbangs
+        if (!TryComp<DamageableComponent>(uid, out var damageableComp))
+            return;
+
+        _damageable.ChangeDamage((uid, damageableComp), component.HeatDamage);
+    }
+
+    protected override void StartHatchingProgress(Entity<ShadowlingComponent> ent)
+    {
+        var (uid, comp) = ent;
+
+        comp.IsHatching = true;
+
+        // Drop all items
+        if (TryComp<InventoryComponent>(uid, out var inv))
+        {
+            foreach (var slot in inv.Slots)
+            {
+                _inventorySystem.DropSlotContents(uid, slot.Name, inv);
+            }
+        }
+
+        var egg = SpawnAtPosition(comp.Egg, Transform(uid).Coordinates);
+        if (TryComp<HatchingEggComponent>(egg, out var eggComp)
+            && TryComp<EntityStorageComponent>(egg, out var eggStorage))
+        {
+            eggComp.ShadowlingInside = uid;
+            _entityStorage.Insert(uid, egg, eggStorage);
+        }
+
+        // It should be noted that Shadowling shouldn't be able to take damage during this process.
+    }
+}

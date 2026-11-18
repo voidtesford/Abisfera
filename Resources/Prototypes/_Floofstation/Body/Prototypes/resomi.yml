@@ -1,0 +1,58 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: body
+  id: Resomi
+  name: "resomi"
+  root: chest
+  slots:
+    head:
+      part: HeadResomi
+      connections:
+      - chest
+      organs:
+        brain: OrganResomiBrain # CorvaxGoob resprite
+        eyes: OrganResomiEyes # CorvaxGoob resprite
+    chest:
+      part: ChestResomi
+      connections:
+      - groin
+      - right arm
+      - left arm
+      - head # Shitmed Change
+      organs:
+        heart: OrganResomiHeart # CorvaxGoob resprite
+        lungs: OrganResomiLungs # CorvaxGoob resprite
+    groin:
+      part: GroinResomi
+      connections:
+      - right leg
+      - left leg
+      organs:
+        stomach: OrganResomiStomach # Goobstation - classic furries can eat everything except chocolate :)
+        liver: OrganResomiLiver # CorvaxGoob resprite
+        kidneys: OrganResomiKidneys # CorvaxGoob resprite
+        butt: Butt # Goob
+    right arm:
+      part: RightArmResomi
+      connections:
+      - right hand
+    left arm:
+      part: LeftArmResomi
+      connections:
+      - left hand
+    right hand:
+      part: RightHandResomi
+    left hand:
+      part: LeftHandResomi
+    right leg:
+      part: RightLegResomi
+      connections:
+      - right foot
+    left leg:
+      part: LeftLegResomi
+      connections:
+      - left foot
+    right foot:
+      part: RightFootResomi
+    left foot:
+      part: LeftFootResomi

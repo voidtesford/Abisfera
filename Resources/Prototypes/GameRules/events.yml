@@ -1,0 +1,1015 @@
+- type: entityTable
+  id: BasicCalmEventsTable
+  table: !type:AllSelector
+    children:
+    - id: AnomalySpawn
+    - id: BluespaceArtifact
+    - id: BluespaceLocker
+    - id: BreakerFlip
+    - id: BureaucraticError
+    - id: ClericalError
+    - id: CockroachMigration
+    - id: GasLeak
+    - id: GreytideVirus
+    - id: IonStorm
+    - id: JobDistributionError
+    - id: KudzuGrowth
+    - id: MassHallucinations
+    - id: MimicVendorRule
+    - id: MouseMigration
+    - id: PowerGridCheck
+    - id: RandomSentience
+    - id: SlimesSpawn
+    - id: SolarFlare
+    - id: SnakeSpawn
+    - id: SpiderClownSpawn
+    - id: SpiderSpawn
+    - id: VentClog # Вернул, так как ты его раскомментировал
+    - id: MothroachSpawn
+    - id: DerelictCyborgSyndicateSpawn
+    - id: MalignRiftSpawn
+    - id: FloorGoblinMidRound
+    - id: ClownGoblinMigration
+
+- type: entityTable
+  id: BasicAntagEventsTable
+  table: !type:AllSelector
+    children:
+    - id: ClosetSkeleton
+    - id: KingRatMigration
+    - !type:NestedSelector
+      tableId: DerelictBorgEventTable
+
+- type: entityTable
+  id: ModerateAntagEventsTable
+  table: !type:AllSelector
+    children:
+    - id: DragonSpawn
+    - id: ColossusSpawn
+    - id: NinjaSpawn
+    - id: ParadoxCloneSpawn
+    - id: SleeperAgents
+    - id: ZombieOutbreak
+    - id: LoneOpsSpawn
+    - id: BlobSpawn # Сохранено
+    - id: LoneAbductorSpawn
+    - id: DuoAbductorSpawn
+    - id: BingleSpawn # Сохранено
+    - id: SlaughterDemonMidround # Сохранено
+    - id: XenomorphsInfestation
+    - id: SlasherSpawn # Сохранено
+    - id: SpacePirates # Сохранено
+    - id: SingulothKnightsMidround # Сохранено
+    - id: MimeAssassinMidround
+    - id: DarkPriestMidround
+    - id: VoxRaidersMidround
+    - id: TunnelClownMidround
+    - !type:NestedSelector
+      tableId: DerelictBorgEventTable
+
+- type: entityTable
+  id: DerelictBorgEventTable
+  table: !type:GroupSelector
+    children:
+    - !type:GroupSelector
+      weight: 85
+      children:
+        - id: DerelictEngineerCyborgSpawn
+        - id: DerelictGenericCyborgSpawn
+        - id: DerelictJanitorCyborgSpawn
+        - id: DerelictMedicalCyborgSpawn
+        - id: DerelictMiningCyborgSpawn
+    - !type:GroupSelector
+      weight: 15
+      children:
+        - id: DerelictSyndicateAssaultCyborgSpawn
+
+- type: entity
+  id: BaseStationEvent
+  parent: BaseGameRule
+  abstract: true
+  components:
+  - type: GameRule
+    delay:
+      min:  10
+      max:  20
+
+- type: entity
+  id: BaseStationEventShortDelay
+  parent: BaseGameRule
+  abstract: true
+  components:
+  - type: GameRule
+    delay:
+      min:  10
+      max:  20
+
+- type: entity
+  id: BaseStationEventLongDelay
+  parent: BaseGameRule
+  abstract: true
+  components:
+  - type: GameRule
+    delay:
+      min:  40
+      max:  60
+
+- type: entity
+  id: AnomalySpawn
+  parent: BaseStationEventShortDelay
+  components:
+  - type: StationEvent
+    startAnnouncementColor: "#18abf5"
+    startAudio:
+      path: /Audio/_CorvaxGoob/Announcements/flux.ogg # Оставил оригинал, если хочешь свой - поменяй
+    weight: 7 # Из твоего файла
+    duration: 35
+    chaos:
+      Anomaly: 100
+    eventType: Chaotic
+  - type: GameRule
+    chaosScore: 70
+  - type: AnomalySpawnRule
+
+- type: entity
+  id: BluespaceArtifact
+  parent: BaseStationEventShortDelay
+  components:
+  - type: GameRule
+    delay:
+      min:  30
+      max:  30
+    chaosScore: 40
+  - type: StationEvent
+    startAnnouncementColor: "#18abf5"
+    startAudio:
+      path: /Audio/_CorvaxGoob/Announcements/blusp_anomalies.ogg
+    weight: 8
+    duration: 35
+    chaos:
+      Anomaly: 40
+    eventType: Chaotic
+  - type: BluespaceArtifactRule
+
+- type: entity
+  id: BluespaceLocker
+  parent: BaseGameRule
+  components:
+  - type: StationEvent
+    weight: 2.5 # Из твоего файла (у тебя 2.5)
+    reoccurrenceDelay: 5
+    earliestStart: 1
+    duration: 1
+    chaos:
+      Anomaly: 40
+    eventType: Neutral
+  - type: GameRule
+    chaosScore: 40
+  - type: BluespaceLockerRule
+
+- type: entity
+  id: BreakerFlip
+  parent: BaseGameRule
+  components:
+  - type: StationEvent
+    startAudio:
+      path: /Audio/_CorvaxGoob/Announcements/apc.ogg
+    weight: 7
+    duration: 1
+    minimumPlayers: 15
+    chaos:
+      Power: 100
+    eventType: Maintenance
+  - type: GameRule
+    chaosScore: 60
+  - type: BreakerFlipRule
+
+- type: entity
+  id: BureaucraticError
+  parent: BaseGameRule
+  components:
+  - type: StationEvent
+    startAnnouncement: station-event-bureaucratic-error-announcement
+    minimumPlayers: 15 # Из твоего файла (у тебя 15)
+    weight: 3
+    duration: 1
+    eventType: Neutral
+  - type: GameRule
+    chaosScore: 50
+  - type: BureaucraticErrorRule
+    ignoredJobs:
+    - StationAi
+
+- type: entity
+  id: ClericalError
+  parent: BaseGameRule
+  components:
+  - type: StationEvent
+    startAnnouncement: station-event-clerical-error-announcement
+    minimumPlayers: 10 # Из твоего файла
+    weight: 2 # Из твоего файла
+    duration: 1
+    eventType: Chaotic
+  - type: GameRule
+    chaosScore: 30
+  - type: ClericalErrorRule
+
+- type: entity
+  parent: BaseGameRule
+  id: ClosetSkeleton
+  components:
+  - type: StationEvent
+    weight: 4 # Из твоего файла
+    duration: 1
+    minimumPlayers: 5 # Из твоего файла
+    eventType: Chaotic
+  - type: GameRule
+    chaosScore: 60
+  - type: RandomEntityStorageSpawnRule
+    prototype: MobSkeletonCloset
+
+- type: entity
+  parent: BaseGameRule
+  id: DragonSpawn
+  components:
+  - type: StationEvent
+    weight: 2 # Из твоего файла
+    earliestStart: 30
+    maxOccurrences: 1
+    minimumPlayers: 15 # Из твоего файла
+    duration: null
+    chaos:
+      Hostile: 20
+      Friend: 20
+      Combat: 40
+      Death: 100
+      Medical: 100
+    eventType: HostilesSpawn
+  - type: GameRule
+    chaosScore: 600
+  - type: SpaceSpawnRule
+    spawnDistance: 0
+  - type: AntagSpawner
+    prototype: MobDragon
+  - type: DragonRule
+  - type: AntagObjectives
+    objectives:
+    - CarpRiftsObjective
+    - DragonSurviveObjective
+  - type: AntagSelection
+    agentName: dragon-round-end-agent-name
+    definitions:
+    - spawnerPrototype: SpawnPointGhostDragon
+      min: 1
+      max: 1
+      pickPlayer: false
+      mindRoles:
+      - MindRoleDragon
+  - type: DynamicRuleCost
+    cost: 75
+
+- type: entity
+  parent: BaseGameRule
+  id: NinjaSpawn
+  components:
+  - type: StationEvent
+    weight: 3 # Из твоего файла
+    duration: null
+    earliestStart: 30
+    maxOccurrences: 1
+    minimumPlayers: 20 # Из твоего файла
+    chaos:
+      Hostile: 20
+      Friend: 20
+      Combat: 40
+      Death: 40
+      Medical: 40
+    eventType: HostilesSpawn
+  - type: GameRule
+    chaosScore: 300
+  - type: SpaceSpawnRule
+  - type: AntagLoadProfileRule
+    speciesOverride: Human
+    speciesOverrideBlacklist:
+    - Yowie
+    - IPC
+    - Diona
+    - Abductor
+    - Harpy
+    - Plasmaman
+    - Synth
+  - type: AntagObjectives
+    objectives:
+    - StealResearchObjective
+    - DoorjackObjective
+    - SpiderChargeObjective
+    - TerrorObjective
+    - MassArrestObjective
+    - NinjaSurviveObjective
+    - NinjaProtectObjective
+  - type: AntagSelection
+    agentName: ninja-round-end-agent-name
+    definitions:
+    - spawnerPrototype: SpawnPointGhostSpaceNinja
+      min: 1
+      max: 1
+      pickPlayer: false
+      startingGear: SpaceNinjaGear
+      skills:
+      - All
+      roleLoadout:
+      - RoleSurvivalEVA
+      briefing:
+        text: ninja-role-greeting
+        color: Green
+        sound: /Audio/Misc/ninja_greeting.ogg
+      components:
+      - type: SpaceNinja
+      - type: NpcFactionMember
+        factions:
+        - Syndicate
+      - type: AutoImplant
+        implants:
+        - MicroBombImplant
+      - type: RandomMetadata
+        nameSegments:
+        - NamesNinjaTitle
+        - NamesNinja
+        nameFormat: name-format-ninja
+      mindRoles:
+      - MindRoleNinja
+  - type: DynamicRuleCost
+    cost: 75
+
+- type: entity
+  parent: BaseGameRule
+  id: ParadoxCloneSpawn
+  components:
+  - type: StationEvent
+    weight: 5
+    duration: null
+    earliestStart: 20
+    reoccurrenceDelay: 20
+    minimumPlayers: 10 # Из твоего файла
+    eventType: Chaotic
+  - type: GameRule
+    chaosScore: 80
+  - type: ParadoxCloneRule
+    objectiveBlacklist:
+      tags:
+      - ParadoxCloneObjectiveBlacklist
+    targetBlacklist:
+      components:
+      - BorgBrain
+      - AntagImmune
+  - type: AntagObjectives
+    objectives:
+    - ParadoxCloneKillObjective
+    - ParadoxCloneLivingObjective
+  - type: AntagRandomSpawn
+  - type: AntagSelection
+    agentName: paradox-clone-round-end-agent-name
+    definitions:
+    - spawnerPrototype: SpawnPointGhostParadoxClone
+      min: 1
+      max: 1
+      pickPlayer: false
+      startingGear: ParadoxCloneGear
+      skills:
+      - All
+      roleLoadout:
+      - RoleSurvivalVoxTank
+      - RoleSurvivalPlasmaTank
+      briefing:
+        text: paradox-clone-role-greeting
+        color: lightblue
+        sound: /Audio/Misc/paradox_clone_greeting.ogg
+      mindRoles:
+      - MindRoleParadoxClone
+  - type: DynamicRuleCost
+    cost: 50
+
+# Оставил RevenantSpawn активным, как в твоём файле
+- type: entity
+  parent: BaseGameRule
+  id: RevenantSpawn
+  components:
+  - type: StationEvent
+    weight: 3.5
+    duration: 1
+    earliestStart: 30
+    minimumPlayers: 15
+    chaos:
+      Hostile: 20
+      Friend: 20
+      Combat: 40
+      Death: 100
+      Medical: 100
+    eventType: HostilesSpawn
+  - type: GameRule
+    chaosScore: 450
+  - type: RandomSpawnRule
+    prototype: MobRevenant
+
+# FalseAlarm из твоего файла
+- type: entity
+  id: FalseAlarm
+  parent: BaseGameRule
+  components:
+  - type: StationEvent
+    weight: 2
+    duration: 1
+  - type: FalseAlarmRule
+
+- type: entity
+  id: GasLeak
+  parent: BaseStationEventShortDelay
+  components:
+  - type: StationEvent
+    startAnnouncement: station-event-gas-leak-start-announcement
+    startAudio:
+      path: /Audio/Announcements/gasleak_start.ogg # Оригинал
+    endAnnouncement: station-event-gas-leak-end-announcement
+    weight: 7 # Из твоего файла
+    chaos:
+      Atmos: 100
+      Medical: 50
+    eventType: Maintenance
+    endAudio:
+      path: /Audio/Announcements/gasleak_end.ogg
+      params:
+        volume: -4
+  - type: GameRule
+    chaosScore: 80
+  - type: GasLeakRule
+
+- type: entity
+  id: KudzuGrowth
+  parent: BaseStationEventLongDelay
+  components:
+  - type: StationEvent
+    earliestStart: 15
+    minimumPlayers: 10 # Из твоего файла
+    weight: 5 # Из твоего файла
+    duration: 240
+    chaos:
+      Hostile: 20
+      Friend: 20
+      Medical: 100
+    eventType: Maintenance
+  - type: GameRule
+    chaosScore: 80
+  - type: KudzuGrowthRule
+
+- type: entity
+  id: PowerGridCheck
+  parent: BaseStationEventShortDelay
+  components:
+  - type: StationEvent
+    weight: 5
+    startAnnouncement: station-event-power-grid-check-start-announcement
+    endAnnouncement: station-event-power-grid-check-end-announcement
+    startAudio:
+      path: /Audio/Announcements/power_off.ogg
+      params:
+        volume: -4
+    duration: 60
+    maxDuration: 120
+    eventType: Interference
+  - type: GameRule
+    chaosScore: 80
+  - type: PowerGridCheckRule
+
+- type: entity
+  parent: BaseGameRule
+  id: SolarFlare
+  components:
+  - type: StationEvent
+    weight: 8
+    startAnnouncement: station-event-solar-flare-start-announcement
+    endAnnouncement: station-event-solar-flare-end-announcement
+    startAudio:
+      path: /Audio/_CorvaxGoob/Announcements/comms_blackout.ogg
+    duration: 120
+    maxDuration: 240
+    chaos:
+      Friend: 20
+    eventType: Interference
+  - type: GameRule
+    chaosScore: 60
+  - type: SolarFlareRule
+    onlyJamHeadsets: true
+    affectedChannels:
+    - Common
+    extraChannels:
+    - Command
+    - Engineering
+    - Medical
+    - Science
+    - Security
+    - Service
+    - Supply
+    extraCount: 2
+    lightBreakChancePerSecond: 0.0003
+    doorToggleChancePerSecond: 0.001
+
+# Твой звук VentClog
+- type: entity
+  id: VentClog
+  parent: BaseStationEventLongDelay
+  components:
+  - type: StationEvent
+    startAnnouncement: station-event-vent-clog-start-announcement
+    startAudio:
+      path: /Audio/_Abisfera/Announcements/ventclog.ogg # Твой звук
+    earliestStart: 15
+    minimumPlayers: 5 # Из твоего файла
+    weight: 7 # Из твоего файла
+    duration: 60
+    chaos:
+      Mess: 200
+    eventType: Interference
+  - type: GameRule
+    chaosScore: 70
+  - type: VentClogRule
+    weakReagents:
+    - Slime
+    - SpaceGlue
+    - SpaceLube
+
+# Твой звук SlimesSpawn
+- type: entity
+  id: SlimesSpawn
+  parent: BaseStationEventShortDelay
+  components:
+  - type: StationEvent
+    startAnnouncement: station-event-vent-creatures-start-announcement
+    startAudio:
+      path: /Audio/_Abisfera/Announcements/lifesigns.ogg # Твой звук
+    earliestStart: 20
+    minimumPlayers: 5 # Из твоего файла
+    weight: 7
+    duration: 30
+    chaos:
+      Hostile: 20
+      Medical: 50
+    eventType: HostilesSpawn
+  - type: GameRule
+    chaosScore: 200
+  - type: VentCrittersRule
+    table: !type:GroupSelector
+      children:
+      - id: MobAdultSlimesBlueAngry
+      - id: MobAdultSlimesGreenAngry
+      - id: MobAdultSlimesYellowAngry
+
+# Твой звук SnakeSpawn
+- type: entity
+  id: SnakeSpawn
+  parent: BaseStationEventShortDelay
+  components:
+  - type: StationEvent
+    startAnnouncement: station-event-vent-creatures-start-announcement
+    startAudio:
+      path: /Audio/_Abisfera/Announcements/lifesigns.ogg # Твой звук
+    earliestStart: 20
+    minimumPlayers: 15
+    weight: 7
+    duration: 30
+    chaos:
+      Hostile: 20
+      Medical: 50
+    eventType: HostilesSpawn
+  - type: GameRule
+    chaosScore: 240
+  - type: VentCrittersRule
+    table: !type:GroupSelector
+      children:
+      - id: MobPurpleSnake
+      - id: MobSmallPurpleSnake
+      - id: MobCobraSpace
+
+# Твой звук SpiderSpawn
+- type: entity
+  id: SpiderSpawn
+  parent: BaseStationEventShortDelay
+  components:
+  - type: StationEvent
+    startAnnouncement: station-event-vent-creatures-start-announcement
+    startAudio:
+      path: /Audio/_Abisfera/Announcements/lifesigns.ogg # Твой звук
+    earliestStart: 20
+    minimumPlayers: 5 # Из твоего файла
+    weight: 7
+    duration: 30
+    chaos:
+      Hostile: 20
+      Medical: 50
+    eventType: HostilesSpawn
+  - type: GameRule
+    chaosScore: 240
+  - type: VentCrittersRule
+    table:
+      id: MobGiantSpiderAngry
+
+# Твой звук SpiderClownSpawn
+- type: entity
+  id: SpiderClownSpawn
+  parent: BaseStationEventShortDelay
+  components:
+  - type: StationEvent
+    startAnnouncement: station-event-vent-creatures-start-announcement
+    startAudio:
+      path: /Audio/_Abisfera/Announcements/lifesigns.ogg # Твой звук
+    earliestStart: 45
+    minimumPlayers: 10 # Из твоего файла
+    weight: 3 # Из твоего файла
+    duration: 30
+    chaos:
+      Hostile: 20
+      Medical: 50
+    eventType: HostilesSpawn
+  - type: GameRule
+    chaosScore: 240
+  - type: VentCrittersRule
+    playerRatio: 20
+    table:
+      id: MobClownSpider
+
+# Веса из твоего файла
+- type: entity
+  id: ZombieOutbreak
+  parent: BaseGameRule
+  components:
+  - type: StationEvent
+    earliestStart: 60
+    minimumPlayers: 30 # Из твоего файла
+    weight: 1 # Из твоего файла
+    duration: 1
+    occursDuringRoundEnd: false
+    chaos:
+      Hostile: 100
+      Medical: 200
+      Death: 200
+    eventType: HostilesSpawn
+  - type: GameRule
+    chaosScore: 1400
+  - type: ZombieRule
+  - type: AntagSelection
+    definitions:
+    - prefRoles: [ InitialInfected ]
+      max: 3
+      playerRatio: 10
+      skills:
+      - All
+      blacklist:
+        components:
+        - BibleUser
+        - ZombieImmune
+        - AntagImmune
+      briefing:
+        text: zombie-patientzero-role-greeting
+        color: Plum
+        sound: "/Audio/Ambience/Antag/zombie_start.ogg"
+      components:
+      - type: PendingZombie
+        minInitialInfectedGrace: 300
+        maxInitialInfectedGrace: 450
+      - type: ZombifyOnDeath
+      - type: IncurableZombie
+      - type: InitialInfected
+      mindRoles:
+      - MindRoleInitialInfected
+  - type: DynamicRuleCost
+    cost: 200
+
+# Веса из твоего файла
+- type: entity
+  parent: BaseNukeopsRule
+  id: LoneOpsSpawn
+  components:
+  - type: StationEvent
+    earliestStart: 35
+    weight: 2.5 # Из твоего файла
+    minimumPlayers: 30 # Из твоего файла
+    duration: 720 # Оставил из оригинала, чтобы музыка работала
+    chaos:
+      Hostile: 200
+      Medical: 200
+      Death: 200
+    eventType: HostilesSpawn
+  - type: GameRule
+    chaosScore: 700
+  - type: RuleGrids
+  - type: LoadMapRule
+    gridPath: /Maps/Shuttles/ShuttleEvent/striker.yml
+  - type: NukeopsRule
+    localePrefix: "loneop-"
+    roundEndBehavior: Nothing
+  - type: AntagSelection
+    definitions:
+    - spawnerPrototype: SpawnPointLoneNukeOperative
+      min: 1
+      max: 1
+      pickPlayer: false
+      startingGear: SyndicateLoneOperativeGearFull
+      unequipOldGear: true
+      skills:
+      - All
+      roleLoadout:
+      - RoleSurvivalNukie
+      components:
+      - type: NukeOperative
+      - type: RandomMetadata
+        nameSegments:
+        - NamesSyndicatePrefix
+        - NamesSyndicateNormal
+        nameFormat: name-format-nukie-generic
+      - type: NpcFactionMember
+        factions:
+        - Syndicate
+      mindRoles:
+      - MindRoleLoneops
+  - type: DynamicRuleCost
+    cost: 75
+  - type: AntagLoadProfileRule
+    speciesOverride: Human
+    alwaysUseSpeciesOverride: true
+
+# Оставил из оригинала (у тебя был урезан)
+- type: entity
+  parent: BaseTraitorRule
+  id: SleeperAgents
+  components:
+  - type: StationEvent
+    earliestStart: 30
+    weight: 8
+    minimumPlayers: 15
+    maxOccurrences: 1
+    startAnnouncement: station-event-communication-interception
+    startAudio:
+      path: /Audio/Announcements/intercept.ogg
+    duration: null
+    occursDuringRoundEnd: false
+    eventType: HostilesSpawn
+  - type: GameRule
+  - type: AlertLevelInterceptionRule
+  - type: AntagSelection
+    definitions:
+    - prefRoles: [ TraitorSleeper ]
+      fallbackRoles: [ Traitor ]
+      min: 1
+      max: 2
+      playerRatio: 10
+      chaosScore: 200
+      skills:
+      - All
+      blacklist:
+        components:
+        - AntagImmune
+        - CommandStaff
+      mindRoles:
+      - MindRoleTraitorSleeper
+
+- type: entity
+  id: MassHallucinations
+  parent: BaseGameRule
+  components:
+  - type: StationEvent
+    weight: 7
+    duration: 150
+    maxDuration: 300
+    reoccurrenceDelay: 30
+    chaos:
+      Friend: 20
+    eventType: Chaotic
+  - type: GameRule
+    chaosScore: 30
+  - type: MassHallucinationsRule
+    minTimeBetweenIncidents: 0.1
+    maxTimeBetweenIncidents: 300
+    maxSoundDistance: 7
+    sounds:
+      collection: Paracusia
+
+- type: entity
+  parent: BaseGameRule
+  id: IonStorm
+  components:
+  - type: StationEvent
+    weight: 8
+    reoccurrenceDelay: 20
+    duration: 1
+    chaos:
+      Hostile: 10
+      Friend: 20
+      Mess: 30
+    eventType: Chaotic
+    startAudio:
+      path: /Audio/_CorvaxGoob/Adminbuse/i-storm1.ogg
+  - type: GameRule
+    chaosScore: 150
+  - type: IonStormRule
+
+# Оставил из оригинала (у тебя был урезан)
+- type: entity
+  id: MimicVendorRule
+  parent: BaseGameRule
+  components:
+  - type: StationEvent
+    earliestStart: 0
+    minimumPlayers: 20 # Из оригинала, у тебя было 5
+    maxOccurrences: 1
+    weight: 5 # Из оригинала, у тебя было 7
+    chaos:
+      Hostile: 20
+      Hunger: 10
+      Thirst: 10
+    eventType: Neutral
+  - type: GameRule
+    chaosScore: 20
+  - type: MobReplacementRule
+
+# Оставил из оригинала (у тебя был урезан)
+- type: entity
+  id: GreytideVirus
+  parent: BaseStationEventShortDelay
+  components:
+  - type: StationEvent
+    startAudio:
+      path: /Audio/_CorvaxGoob/Announcements/greytide.ogg
+    weight: 5 # Из оригинала, у тебя было 3
+    minimumPlayers: 25 # Из оригинала, у тебя было 10
+    reoccurrenceDelay: 20
+    chaos:
+      Atmos: 15
+      Mess: 30
+    eventType: Maintenance
+  - type: GameRule
+    chaosScore: 160
+  - type: GreytideVirusRule
+    accessGroups:
+    - Cargo
+    - Command
+    - Engineering
+    - Research
+    - Security
+    - Service
+    blacklist:
+    - External
+
+- type: entity
+  parent: BaseGameRule
+  id: SmugglerStashVariationPass
+  components:
+  - type: StationEvent
+    earliestStart: 0
+    duration: 1
+    minimumPlayers: 1
+    maxOccurrences: 2
+    weight: 10
+  - type: RandomSpawnRule
+    prototype: RandomSatchelSpawner
+
+# Оставил из оригинала (у тебя был урезан)
+- type: entity
+  parent: BaseGameRule
+  id: DerelictEngineerCyborgSpawn
+  components:
+  - type: GameRule
+    chaosScore: 150
+  - type: StationEvent
+    weight: 2.5
+    earliestStart: 15
+    reoccurrenceDelay: 20
+    minimumPlayers: 4
+    duration: null
+  - type: SpaceSpawnRule
+    spawnDistance: 0
+  - type: AntagSpawner
+    prototype: PlayerEngineeringBorgDerelictGhostRole
+  - type: AntagSelection
+    definitions:
+    - spawnerPrototype: SpawnPointGhostDerelictEngineeringCyborg
+      min: 1
+      max: 1
+      pickPlayer: false
+
+- type: entity
+  parent: BaseGameRule
+  id: DerelictGenericCyborgSpawn
+  components:
+  - type: StationEvent
+    weight: 2.5
+    earliestStart: 15
+    reoccurrenceDelay: 20
+    minimumPlayers: 4
+    duration: null
+    chaos:
+      Hostile: 10
+      Friend: -10
+    eventType: Chaotic
+  - type: GameRule
+    chaosScore: 80
+  - type: SpaceSpawnRule
+    spawnDistance: 0
+  - type: AntagSpawner
+    prototype: PlayerBorgDerelictGhostRole
+  - type: AntagSelection
+    definitions:
+    - spawnerPrototype: SpawnPointGhostDerelictCyborg
+      min: 1
+      max: 1
+      pickPlayer: false
+
+- type: entity
+  parent: BaseGameRule
+  id: DerelictJanitorCyborgSpawn
+  components:
+  - type: GameRule
+    chaosScore: 150
+  - type: StationEvent
+    weight: 2.5
+    earliestStart: 15
+    reoccurrenceDelay: 20
+    minimumPlayers: 4
+    duration: null
+  - type: SpaceSpawnRule
+    spawnDistance: 0
+  - type: AntagSpawner
+    prototype: PlayerJanitorBorgDerelictGhostRole
+  - type: AntagSelection
+    definitions:
+    - spawnerPrototype: SpawnPointGhostDerelictJanitorCyborg
+      min: 1
+      max: 1
+      pickPlayer: false
+
+- type: entity
+  parent: BaseGameRule
+  id: DerelictMedicalCyborgSpawn
+  components:
+  - type: GameRule
+    chaosScore: 150
+  - type: StationEvent
+    weight: 2.5
+    earliestStart: 15
+    reoccurrenceDelay: 20
+    minimumPlayers: 4
+    duration: null
+  - type: SpaceSpawnRule
+    spawnDistance: 0
+  - type: AntagSpawner
+    prototype: PlayerMedicalBorgDerelictGhostRole
+  - type: AntagSelection
+    definitions:
+    - spawnerPrototype: SpawnPointGhostDerelictMedicalCyborg
+      min: 1
+      max: 1
+      pickPlayer: false
+
+- type: entity
+  parent: BaseGameRule
+  id: DerelictMiningCyborgSpawn
+  components:
+  - type: GameRule
+    chaosScore: 150
+  - type: StationEvent
+    weight: 2.5
+    earliestStart: 15
+    reoccurrenceDelay: 20
+    minimumPlayers: 4
+    duration: null
+  - type: SpaceSpawnRule
+    spawnDistance: 0
+  - type: AntagSpawner
+    prototype: PlayerMiningBorgDerelictGhostRole
+  - type: AntagSelection
+    definitions:
+    - spawnerPrototype: SpawnPointGhostDerelictMiningCyborg
+      min: 1
+      max: 1
+      pickPlayer: false
+
+- type: entity
+  parent: BaseGameRule
+  id: DerelictSyndicateAssaultCyborgSpawn
+  components:
+  - type: GameRule
+    chaosScore: 150
+  - type: StationEvent
+    weight: 2.5
+    earliestStart: 25
+    reoccurrenceDelay: 20
+    minimumPlayers: 15
+    duration: null
+  - type: SpaceSpawnRule
+    spawnDistance: 0
+  - type: AntagSpawner
+    prototype: PlayerBorgSyndicateDerelictGhostRole
+  - type: AntagSelection
+    definitions:
+    - spawnerPrototype: SpawnPointGhostDerelictSyndicateAssaultCyborg
+      min: 1
+      max: 1
+      pickPlayer: false

@@ -1,0 +1,177 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+using System.Linq;
+using Content.Goobstation.Common.Religion;
+using Content.Goobstation.Shared.Bible;
+using Content.Goobstation.Shared.Religion.Nullrod;
+using Content.Server.Heretic.EntitySystems;
+using Content.Shared._Shitmed.Medical.Surgery.Wounds.Systems;
+using Content.Shared.Damage;
+using Content.Shared.Heretic;
+using Content.Shared.Interaction;
+using Content.Shared.Inventory;
+using Robust.Shared.Physics.Events;
+using Robust.Shared.Timing;
+using Content.Shared._Shitmed.Targeting;
+using Content.Shared.Body.Components;
+using Content.Shared.Body.Systems;
+using Content.Shared.Timing;
+using Content.Shared._Shitmed.Damage;
+using Content.Shared.Damage.Systems;
+using Content.Shared.Damage.Components;
+using Robust.Shared.Prototypes;
+using Content.Shared.Damage.Prototypes;
+
+namespace Content.Goobstation.Shared.Religion;
+
+public sealed partial class WeakToHolySystem : EntitySystem
+{
+    [Dependency] private DamageableSystem _damageableSystem = default!;
+    [Dependency] private InventorySystem _inventorySystem = default!;
+    [Dependency] private IGameTiming _timing = default!;
+    [Dependency] private GoobBibleSystem _goobBible = default!;
+    [Dependency] private SharedBodySystem _body = default!;
+    [Dependency] private WoundSystem _wound = default!;
+    [Dependency] private UseDelaySystem _useDelay = default!;
+    [Dependency] private HereticSystem _heretic = default!;
+
+
+    public override void Initialize()
+    {
+        base.Initialize();
+
+        SubscribeLocalEvent<WeakToHolyComponent, DamageUnholyEvent>(OnUnholyItemDamage);
+        SubscribeLocalEvent<WeakToHolyComponent, InteractUsingEvent>(AfterBibleUse);
+
+        SubscribeLocalEvent<HereticRitualRuneComponent, StartCollideEvent>(OnCollide);
+        SubscribeLocalEvent<HereticRitualRuneComponent, EndCollideEvent>(OnCollideEnd);
+
+        SubscribeLocalEvent<DamageableComponent, DamageModifyEvent>(OnHolyDamageModify);
+
+    }
+
+    private void AfterBibleUse(Entity<WeakToHolyComponent> ent, ref InteractUsingEvent args)
+    {
+        if (!TryComp<BibleComponent>(args.Used, out var bibleComp))
+            return;
+
+        if (!TryComp(args.Used, out UseDelayComponent? useDelay)
+            || _useDelay.IsDelayed((args.Used, useDelay))
+            || !HasComp<BibleUserComponent>(args.User))
+            return;
+
+        _goobBible.TryDoSmite(args.Used, args.User, args.Target, useDelay);
+    }
+
+    #region Holy Damage Dealing
+
+    private static readonly DamageModifierSet HolyImmunity = new()
+    {
+        Coefficients = new Dictionary<ProtoId<DamageTypePrototype>, float>
+        {
+            { "Holy", 0f },
+        },
+    };
+
+    private void OnHolyDamageModify(Entity<DamageableComponent> ent, ref DamageModifyEvent args)
+    {
+        if (!args.Damage.DamageDict.TryGetValue("Holy", out var holy) || holy <= 0)
+            return;
+
+        if (!TryComp<BodyComponent>(ent, out var body)
+            || !_body.TryGetRootPart(ent, out var rootPart, body: body)
+            || !HasDamageableWoundable(rootPart.Value))
+            return;
+
+        var unholyEvent = new DamageUnholyEvent(args.Target, args.Origin);
+        RaiseLocalEvent(args.Target, ref unholyEvent);
+
+        if (unholyEvent.ShouldTakeHoly)
+            return;
+
+        args.Damage = DamageSpecifier.ApplyModifierSet(args.Damage, HolyImmunity);
+    }
+
+    private bool HasDamageableWoundable(EntityUid rootPart)
+    {
+        foreach (var woundable in _wound.GetAllWoundableChildren(rootPart))
+        {
+            if (HasComp<DamageableComponent>(woundable))
+                return true;
+        }
+
+        return false;
+    }
+
+    private void OnUnholyItemDamage(Entity<WeakToHolyComponent> uid, ref DamageUnholyEvent args)
+    {
+        if (uid.Comp.AlwaysTakeHoly)
+        {
+            args.ShouldTakeHoly = true;
+            return;
+        }
+
+        if (_heretic.TryGetHereticComponent(uid, out var heretic, out _) && heretic.Ascended)
+        {
+            args.ShouldTakeHoly = true;
+            return;
+        }
+
+        // If any item in hand or in inventory has Unholy item, shouldtakeholy is true.
+        if (_inventorySystem.GetHandOrInventoryEntities(args.Target, SlotFlags.WITHOUT_POCKET)
+            .Any(HasComp<UnholyItemComponent>))
+            args.ShouldTakeHoly = true;
+    }
+
+    #endregion
+
+    #region Holy Healing
+
+    // Passively heal on runes
+    private void OnCollide(Entity<HereticRitualRuneComponent> ent, ref StartCollideEvent args)
+    {
+        if (!TryComp<WeakToHolyComponent>(args.OtherEntity, out var weak))
+            return;
+
+        weak.IsColliding = true;
+    }
+
+    private void OnCollideEnd(Entity<HereticRitualRuneComponent> ent, ref EndCollideEvent args)
+    {
+        if (!TryComp<WeakToHolyComponent>(args.OtherEntity, out var weak))
+            return;
+
+        weak.IsColliding = false;
+    }
+
+    public override void Update(float frameTime)
+    {
+        base.Update(frameTime);
+
+        // Holy damage healing.
+        var query = EntityQueryEnumerator<WeakToHolyComponent, BodyComponent>();
+        while (query.MoveNext(out var uid, out var weakToHoly, out var body))
+        {
+            if (weakToHoly.NextPassiveHealTick > _timing.CurTime)
+                continue;
+            weakToHoly.NextPassiveHealTick = _timing.CurTime + weakToHoly.HealTickDelay;
+
+            if (!TryComp<DamageableComponent>(uid, out var damageable))
+                continue;
+
+            if (TerminatingOrDeleted(uid)
+                || !_body.TryGetRootPart(uid, out var rootPart, body: body)
+                || !damageable.Damage.DamageDict.TryGetValue("Holy", out _))
+                continue;
+
+            // Rune healing.
+            if (weakToHoly.IsColliding)
+                _damageableSystem.TryChangeDamage(uid, weakToHoly.HealAmount, ignoreBlockers: true, targetPart: TargetBodyPart.All, splitDamage: SplitDamageBehavior.SplitEnsureAll);
+
+            // Passive healing.
+            _damageableSystem.TryChangeDamage(uid, weakToHoly.PassiveAmount, ignoreBlockers: true, targetPart: TargetBodyPart.All, splitDamage: SplitDamageBehavior.SplitEnsureAll);
+        }
+    }
+
+    #endregion
+}

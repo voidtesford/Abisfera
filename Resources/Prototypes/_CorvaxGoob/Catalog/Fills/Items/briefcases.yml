@@ -1,0 +1,27 @@
+- type: entity
+  id: BriefcaseIAAFilled
+  parent: BriefcaseBrown
+  suffix: IAA
+  components:
+    - type: StorageFill
+      contents:
+        - id: Paper
+        - id: PenCentcom
+        - id: RubberStampIAA
+
+- type: entity
+  id: BriefcaseDetectiveFilled
+  parent: BriefcaseBrown
+  suffix: Filled, Paper
+  components:
+    - type: StorageFill
+      contents:
+        - id: BoxEvidenceMarkers
+        - id: BoxEvidenceBag
+        - id: BoxForensicPad
+        - id: BloodTrak
+        - id: ForensicScanner
+        - id: HandLabeler
+        - id: ObraDinnClock
+        - id: PhotoCameraFilled
+        - id: HoloprojectorSecurity

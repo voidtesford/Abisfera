@@ -1,0 +1,366 @@
+# Limited
+- type: entity
+  id: CrateBluespaceLimitedSingularity
+  parent: CrateBluespaceLimited
+  suffix: Bluespace Harvester, Singularity, DO NOT MAP
+  components:
+  - type: SpawnOnTrigger
+    proto: Singularity
+
+- type: entity
+  id: CrateBluespaceLimitedSinguloth
+  parent: CrateBluespaceLimited
+  suffix: Bluespace Harvester, Singuloth, DO NOT MAP
+  components:
+  - type: SpawnEntityTableOnTrigger
+    table: !type:AllSelector
+      children:
+      - !type:NestedSelector
+        tableId: BluespaceHarvesterLimitedSinguloth
+
+- type: entity
+  id: CrateBluespaceLimitedRaider
+  parent: CrateBluespaceLimited
+  suffix: Bluespace Harvester, Redspace Raider, DO NOT MAP
+  components:
+  - type: SpawnOnTrigger
+    proto: SpawnDropPodSyndicateRedspaceRaider
+
+- type: entity
+  id: SpawnDropPodSyndicateRedspaceRaider
+  name: SpawnDropPodSyndicateRedspaceRaider
+  parent: SpawnSupplyEmpty
+  components:
+  - type: SpawnOnDespawn
+    prototype: MobSyndicateRedspaceRaider
+
+- type: entity
+  id: CrateBluespaceLimitedWeapons
+  parent: CrateBluespaceLimited
+  suffix: Bluespace Harvester, Limited Weapons, DO NOT MAP
+  components:
+  - type: SpawnEntityTableOnTrigger
+    table: !type:AllSelector
+      children:
+      - !type:NestedSelector
+        tableId: BluespaceHarvesterLimitedWeapon
+
+- type: entity
+  id: CrateBluespaceLimitedAnomaly
+  parent: CrateBluespaceLimited
+  suffix: Bluespace Harvester, Anomaly, DO NOT MAP
+  components:
+  - type: SpawnEntityTableOnTrigger
+    table: !type:AllSelector
+      children:
+      - !type:NestedSelector
+        tableId: BluespaceHarvesterLimitedAnomaly
+
+- type: entity
+  id: CrateBluespaceLimitedResearchDisk
+  parent: CrateBluespaceLimited
+  suffix: Bluespace Harvester, Research Disk, DO NOT MAP
+  components:
+  - type: SpawnOnTrigger
+    proto: ResearchDiskBluespace
+
+- type: entity
+  id: CrateBluespaceLimitedMediGun
+  parent: CrateBluespaceLimited
+  suffix: Bluespace Harvester, MediGun, DO NOT MAP
+  components:
+  - type: SpawnOnTrigger
+    proto: MedicalBeamGunBattery
+
+- type: entity
+  id: CrateBluespaceLimitedSlimes
+  parent: CrateBluespaceLimited
+  suffix: Bluespace Harvester, Slimes, DO NOT MAP
+  components:
+  - type: SpawnEntityTableOnTrigger
+    table: !type:AllSelector
+      children:
+      - !type:NestedSelector
+        tableId: BluespaceHarvesterBiologicalLimitedSlimes
+
+# Destruction
+
+- type: entity
+  id: CrateBluespaceDestructionExplosion
+  parent: CrateBluespaceDestruction
+  suffix: Bluespace Harvester, Explosion, DO NOT MAP
+  components:
+  - type: SpawnEntityTableOnTrigger
+    table: !type:AllSelector
+      children:
+      - !type:NestedSelector
+        tableId: BluespaceHarvesterDestructionExplosionLoot
+
+- type: entity
+  id: CrateBluespaceDestructionShotgun
+  parent: CrateBluespaceDestruction
+  suffix: Bluespace Harvester, Shotgun, DO NOT MAP
+  components:
+  - type: SpawnEntityTableOnTrigger
+    table: !type:AllSelector
+      children:
+      - !type:NestedSelector
+        tableId: BluespaceHarvesterDestructionShotgunLoot
+
+- type: entity
+  id: CrateBluespaceDestructionLaser
+  parent: CrateBluespaceDestruction
+  suffix: Bluespace Harvester, Laser, DO NOT MAP
+  components:
+  - type: SpawnEntityTableOnTrigger
+    table: !type:AllSelector
+      children:
+      - !type:NestedSelector
+        tableId: BluespaceHarvesterDestructionLaserLoot
+
+- type: entity
+  id: CrateBluespaceDestructionStun
+  parent: CrateBluespaceDestruction
+  suffix: Bluespace Harvester, Stun, DO NOT MAP
+  components:
+  - type: SpawnEntityTableOnTrigger
+    table: !type:AllSelector
+      children:
+      - !type:NestedSelector
+        tableId: BluespaceHarvesterDestructionStunLoot
+
+- type: entity
+  id: CrateBluespaceDestructionRifle
+  parent: CrateBluespaceDestruction
+  suffix: Bluespace Harvester, Rifle, DO NOT MAP
+  components:
+  - type: SpawnEntityTableOnTrigger
+    table: !type:AllSelector
+      children:
+      - !type:NestedSelector
+        tableId: BluespaceHarvesterDestructionRifleLoot
+
+- type: entity
+  id: CrateBluespaceDestructionMelee
+  parent: CrateBluespaceDestruction
+  suffix: Bluespace Harvester, Melee, DO NOT MAP
+  components:
+  - type: SpawnEntityTableOnTrigger
+    table: !type:AllSelector
+      children:
+      - !type:NestedSelector
+        tableId: BluespaceHarvesterDestructionMeleeLoot
+
+- type: entity
+  id: CrateBluespaceDestructionPistol
+  parent: CrateBluespaceDestruction
+  suffix: Bluespace Harvester, Pistol, DO NOT MAP
+  components:
+  - type: SpawnEntityTableOnTrigger
+    table: !type:AllSelector
+      children:
+      - !type:NestedSelector
+        tableId: BluespaceHarvesterDestructionPistolLoot
+
+- type: entity
+  id: CrateBluespaceDestructionArmor
+  parent: CrateBluespaceDestruction
+  suffix: Bluespace Harvester, Armor, DO NOT MAP
+  components:
+  - type: SpawnEntityTableOnTrigger
+    table: !type:AllSelector
+      children:
+      - !type:NestedSelector
+        tableId: BluespaceHarvesterDestructionArmorLoot
+
+# Industrial
+
+- type: entity
+  id: CrateBluespaceIndustrialBatteries
+  parent: CrateBluespaceIndustrial
+  suffix: Bluespace Harvester, Batteries, DO NOT MAP
+  components:
+  - type: SpawnEntityTableOnTrigger
+    table: !type:AllSelector
+      children:
+      - !type:NestedSelector
+        tableId: BluespaceHarvesterIndustrialBatteries
+
+- type: entity
+  id: CrateBluespaceIndustrialTools
+  parent: CrateBluespaceIndustrial
+  suffix: Bluespace Harvester, Tools, DO NOT MAP
+  components:
+  - type: SpawnEntityTableOnTrigger
+    table: !type:AllSelector
+      children:
+      - !type:NestedSelector
+        tableId: BluespaceHarvesterIndustrialTools
+
+- type: entity
+  id: CrateBluespaceIndustrialMaterials
+  parent: CrateBluespaceIndustrial
+  suffix: Bluespace Harvester, Materials, DO NOT MAP
+  components:
+  - type: SpawnEntityTableOnTrigger
+    table: !type:AllSelector
+      children:
+      - !type:NestedSelector
+        tableId: BluespaceHarvesterIndustrialMaterials
+
+- type: entity
+  id: CrateBluespaceIndustrialRods
+  parent: CrateBluespaceIndustrial
+  suffix: Bluespace Harvester, Rods, DO NOT MAP
+  components:
+  - type: SpawnEntityTableOnTrigger
+    table: !type:AllSelector
+      rolls: 10
+      children:
+      - !type:NestedSelector
+        tableId: RandomReactorRodsTable
+
+- type: entity
+  id: CrateBluespaceIndustrialBluespaceFloor
+  parent: CrateBluespaceIndustrial
+  suffix: Bluespace Harvester, Bluespace Floor, DO NOT MAP
+  components:
+  - type: SpawnEntityTableOnTrigger
+    table: !type:AllSelector
+      children:
+      - !type:NestedSelector
+        tableId: BluespaceHarvesterIndustrialBluespaceFloor
+
+- type: entity
+  id: CrateBluespaceIndustrialShuttle
+  parent: CrateBluespaceIndustrial
+  suffix: Bluespace Harvester, Shuttle, DO NOT MAP
+  components:
+  - type: SpawnEntityTableOnTrigger
+    table: !type:AllSelector
+      children:
+      - !type:NestedSelector
+        tableId: BluespaceHarvesterIndustrialShuttle
+
+# Technological Loot
+- type: entity
+  id: CrateBluespaceTechnologicalExtracts
+  parent: CrateBluespaceTechnological
+  suffix: Bluespace Harvester, Extracts, DO NOT MAP
+  components:
+  - type: SpawnEntityTableOnTrigger
+    table: !type:AllSelector
+      children:
+      - !type:NestedSelector
+        tableId: BluespaceHarvesterTechnologicalExtracts
+
+- type: entity
+  id: CrateBluespaceTechnologicalAnomalyCore
+  parent: CrateBluespaceTechnological
+  suffix: Bluespace Harvester, Anomaly Core, DO NOT MAP
+  components:
+  - type: SpawnEntityTableOnTrigger
+    table: !type:AllSelector
+      rolls: 5
+      children:
+      - !type:NestedSelector
+        tableId: RandomAnomalyCoreTable
+
+- type: entity
+  id: CrateBluespaceTechnologicalArtifacts
+  parent: CrateBluespaceTechnological
+  suffix: Bluespace Harvester, Artifacts, DO NOT MAP
+  components:
+  - type: SpawnEntityTableOnTrigger
+    table: !type:AllSelector
+      rolls: 5
+      children:
+      - !type:NestedSelector
+        tableId: RandomArtifactTable
+
+- type: entity
+  id: CrateBluespaceTechnologicalMech
+  parent: CrateBluespaceTechnological
+  suffix: Bluespace Harvester, Mech, DO NOT MAP
+  components:
+  - type: SpawnEntityTableOnTrigger
+    table: !type:AllSelector
+      children:
+      - !type:NestedSelector
+        tableId: BluespaceHarvesterTechnologicalMech
+
+#Biological Loot
+
+- type: entity
+  id: CrateBluespaceBiologicalHypo
+  parent: CrateBluespaceBiological
+  suffix: Bluespace Harvester, Hypo, DO NOT MAP
+  components:
+  - type: SpawnOnTrigger
+    proto: BluespaceMiniHypospray
+
+- type: entity
+  id: CrateBluespaceBiologicalRestock
+  parent: CrateBluespaceBiological
+  suffix: Bluespace Harvester, Restock, DO NOT MAP
+  components:
+  - type: SpawnEntityTableOnTrigger
+    table: !type:AllSelector
+      children:
+      - !type:NestedSelector
+        tableId: BluespaceHarvesterBiologicalRestock
+
+- type: entity
+  id: CrateBluespaceBiologicalMeat
+  parent: CrateBluespaceBiological
+  suffix: Bluespace Harvester, Meat, DO NOT MAP
+  components:
+  - type: SpawnEntityTableOnTrigger
+    table: !type:AllSelector
+      children:
+      - !type:NestedSelector
+        tableId: BluespaceHarvesterBiologicalMeat
+
+- type: entity
+  id: CrateBluespaceBiologicalMoth
+  parent: CrateBluespaceBiological
+  suffix: Bluespace Harvester, Moth, DO NOT MAP
+  components:
+  - type: SpawnEntityTableOnTrigger
+    table: !type:AllSelector
+      children:
+      - !type:NestedSelector
+        tableId: BluespaceHarvesterBiologicalMoth
+
+- type: entity
+  id: CrateBluespaceBiologicalImplants
+  parent: CrateBluespaceBiological
+  suffix: Bluespace Harvester, Implants, DO NOT MAP
+  components:
+  - type: SpawnEntityTableOnTrigger
+    table: !type:AllSelector
+      children:
+      - !type:NestedSelector
+        tableId: BluespaceHarvesterBiologicalImplants
+
+- type: entity
+  id: CrateBluespaceBiologicalRaceCubes
+  parent: CrateBluespaceBiological
+  suffix: Bluespace Harvester, Race Cubes, DO NOT MAP
+  components:
+  - type: SpawnEntityTableOnTrigger
+    table: !type:AllSelector
+      children:
+      - !type:NestedSelector
+        tableId: BluespaceHarvesterBiologicalRaceCubes
+
+- type: entity
+  id: CrateBluespaceBiologicalReagents
+  parent: CrateBluespaceBiological
+  suffix: Bluespace Harvester, Reagents, DO NOT MAP
+  components:
+  - type: SpawnEntityTableOnTrigger
+    table: !type:AllSelector
+      children:
+      - !type:NestedSelector
+        tableId: BluespaceHarvesterBiologicalReagents

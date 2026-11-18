@@ -1,0 +1,194 @@
+using Robust.Shared.Configuration;
+
+namespace Content.Shared._CorvaxGoob.CCCVars;
+
+/// <summary>
+///     Corvax modules console variables
+/// </summary>
+[CVarDefs]
+// ReSharper disable once InconsistentNaming
+public sealed class CCCVars
+{
+    /*
+     * Station Goal
+     */
+
+    /// <summary>
+    /// Send station goal on round start or not.
+    /// </summary>
+    public static readonly CVarDef<bool> StationGoal =
+        CVarDef.Create("game.station_goal", true, CVar.SERVERONLY);
+
+    /// <summary>
+    /// Whether the Corvax server list is shown in the lobby.
+    /// Disabled by default so downstream forks opt in explicitly.
+    /// </summary>
+    public static readonly CVarDef<bool> LobbyServerHubEnabled =
+        CVarDef.Create("lobby.server_hub_enabled", false, CVar.SERVER | CVar.REPLICATED);
+
+    /// <summary>
+    /// Deny any VPN connections.
+    /// </summary>
+    public static readonly CVarDef<bool> PanicBunkerDenyVPN =
+        CVarDef.Create("game.panic_bunker.deny_vpn", false, CVar.SERVERONLY);
+
+    /*
+     * AHelp Discord bot API
+     */
+
+    /// <summary>
+    /// Enables the external Discord AHelp bot HTTP API.
+    /// </summary>
+    public static readonly CVarDef<bool> AHelpApiEnabled =
+        CVarDef.Create("ahelp.api_enabled", false, CVar.SERVERONLY | CVar.ARCHIVE);
+
+    /// <summary>
+    /// URL of the Discord AHelp bot HTTP event endpoint.
+    /// </summary>
+    public static readonly CVarDef<string> AHelpApiUrl =
+        CVarDef.Create("ahelp.api_url", "", CVar.SERVERONLY | CVar.ARCHIVE);
+
+    /// <summary>
+    /// Auth token used by this game server to authenticate with the Discord AHelp bot.
+    /// </summary>
+    public static readonly CVarDef<string> AHelpApiToken =
+        CVarDef.Create("ahelp.api_token", "", CVar.SERVERONLY | CVar.CONFIDENTIAL);
+
+    /// <summary>
+    /// Amount of seconds before timeout for AHelp bot API requests.
+    /// </summary>
+    public static readonly CVarDef<int> AHelpApiTimeout =
+        CVarDef.Create("ahelp.api_timeout", 5, CVar.SERVERONLY | CVar.ARCHIVE);
+
+
+    /// <summary>
+    /// Maximum name for a squad in SecApartment
+    /// </summary>
+    public static readonly CVarDef<int> MaxSquadNameLength =
+        CVarDef.Create("game.max_squad_name", 16, CVar.SERVER | CVar.REPLICATED);
+
+    /**
+     * TTS (Text-To-Speech)
+     */
+
+    /// <summary>
+    /// URL of the TTS server API.
+    /// </summary>
+    public static readonly CVarDef<bool> TTSEnabled =
+        CVarDef.Create("tts.enabled", false, CVar.SERVER | CVar.REPLICATED | CVar.ARCHIVE);
+
+    /// <summary>
+    /// URL of the TTS server API.
+    /// </summary>
+    public static readonly CVarDef<string> TTSApiUrl =
+        CVarDef.Create("tts.api_url", "", CVar.SERVERONLY | CVar.ARCHIVE);
+
+    /// <summary>
+    /// Auth token of the TTS server API.
+    /// </summary>
+    public static readonly CVarDef<string> TTSApiToken =
+        CVarDef.Create("tts.api_token", "", CVar.SERVERONLY | CVar.CONFIDENTIAL);
+
+    /// <summary>
+    /// Amount of seconds before timeout for API
+    /// </summary>
+    public static readonly CVarDef<int> TTSApiTimeout =
+        CVarDef.Create("tts.api_timeout", 5, CVar.SERVERONLY | CVar.ARCHIVE);
+
+    /// <summary>
+    /// Default volume setting of TTS sound
+    /// </summary>
+    public static readonly CVarDef<float> TTSVolume =
+        CVarDef.Create("tts.volume", 0f, CVar.CLIENTONLY | CVar.ARCHIVE);
+
+    /// <summary>
+    /// Count of in-memory cached tts voice lines.
+    /// </summary>
+    public static readonly CVarDef<int> TTSMaxCache =
+        CVarDef.Create("tts.max_cache", 250, CVar.SERVERONLY | CVar.ARCHIVE);
+
+    /// <summary>
+    /// Tts rate limit values are accounted in periods of this size (seconds).
+    /// After the period has passed, the count resets.
+    /// </summary>
+    public static readonly CVarDef<float> TTSRateLimitPeriod =
+        CVarDef.Create("tts.rate_limit_period", 2f, CVar.SERVERONLY);
+
+    /// <summary>
+    /// How many tts preview messages are allowed in a single rate limit period.
+    /// </summary>
+    public static readonly CVarDef<int> TTSRateLimitCount =
+        CVarDef.Create("tts.rate_limit_count", 3, CVar.SERVERONLY);
+
+    /// <summary>
+    /// Will skills be applied to players.
+    /// </summary>
+    public static readonly CVarDef<bool> SkillsEnabled =
+        CVarDef.Create("skills.enabled", true, CVar.SERVER | CVar.REPLICATED);
+
+    /// <summary>
+    /// Show MRP-designated jobs in the lobby and late join.
+    /// </summary>
+    public static readonly CVarDef<bool> MrpJobsEnabled =
+        CVarDef.Create("jobs.mrp_enabled", true, CVar.SERVER | CVar.REPLICATED);
+
+    /// <summary>
+    /// Activate announcer in round by their special calendar.
+    /// </summary>
+    public static readonly CVarDef<bool> CalendarAnnouncerEnabled =
+        CVarDef.Create("announcer.calendar", true, CVar.SERVERONLY);
+
+    /// <summary>
+    /// Offer item.
+    /// </summary>
+    public static readonly CVarDef<bool> OfferModeIndicatorsPointShow =
+        CVarDef.Create("hud.offer_mode_indicators_point_show", true, CVar.ARCHIVE | CVar.CLIENTONLY);
+
+    /// <summary>
+    /// Default volume setting of announcements sound.
+    /// </summary>
+    public static readonly CVarDef<float> AnnouncementsSound =
+        CVarDef.Create("audio.announcements_volume", 0.5f, CVar.CLIENTONLY | CVar.ARCHIVE);
+
+    public static readonly CVarDef<bool> PhotoPlayTimeRequire =
+        CVarDef.Create("photo.playtime_require", true, CVar.SERVERONLY);
+
+    public static readonly CVarDef<float> PhotoPlayTimeHours =
+        CVarDef.Create("photo.playtime_require_time", 20f, CVar.SERVERONLY);
+
+    /// <summary>
+    /// The size at which the server-side replay file will be split.
+    /// </summary>
+    public static readonly CVarDef<int> SplitCompressedSize =
+        CVarDef.Create("replay.split_compressed_size", 200 * 1024, CVar.SERVERONLY | CVar.ARCHIVE);
+
+    public static readonly CVarDef<int> SplitUncompressedSize =
+        CVarDef.Create("replay.split_uncompressed_size", 800 * 1024, CVar.SERVERONLY | CVar.ARCHIVE);
+    /// <summary>
+    ///     Установить режим возвраждения.
+    /// </summary>
+    public static readonly CVarDef<bool> GhostGoLobbyEnabled =
+        CVarDef.Create("ghost.go_lobby.enabled", false, CVar.SERVER | CVar.REPLICATED);
+
+    /// <summary>
+    ///     Лимит по общему количеству наигранного времени для возвраждения.
+    /// </summary>
+    public static readonly CVarDef<float> GhostGoLobbyTimeHours =
+        CVarDef.Create("ghost.go_lobby.require_time", 25f, CVar.SERVERONLY);
+
+    /// <summary>
+    ///     Длительность до возможность возврадиться.
+    /// </summary>
+    public static readonly CVarDef<float> GhostGoLobbyDeathTimeMinutes =
+        CVarDef.Create("ghost.go_lobby.death_time", 15f, CVar.SERVERONLY);
+
+    /*
+     * Decals
+     */
+
+    /// <summary>
+    ///     Минимальный интервал (в секундах) между отправками изменённых чанков декалей игрокам. 0 - каждый тик.
+    /// </summary>
+    public static readonly CVarDef<float> DecalSendInterval =
+        CVarDef.Create("decals.send_interval", 0.2f, CVar.SERVERONLY);
+}

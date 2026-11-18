@@ -1,0 +1,34 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+// Fully deleted by CorvaxGoob
+/*
+using Content.Server.Explosion.EntitySystems;
+using Content.Shared.Trigger;
+using Robust.Shared.GameObjects;
+using Robust.Shared.IoC;
+using Robust.Shared.Player;
+
+namespace Content.Goobstation.Server.Redial;
+
+public sealed partial class RedialUserOnTriggerSystem : EntitySystem
+{
+    [Dependency] private RedialManager _redial = default!;
+
+   public override void Initialize()
+   {
+       base.Initialize();
+
+       SubscribeLocalEvent<RedialUserOnTriggerComponent, TriggerEvent>(OnTrigger);
+   }
+
+    private void OnTrigger(EntityUid uid, RedialUserOnTriggerComponent component, ref TriggerEvent args)
+    {
+        if (!TryComp(args.User, out ActorComponent? actor) || component.Address == string.Empty)
+            return;
+
+       _redial.Redial(actor.PlayerSession.Channel, component.Address);
+
+       args.Handled = true;
+   }
+}
+*/

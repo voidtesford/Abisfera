@@ -1,0 +1,58 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: body
+  id: Moth
+  name: "moth"
+  root: chest
+  slots:
+    head:
+      part: HeadMoth
+      connections:
+      - chest
+      organs:
+        brain: OrganMothBrain # CorvaxGoob organs resprite
+        eyes: OrganMothEyes # CorvaxGoob organs resprite
+    chest:
+      part: ChestMoth
+      organs:
+        heart: OrganMothHeart # CorvaxGoob organs resprite
+        lungs: OrganMothLungs # CorvaxGoob organs resprite
+      connections:
+      - right arm
+      - left arm
+      - groin
+      - head # Shitmed
+    groin:
+      part: GroinMoth
+      connections:
+      - right leg
+      - left leg
+      organs:
+        stomach: OrganMothStomach # CorvaxGoob organs resprite
+        liver: OrganMothLiver # CorvaxGoob organs resprite
+        kidneys: OrganMothKidneys # CorvaxGoob organs resprite
+        butt: Butt # Goob
+    right arm:
+      part: RightArmMoth
+      connections:
+      - right hand
+    left arm:
+      part: LeftArmMoth
+      connections:
+      - left hand
+    right hand:
+      part: RightHandMoth
+    left hand:
+      part: LeftHandMoth
+    right leg:
+      part: RightLegMoth
+      connections:
+      - right foot
+    left leg:
+      part: LeftLegMoth
+      connections:
+      - left foot
+    right foot:
+      part: RightFootMoth
+    left foot:
+      part: LeftFootMoth

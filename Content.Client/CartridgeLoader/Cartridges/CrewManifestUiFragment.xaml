@@ -1,0 +1,30 @@
+<!--
+SPDX-License-Identifier: MIT
+-->
+
+<cartridges:CrewManifestUiFragment xmlns:cartridges="clr-namespace:Content.Client.CartridgeLoader.Cartridges"
+                                   xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
+                                   xmlns:ui="clr-namespace:Content.Client.CrewManifest.UI"
+                                   xmlns="https://spacestation14.io" Margin="1 0 2 0">
+    <PanelContainer StyleClasses="BackgroundDark"></PanelContainer>
+    <BoxContainer Orientation="Vertical" HorizontalExpand="True" VerticalExpand="True">
+        <controls:StripeBack Name="StationNameContainer">
+            <PanelContainer>
+                <Label Name="StationName" Align="Center" Text="{Loc 'crew-manifest-cartridge-loading'}"/>
+            </PanelContainer>
+        </controls:StripeBack>
+        <!-- CorvaxGoob Start - crew-manifest-search -->
+        <LineEdit Name="SearchBar"
+                  PlaceHolder="{Loc 'crew-manifest-search-placeholder'}"
+                  HorizontalExpand="True"
+                  Margin="3 3 3 2" />
+        <!-- CorvaxGoob End -->
+        <ScrollContainer HorizontalExpand="True" VerticalExpand="True">
+            <ui:CrewManifestListing
+                Name="CrewManifestListing"
+                Orientation="Vertical"
+                HorizontalExpand="True"
+                Margin="8,0,0,0"/>
+        </ScrollContainer>
+    </BoxContainer>
+</cartridges:CrewManifestUiFragment>

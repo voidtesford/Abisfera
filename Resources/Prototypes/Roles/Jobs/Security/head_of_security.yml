@@ -1,0 +1,87 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: job
+  id: HeadOfSecurity
+  name: job-name-hos
+  description: job-description-hos
+  playTimeTracker: JobHeadOfSecurity
+  requirements:
+    - !type:RoleTimeRequirement
+      role: JobWarden
+      time: 6h # Goobstation CorvaxGoob 5 hrs -> 6 hrs
+    - !type:RoleTimeRequirement
+      role: JobDetective
+      time: 2h # knowing how to use the tools is important CorvaxGoob 1 hour -> 2 hour
+    - !type:RoleTimeRequirement
+      role: JobSecurityOfficer
+      time: 10h # Goobstation
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 20h # CorvaxGoob 10 hrs -> 20 hrs
+    - !type:SpeciesRequirement # Goob - None Felinid
+      inverted: true
+      species:
+      - Felinid
+    - !type:SpeciesRequirement # CorvaxGoob-Species
+      inverted: true
+      species:
+      - Abductor
+  weight: 10
+  startingGear: HoSGear
+  icon: "JobIconHeadOfSecurity"
+  supervisors: job-supervisors-captain
+  canBeAntag: false
+  #goobcoins: 45 #Goob content Corvax-Goob-coins
+  skills: # CorvaxGoob-Skills
+  - ShuttleControl
+  - Shooting
+  guides: # goobstation
+  - Security
+  # - SpaceLaw Hidden by CorvaxGoob
+  # - Legal SOP Hidden by CorvaxGoob
+  - Command
+  # - HeadOfSecurity SOP Hidden by CorvaxGoob
+  # - Security SOP Hidden by CorvaxGoob
+  # - Alert Levels Hidden by CorvaxGoob
+  access:
+  - HeadOfSecurity
+  - Command
+  - Brig
+  - Security
+  - Armory
+  - Maintenance
+  - External
+  - Detective
+  - Cryogenics
+  - GenpopEnter
+  - GenpopLeave
+  special:
+  - !type:AddImplantSpecial
+    implants: [ MindShieldImplant ]
+  - !type:AddComponentSpecial
+    components:
+      - type: CommandStaff
+      - type: SecurityStaff # goobstation
+
+- type: startingGear
+  id: HoSGear
+  equipment:
+    eyes: ClothingEyesGlassesSecurity
+    id: HoSPDA
+    #gloves: ClothingHandsGlovesCombat - Goobstation, moved to loadouts
+    ears: ClothingHeadsetAltSecurity
+    pocket1: WeaponPistolMk58Empty # CorvaxGoob : поставлен пустой прототип пистолета
+  storage:
+    back:
+    - Flash
+    - MagazinePistol
+    - MagazinePistol # CorvaxGoob-RubberAmmo
+    - MagazinePistolRubber # CorvaxGoob-RubberAmmo
+
+- type: chameleonOutfit
+  id: HeadOfSecurityChameleonOutfit
+  job: HeadOfSecurity
+  hasMindShield: true
+  equipment:
+    mask: ClothingMaskGasSecurity
+    neck: ClothingNeckCloakHos

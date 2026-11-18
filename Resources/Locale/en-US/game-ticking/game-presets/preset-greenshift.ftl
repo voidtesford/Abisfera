@@ -1,0 +1,3 @@
+# goobstation edits
+greenshift-title = Greenshift
+greenshift-description = Nothing ever happens...

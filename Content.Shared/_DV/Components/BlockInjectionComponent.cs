@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
+using Robust.Shared.GameStates;
+
+namespace Content.Shared._DV.Chemistry.Components;
+
+/// <summary>
+/// Prevents syringes being used on this entity.
+/// Hyposprays are unaffected.
+/// </summary>
+[RegisterComponent, NetworkedComponent]
+public sealed partial class BlockInjectionComponent : Component
+{
+    [DataField]
+    public bool BlockPatches; // Goob
+
+    [DataField]
+    public LocId DenyMessage = "injector-component-deny-user"; // Goob
+}

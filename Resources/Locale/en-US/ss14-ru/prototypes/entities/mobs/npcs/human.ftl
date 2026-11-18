@@ -1,0 +1,15 @@
+ent-MobCivilian = civilian
+    .desc = { ent-BaseMobHuman.desc }
+ent-MobSalvager = salvager
+    .desc = { ent-BaseMobHuman.desc }
+ent-MobSpirate = spirate
+    .desc = { ent-BaseMobHuman.desc }
+ent-MobSyndicateFootsoldier = syndicate footsoldier
+    .desc = { ent-BaseMobHuman.desc }
+ent-MobSyndicateFootsoldierPilot = syndicate shuttle pilot
+    .desc = { ent-MobSyndicateFootsoldier.desc }
+ent-SalvageHumanCorpse = unidentified corpse
+    .suffix = Dead
+    .desc = { ent-BaseMobHuman.desc }
+ent-MobCluwne = person
+    .desc = { ent-MobHuman.desc }

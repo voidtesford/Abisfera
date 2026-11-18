@@ -1,0 +1,15 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: entity
+  id: Butt
+  parent: BaseHumanOrgan
+  name: butt
+  components:
+  - type: Sprite
+    sprite: _Goobstation/Mobs/butt.rsi
+    state: butt
+  - type: Item
+    size: Small
+  - type: Organ
+    slotId: butt
+  - type: Butt

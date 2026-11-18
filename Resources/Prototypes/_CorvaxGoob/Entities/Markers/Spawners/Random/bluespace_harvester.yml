@@ -1,0 +1,108 @@
+- type: entity
+  id: RandomHarvesterDestructionLoot
+  name: random harvester destruction loot spawner
+  suffix: Bluespace Harvester, DO NOT MAP
+  parent: MarkerBase
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    layers:
+    - state: red
+    - sprite: _CorvaxGoob/Bluespace/harvester.rsi
+      state: tap_5
+  - type: RandomSpawner
+    prototypes:
+    - CrateBluespaceDestructionExplosion
+    - CrateBluespaceDestructionShotgun
+    - CrateBluespaceDestructionLaser
+    - CrateBluespaceDestructionStun
+    - CrateBluespaceDestructionRifle
+    - CrateBluespaceDestructionMelee
+    - CrateBluespaceDestructionPistol
+    - CrateBluespaceDestructionArmor
+    chance: 1.0
+    offset: 0.0
+    rarePrototypes:
+    - CrateBluespaceLimitedRaider
+    - CrateBluespaceLimitedWeapons
+    rareChance: 0.1
+
+- type: entity
+  id: RandomHarvesterIndustrialLoot
+  name: random harvester industrial loot spawner
+  suffix: Bluespace Harvester, DO NOT MAP
+  parent: MarkerBase
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    layers:
+    - state: red
+    - sprite: _CorvaxGoob/Bluespace/harvester.rsi
+      state: tap_5
+  - type: RandomSpawner
+    prototypes:
+    - CrateBluespaceIndustrialBatteries
+    - CrateBluespaceIndustrialTools
+    - CrateBluespaceIndustrialMaterials
+    - CrateBluespaceIndustrialRods
+    - CrateBluespaceIndustrialBluespaceFloor
+    - CrateBluespaceIndustrialShuttle
+    chance: 1.0
+    offset: 0.0
+    rarePrototypes:
+    - CrateBluespaceLimitedSingularity
+    - CrateBluespaceLimitedSinguloth
+    rareChance: 0.1
+
+- type: entity
+  id: RandomHarvesterTechnologicalLoot
+  name: random harvester technological loot spawner
+  suffix: Bluespace Harvester, DO NOT MAP
+  parent: MarkerBase
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    layers:
+    - state: red
+    - sprite: _CorvaxGoob/Bluespace/harvester.rsi
+      state: tap_5
+  - type: RandomSpawner
+    prototypes:
+    - CrateBluespaceTechnologicalExtracts
+    - CrateBluespaceTechnologicalAnomalyCore
+    - CrateBluespaceTechnologicalArtifacts
+    - CrateBluespaceTechnologicalMech
+    chance: 1.0
+    offset: 0.0
+    rarePrototypes:
+    - CrateBluespaceLimitedResearchDisk
+    - CrateBluespaceLimitedAnomaly
+    rareChance: 0.1
+
+- type: entity
+  id: RandomHarvesterBiologicalLoot
+  name: random harvester biological loot spawner
+  suffix: Bluespace Harvester, DO NOT MAP
+  parent: MarkerBase
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    layers:
+    - state: red
+    - sprite: _CorvaxGoob/Bluespace/harvester.rsi
+      state: tap_5
+  - type: RandomSpawner
+    prototypes:
+    - CrateBluespaceBiologicalImplants
+    - CrateBluespaceBiologicalMoth
+    - CrateBluespaceBiologicalRaceCubes
+    - CrateBluespaceBiologicalMeat
+    - CrateBluespaceBiologicalRestock
+    - CrateBluespaceBiologicalHypo
+    - CrateBluespaceBiologicalReagents
+    chance: 1.0
+    offset: 0.0
+    rarePrototypes:
+    - CrateBluespaceLimitedSlimes
+    - CrateBluespaceLimitedMediGun
+    rareChance: 0.05

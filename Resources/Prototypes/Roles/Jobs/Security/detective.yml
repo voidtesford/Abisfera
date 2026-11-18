@@ -1,0 +1,64 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: job
+  id: Detective
+  name: job-name-detective
+  description: job-description-detective
+  playTimeTracker: JobDetective
+  requirements:
+  - !type:RoleTimeRequirement
+    role: JobSecurityOfficer
+    time: 5h
+  - !type:SpeciesRequirement # CorvaxGoob-Species
+    inverted: true
+    species:
+    - Abductor
+  startingGear: DetectiveGear
+  icon: "JobIconDetective"
+  supervisors: job-supervisors-hos
+  canBeAntag: false
+  #goobcoins: 30 #Goob content Corvax-Goob-coins
+  skills: # CorvaxGoob-Skills
+  - Shooting
+  guides: # goobstation
+  - Forensics
+  - Security
+  # - Detective SOP Hidden by CorvaxGoob
+  access:
+  - Security
+  - Brig
+  - Maintenance
+  - Detective
+  - Cryogenics
+  - External
+  special:
+  - !type:AddImplantSpecial
+    implants: [ MindShieldImplant ]
+  - !type:AddComponentSpecial # goobstation
+    components:
+      - type: SecurityStaff
+
+- type: startingGear
+  id: DetectiveGear
+  equipment:
+    eyes: ClothingEyesGlassesSecurity
+    id: DetectivePDA
+    #gloves: ClothingHandsGlovesForensic - Goobstation, moved to loadouts
+    ears: ClothingHeadsetAltSecurityRegular # Goobstation
+    belt: ClothingBeltHolsterFilled
+  storage:
+    back:
+    - Flash
+    - ForensicPad
+    - ForensicScanner
+#   - ClothingMaskGasSecurity # Goobstation # CorvaxGoob-changes: commented
+
+- type: chameleonOutfit
+  id: DetectiveChameleonOutfit
+  job: Detective
+  hasMindShield: true
+  equipment:
+    head: ClothingHeadHatFedoraBrown
+    mask: ClothingMaskGasSecurity
+    neck: ClothingNeckTieDet
+    gloves: ClothingHandsGlovesForensic

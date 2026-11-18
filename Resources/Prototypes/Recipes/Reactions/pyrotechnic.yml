@@ -1,0 +1,80 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: reaction
+  id: Napalm
+  reactants:
+    Oil:
+      amount: 1
+    WeldingFuel:
+      amount: 1
+    Ethanol:
+      amount: 1
+  products:
+    Napalm: 3
+
+- type: reaction
+  id: Phlogiston
+  priority: 20
+  reactants:
+    Phosphorus:
+      amount: 1
+    SulfuricAcid:
+      amount: 1
+    Plasma:
+      amount: 1
+  effects:
+  - !type:CreateGas
+    gas: Plasma
+  - !type:PopupMessage
+    visualType: LargeCaution
+    messages: [ "phlogiston-plasma-created" ]
+    type: Pvs
+  products:
+    Phlogiston: 3
+
+- type: reaction
+  id: ChlorineTrifluoride
+  minTemp: 370
+  priority: 20
+  reactants:
+    Chlorine:
+      amount: 1
+    Fluorine:
+      amount: 3
+  effects:
+  - !type:Explosion
+    explosionType: Default # 15 damage per intensity.
+   # CorvaxGoob - explosions nerf start
+    maxIntensity: 10 # 200 -> 10
+    intensityPerUnit: 1 # 5 -> 1
+    intensitySlope: 1 # 5 ->1
+    maxTotalIntensity: 10 # 200 -> 10
+  # CorvaxGoob - explosions nerf end
+  - !type:PopupMessage
+    messages: [ "clf3-explosion" ]
+    type: Pvs
+    visualType: LargeCaution
+  products:
+    ChlorineTrifluoride: 4
+
+- type: reaction
+  id: Ash
+  minTemp: 520
+  reactants:
+    Oil:
+      amount: 1
+  products:
+    Ash: 1
+
+- type: reaction
+  id: WeldingFuelBreakdown
+  source: true
+  requiredMixerCategories:
+  - Centrifuge
+  reactants:
+    WeldingFuel:
+      amount: 10
+  products:
+    Ethanol: 5
+    Hydrogen: 3
+    Sulfur: 2

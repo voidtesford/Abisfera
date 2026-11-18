@@ -1,0 +1,36 @@
+ - type: lobbyBackground
+   id: warden
+   background: /Textures/LobbyScreens/warden.webp
+   name: warden
+   artist: Solbusaur
+ 
+ - type: lobbyBackground
+   id: behonker
+   background: /Textures/LobbyScreens/behonker.webp
+   name: behonker
+   artist: InCrah
+
+ - type: lobbyBackground
+   id: abisfera
+   background: /Textures/LobbyScreens/abisfera.webp
+   name: abisfera
+   artist: San4ou_S
+
+ - type: lobbyBackground
+   id: bar
+   background: /Textures/LobbyScreens/bar.webp
+   name: bar
+   artist: San4ou_S
+
+ - type: lobbyBackground
+   id: evac
+   background: /Textures/LobbyScreens/evac.webp
+   name: evac
+   artist: San4ou_S
+
+ - type: lobbyBackground
+   id: autopsy
+   background: /Textures/LobbyScreens/autopsy.webp
+   name: autopsy
+   artist: San4ou_S
+

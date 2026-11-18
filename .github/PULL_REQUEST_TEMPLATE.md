@@ -1,0 +1,39 @@
+<!-- Guidelines: https://docs.spacestation14.io/en/getting-started/pr-guideline -->
+<!-- NOTE: All code submitted to this repository is ALWAYS licensed under the AGPL-3.0-or-later license.
+The REUSE Specification headers or separate .license files indicate a secondary license (e.g., MPL or MIT) solely to facilitate
+integration for projects that do not use the AGPL license. This secondary license does not replace the fact that AGPL-3.0-or-later remains the primary and binding license.
+Uncomment and modify the following line if you wish to change the license from the default of AGPL.-->
+<!--- LICENSE: AGPL -->
+## Описание PR
+<!-- Что вы изменили? -->
+
+## Почему / Баланс
+<!-- Обсудите, как это повлияет на баланс игры или объясните, почему это было изменено. Укажите ссылки на соответствующие обсуждения или issue. -->
+
+## Технические детали
+<!-- Краткое описание изменений в коде для облегчения проверки. -->
+
+## Медиа
+<!-- Прикрепите медиафайлы, если PR вносит изменения в игру (одежда, предметы, механики и т.д.).
+Небольшие исправления/рефакторинг освобождаются от этого требования. -->
+
+## Требования
+<!-- Подтвердите следующее, поставив X в скобках [X]: -->
+- [ ] Я прочитал(а) и следую [Рекомендациям по оформлению Pull Request и Changelog](https://docs.spacestation14.com/en/general-development/codebase-info/pull-request-guidelines.html).
+- [ ] Я добавил(а) медиафайлы к этому PR или он не требует демонстрации в игре.
+<!-- Вы должны понимать, что несоблюдение вышеуказанного может привести к закрытию вашего PR по усмотрению сопровождающего -->
+
+## Критические изменения
+<!-- Перечислите все критические изменения, включая изменения пространств имен, публичных классов/методов/полей, переименования прототипов; и предоставьте инструкции по их исправлению. -->
+
+**Список изменений**
+<!-- Добавьте запись в Changelog, чтобы игроки знали о новых функциях или изменениях, которые могут повлиять на игровой процесс.
+Убедитесь, что вы прочитали рекомендации и вынесли этот шаблон Changelog из блока комментариев, чтобы он отображался.
+Changelog должен иметь символ :cl:, чтобы бот распознал изменения и добавил их в список изменений игры. -->
+<!--
+:cl:
+- add: Добавлено веселье!
+- remove: Удалено веселье!
+- tweak: Изменено веселье!
+- fix: Исправлено веселье!
+-->

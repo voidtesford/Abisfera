@@ -1,0 +1,7 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: guideEntry
+  id: Conditions
+  name: "Раскрытие антагонистов" # Corvax-Goob-Locale
+  priority: 60
+  text: "/ServerInfo/_Goobstation/Guidebook/Antagonist/MetaReveal.xml"

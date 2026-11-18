@@ -1,0 +1,97 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: entity
+  id: OrganMothStomach
+  parent: OrganAnimalStomach
+  categories: [ HideSpawnMenu ]
+  name: moth stomach # Shitmed
+  components:
+  - type: Sprite
+    sprite: _CorvaxGoob/Mobs/Species/Moth/organs.rsi # CorvaxGoob organs resprite start
+    state: stomach
+  - type: Stomach
+    specialDigestible:
+      tags:
+      - ClothMade
+      - Paper
+      - Pill
+  - type: SolutionContainerManager
+    solutions:
+      stomach:
+        maxVol: 50
+      food:
+        maxVol: 5
+        reagents:
+        - ReagentId: UncookedAnimalProteins
+          Quantity: 5
+  - type: Metabolizer
+    maxPoisonsProcessable: 3
+    metabolizerTypes: [ Moth ]
+    removeEmpty: true
+    groups:
+      - id: Food
+      - id: Drink
+
+# CorvaxGoob organs resprite start
+
+- type: entity
+  id: OrganMothBrain
+  parent: OrganHumanBrain
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _CorvaxGoob/Mobs/Species/Moth/organs.rsi
+    state: brain
+
+- type: entity
+  id: OrganMothEyes
+  parent: OrganHumanEyes
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _CorvaxGoob/Mobs/Species/Moth/organs.rsi
+    layers:
+      - state: eyeball-l
+      - state: eyeball-r
+
+- type: entity
+  id: OrganMothHeart
+  parent: OrganAnimalHeart
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _CorvaxGoob/Mobs/Species/Moth/organs.rsi
+    state: heart-on
+
+- type: entity
+  id: OrganMothLungs
+  parent: OrganHumanLungs
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _CorvaxGoob/Mobs/Species/Moth/organs.rsi
+    layers:
+      - state: lung-l
+      - state: lung-r
+
+- type: entity
+  id: OrganMothLiver
+  parent: OrganAnimalLiver
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _CorvaxGoob/Mobs/Species/Moth/organs.rsi
+    state: liver
+
+- type: entity
+  id: OrganMothKidneys
+  parent: OrganHumanKidneys
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _CorvaxGoob/Mobs/Species/Moth/organs.rsi
+    layers:
+      - state: kidney-l
+      - state: kidney-r
+
+# CorvaxGoob organs resprite end

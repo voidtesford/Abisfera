@@ -1,0 +1,58 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: body
+  id: Tajaran
+  name: tajaran
+  root: chest
+  slots:
+    head:
+      part: HeadTajaran
+      connections:
+      - chest
+      organs:
+        brain: OrganTajaranBrain # CorvaxGoob organs resprite
+        eyes: OrganTajaranEyes # CorvaxGoob organs resprite
+    chest:
+      part: ChestTajaran
+      connections:
+      - groin
+      - right arm
+      - left arm
+      - head # Shitmed Change
+      organs:
+        heart: OrganTajaranHeart # CorvaxGoob organs resprite
+        lungs: OrganTajaranLungs # CorvaxGoob organs resprite
+    groin:
+      part: GroinTajaran
+      connections:
+      - right leg
+      - left leg
+      organs:
+        stomach: OrganTajaranStomach # CorvaxGoob organs resprite
+        liver:  OrganTajaranLiver # CorvaxGoob organs resprite
+        kidneys: OrganTajaranKidneys # CorvaxGoob organs resprite
+        butt: Butt
+    right arm:
+      part: RightArmTajaran
+      connections:
+      - right hand
+    left arm:
+      part: LeftArmTajaran
+      connections:
+      - left hand
+    right hand:
+      part: RightHandTajaran
+    left hand:
+      part: LeftHandTajaran
+    right leg:
+      part: RightLegTajaran
+      connections:
+      - right foot
+    left leg:
+      part: LeftLegTajaran
+      connections:
+      - left foot
+    right foot:
+      part: RightFootTajaran
+    left foot:
+      part: LeftFootTajaran
