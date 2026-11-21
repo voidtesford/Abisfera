@@ -108,7 +108,7 @@ public sealed partial class VampireSleepActionEvent : EntityTargetActionEvent
     ///     Channel duration, in seconds, before the target is put to sleep
     /// </summary>
     [DataField]
-    public TimeSpan ChannelTime = TimeSpan.FromSeconds(5);
+    public TimeSpan ChannelTime = TimeSpan.FromSeconds(2);
     [DataField]
     public float SleepDistanceThreshold = 2.5f; //How far a target may be for sleep to work
     [DataField]

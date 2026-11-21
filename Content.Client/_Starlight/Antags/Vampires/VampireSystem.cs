@@ -19,6 +19,7 @@ public sealed partial class VampireSystem : EntitySystem
 
     private static readonly ProtoId<FactionIconPrototype> _thrallIcon = "VampireThrallIcon";
     private static readonly ProtoId<FactionIconPrototype> _masterIcon = "VampireFaction";
+    private bool _classMenuOpen;
 
     public override void Initialize()
     {
@@ -152,37 +153,40 @@ public sealed partial class VampireSystem : EntitySystem
 
     private void OnClassSelectClient(EntityUid uid, VampireComponent comp, VampireClassSelectActionEvent args)
     {
-        if (args.Handled)
+        if (args.Handled || _classMenuOpen)
             return;
+
+        args.Handled = true;
+        _classMenuOpen = true;
 
         if (!string.IsNullOrWhiteSpace(comp.ChosenClassId))
         {
             _popup.PopupEntity("Класс уже выбран.", uid, uid);
-            args.Handled = true;
+            _classMenuOpen = false;
             return;
         }
 
-        // Open radial menu directly on client
         var menu = new SimpleRadialMenu();
         var buttons = new List<RadialMenuActionOption<string>>();
 
         foreach (var proto in _prototype.EnumeratePrototypes<VampireClassPrototype>())
         {
-            buttons.Add(new RadialMenuActionOption<string>(classId =>
+            var id = proto.ID;
+            buttons.Add(new RadialMenuActionOption<string>(_ =>
             {
-                // Send predicted message to server
-                RaisePredictiveEvent(new VampireClassChosenBuiMsg { Choice = classId });
+                RaisePredictiveEvent(new VampireClassChosenEvent { Choice = id });
                 menu.Close();
-            }, proto.ID)
+                _classMenuOpen = false;
+            }, id)
             {
                 IconSpecifier = RadialMenuIconSpecifier.With(proto.Icon),
                 ToolTip = Loc.GetString(proto.Tooltip)
             });
         }
 
+        menu.OnClose += () => _classMenuOpen = false;
         menu.SetButtons(buttons);
         menu.OpenOverMouseScreenPosition();
-        args.Handled = true;
     }
 
 }

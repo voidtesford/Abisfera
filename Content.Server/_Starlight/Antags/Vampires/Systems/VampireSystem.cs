@@ -92,6 +92,7 @@ public sealed partial class VampireSystem : EntitySystem
         SubscribeLocalEvent<VampireComponent, ComponentRemove>(OnComponentRemove);
         SubscribeLocalEvent<PlayerAttachedEvent>(OnPlayerAttached);
         SubscribeLocalEvent<VampireActionUseAttemptEvent>(OnVampireActionUseAttempt);
+	SubscribeLocalEvent<VampireComponent, VampireClassChosenEvent>(OnVampireClassChosenNet);
         InitializeAbilities();
         InitializeObjectives();
     }
@@ -819,4 +820,34 @@ public sealed partial class VampireSystem : EntitySystem
     }
 
     #endregion
+
+    private void OnVampireClassChosenNet(EntityUid uid, VampireComponent comp, VampireClassChosenEvent args)
+    {
+        if (!string.IsNullOrWhiteSpace(comp.ChosenClassId))
+            return;
+
+        if (string.IsNullOrWhiteSpace(args.Choice) || !_proto.TryIndex<VampireClassPrototype>(args.Choice, out var classProto))
+            return;
+
+        var reg = _componentFactory.GetRegistration(classProto.ClassComponent, ignoreCase: true);
+        var classComp = _componentFactory.GetComponent(reg.Type);
+        AddComp(uid, classComp);
+
+        EnsureComp<NightVisionComponent>(uid);
+
+        comp.ChosenClassId = classProto.ID;
+
+        var classSelectAction = comp.ClassSelectActionId;
+        if (comp.ActionEntities.TryGetValue(classSelectAction, out var actionEntity))
+        {
+            _actions.RemoveAction(uid, actionEntity);
+            comp.ActionEntities.Remove(classSelectAction);
+        }
+
+        SyncVampireActions(uid, comp);
+        Dirty(uid, comp);
+
+        _popup.PopupEntity($"Класс выбран: {classProto.ID}", uid, uid);
+    }
+
 }

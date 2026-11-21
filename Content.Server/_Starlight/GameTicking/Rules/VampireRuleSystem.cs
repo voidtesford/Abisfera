@@ -10,6 +10,7 @@ using System.Text;
 using Robust.Shared.Audio;
 using Content.Server.GameTicking.Rules;
 using Content.Shared._Starlight.Roles.Components;
+using Content.Shared.Popups;
 
 namespace Content.Server._Starlight.GameTicking.Rules;
 
@@ -19,9 +20,9 @@ public sealed partial class VampireRuleSystem : GameRuleSystem<VampireRuleCompon
     [Dependency] private AntagSelectionSystem _antag = default!;
     [Dependency] private SharedRoleSystem _role = default!;
     [Dependency] private ObjectivesSystem _objective = default!;
+    [Dependency] private SharedPopupSystem _popup = default!;
 
-    // Goob port: original sound file missing — use null so briefing does not crash
-public readonly SoundSpecifier? BriefingSound = new SoundPathSpecifier("/Audio/Ambience/Antag/traitor_start.ogg");
+    public readonly SoundSpecifier? BriefingSound = new SoundPathSpecifier("/Audio/_Starlight/Ambience/Antag/vampire_start.ogg");
 
     public override void Initialize()
     {
@@ -50,18 +51,29 @@ public readonly SoundSpecifier? BriefingSound = new SoundPathSpecifier("/Audio/A
         var name = meta?.EntityName ?? "Unknown";
         var briefing = Loc.GetString("vampire-role-greeting", ("name", name));
 
-        // Ensure the mind role exists (ForceMakeAntag should have done it, but be safe)
+        // Ensure the mind role exists
         if (!_role.MindHasRole<VampireRoleComponent>(mindId))
             _role.MindAddRole(mindId, "MindRoleVampire");
 
+        // Always show text briefing via popup
+        _popup.PopupEntity(briefing, target, target, PopupType.Large);
+
+        // Try sound + antag briefing; fall back to text-only if sound is missing
         try
         {
             _antag.SendBriefing(target, briefing, Color.Yellow, BriefingSound);
         }
         catch (Exception ex)
         {
-            // Missing audio or other briefing issue must not abort role setup
-            Log.Error($"Vampire briefing failed for {ToPrettyString(target)}: {ex.Message}");
+            Log.Error($"Vampire briefing sound failed for {ToPrettyString(target)}: {ex.Message}");
+            try
+            {
+                _antag.SendBriefing(target, briefing, Color.Yellow, null);
+            }
+            catch (Exception ex2)
+            {
+                Log.Error($"Vampire text briefing also failed: {ex2.Message}");
+            }
         }
 
         if (_role.MindHasRole<VampireRoleComponent>(mindId, out var vampRole))
@@ -105,7 +117,6 @@ public readonly SoundSpecifier? BriefingSound = new SoundPathSpecifier("/Audio/A
 
         var sb = new StringBuilder();
 
-        // Display blood statistics based on total amount drained
         if (totalBlood > 0)
         {
             var category = totalBlood switch

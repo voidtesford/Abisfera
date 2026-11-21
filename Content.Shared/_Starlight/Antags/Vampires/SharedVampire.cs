@@ -34,6 +34,15 @@ public sealed class VampireClassChosenBuiMsg : BoundUserInterfaceMessage
     public string Choice { get; init; } = string.Empty;
 }
 
+/// <summary>
+/// Networked event for class selection (works without BUI).
+/// </summary>
+[Serializable, NetSerializable]
+public sealed class VampireClassChosenEvent : EntityEventArgs
+{
+    public string Choice { get; init; } = string.Empty;
+}
+
 [Serializable, NetSerializable]
 public readonly record struct VampireLocateTarget(NetEntity Target, string DisplayName);
 
