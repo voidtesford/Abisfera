@@ -174,7 +174,7 @@ public sealed partial class VampireSystem : EntitySystem
             var id = proto.ID;
             buttons.Add(new RadialMenuActionOption<string>(_ =>
             {
-                RaisePredictiveEvent(new VampireClassChosenEvent { Choice = id });
+                RaiseNetworkEvent(new VampireClassChosenEvent { Choice = id });
                 menu.Close();
                 _classMenuOpen = false;
             }, id)

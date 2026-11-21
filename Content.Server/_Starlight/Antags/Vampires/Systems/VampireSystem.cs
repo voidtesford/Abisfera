@@ -92,7 +92,7 @@ public sealed partial class VampireSystem : EntitySystem
         SubscribeLocalEvent<VampireComponent, ComponentRemove>(OnComponentRemove);
         SubscribeLocalEvent<PlayerAttachedEvent>(OnPlayerAttached);
         SubscribeLocalEvent<VampireActionUseAttemptEvent>(OnVampireActionUseAttempt);
-	SubscribeLocalEvent<VampireComponent, VampireClassChosenEvent>(OnVampireClassChosenNet);
+	SubscribeNetworkEvent<VampireClassChosenEvent>(OnVampireClassChosenNet);
         InitializeAbilities();
         InitializeObjectives();
     }
@@ -821,8 +821,13 @@ public sealed partial class VampireSystem : EntitySystem
 
     #endregion
 
-    private void OnVampireClassChosenNet(EntityUid uid, VampireComponent comp, VampireClassChosenEvent args)
+    private void OnVampireClassChosenNet(VampireClassChosenEvent args, EntitySessionEventArgs eventArgs)
     {
+        if (eventArgs.SenderSession.AttachedEntity is not { } uid)
+            return;
+        if (!TryComp<VampireComponent>(uid, out var comp))
+            return;
+
         if (!string.IsNullOrWhiteSpace(comp.ChosenClassId))
             return;
 
