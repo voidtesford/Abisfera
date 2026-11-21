@@ -104,6 +104,25 @@ public sealed partial class NPCSteeringSystem
                 // If we get to here then didn't succeed for reasons.
             }
 
+            // CorvaxGoob-Gilbert: an access door and we may have the access (ID card): just open it.
+            if (isDoor && isAccessRequired && (component.Flags & PathFlags.Access) != 0x0)
+            {
+                foreach (var ent in obstacleEnts)
+                {
+                    if (!TryComp<DoorComponent>(ent, out var door))
+                        continue;
+
+                    if (door.State == DoorState.Opening || _doors.TryOpen(ent, door, uid, quiet: true))
+                        return SteeringObstacleStatus.Continuing;
+
+                    // CorvaxGoob-Pulsar: no access of its own: ask whoever drives it (the station AI) to open it.
+                    var blocked = new Content.Server._CorvaxGoob.Pulsar.Units.NPCAccessDoorBlockedEvent(ent);
+                    RaiseLocalEvent(uid, ref blocked);
+                    if (blocked.Handled)
+                        return SteeringObstacleStatus.Continuing;
+                }
+            }
+
             if ((component.Flags & PathFlags.Prying) != 0x0 && isDoor)
             {
                 var doorQuery = GetEntityQuery<DoorComponent>();
@@ -116,7 +135,15 @@ public sealed partial class NPCSteeringSystem
                         // TODO: Use the verb.
 
                         if (door.State != DoorState.Opening)
+                        {
                             _pryingSystem.TryPry(ent, uid, out id, uid);
+
+                            // CorvaxGoob-Gilbert: couldn't pry it (bolted, no prying tool): don't stand there
+                            // forever "continuing" - fail so the caller can repath / break it. Only for the
+                            // NPCs that opted into the Access flag, the stock ones keep the old behaviour.
+                            if (id == null && (component.Flags & PathFlags.Access) != 0x0)
+                                return SteeringObstacleStatus.Failed;
+                        }
 
                         component.DoAfterId = id;
                         return SteeringObstacleStatus.Continuing;

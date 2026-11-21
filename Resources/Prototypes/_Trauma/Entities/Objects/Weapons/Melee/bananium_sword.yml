@@ -1,4 +1,0 @@
-- type: entity
-  parent: [ BananiumSword, BaseMeleeWeaponEnergy ]
-  id: RealBananiumSword
-  suffix: Real

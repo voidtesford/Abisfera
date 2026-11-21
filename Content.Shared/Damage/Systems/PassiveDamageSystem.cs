@@ -2,6 +2,7 @@ using Content.Shared._Shitmed.Targeting;
 using Content.Shared.Damage.Components;
 using Content.Shared.Mobs.Components;
 using Robust.Shared.Timing;
+using Content.Shared._CorvaxGoob.Zakat; // Abisfera
 
 namespace Content.Shared.Damage.Systems;
 
@@ -41,6 +42,10 @@ public sealed class PassiveDamageSystem : EntitySystem
 
             // Set the next time they can take damage
             comp.NextDamage = curTime + TimeSpan.FromSeconds(1f);
+
+            // Abisfera - «Закат» immune suppression: no natural regeneration
+            if (HasComp<PassiveRegenSuppressedComponent>(uid) && comp.Damage.GetTotal() < 0)
+                continue;
 
             // Goobstation
             if (comp.AllowedStates == null || !TryComp<MobStateComponent>(uid, out var mobState))

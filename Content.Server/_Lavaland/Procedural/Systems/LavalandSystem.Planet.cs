@@ -67,6 +67,7 @@ public sealed partial class LavalandSystem
 
         EnsureComp<BiomeOptimizeComponent>(lavalandMap).LoadArea = loadBox;
 
+        _prefillGrids.Clear(); // Corvax-Goob
         SetupRuins(pool, lavaland.Value, preloader.Value);
 
         // Hide all grids from the mass scanner.
@@ -82,6 +83,7 @@ public sealed partial class LavalandSystem
         }
 
         _map.InitializeMap(lavalandMapId);
+        PrefillRuinAtmospheres(); // Corvax-Goob: no round-start atmos transient on ruin grids
 
         // Assign all other components to the map
         if (prototype.AddComponents != null)

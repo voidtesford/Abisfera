@@ -16,6 +16,9 @@ public sealed partial class PowerMonitoringWindow
     private SpriteSpecifier.Texture _sourceIcon = new SpriteSpecifier.Texture(new ResPath("/Textures/Interface/PowerMonitoring/source_arrow.png"));
     private SpriteSpecifier.Texture _loadIconPath = new SpriteSpecifier.Texture(new ResPath("/Textures/Interface/PowerMonitoring/load_arrow.png"));
 
+    // CorvaxGoob: plain space as the thousands separator regardless of the OS culture.
+    private static readonly System.Globalization.NumberFormatInfo WattsFormat = new() { NumberGroupSeparator = " " };
+
     private bool _autoScrollActive = false;
     private bool _autoScrollAwaitsUpdate = false;
 
@@ -105,7 +108,7 @@ public sealed partial class PowerMonitoringWindow
 
         // Update power value
         // Don't use SI prefixes, just give the number in W, so that it is readily apparent which consumer is using a lot of power.
-        button.PowerValue.Text = Loc.GetString("power-monitoring-window-button-value", ("value", Math.Round(entry.PowerValue).ToString("N0")));
+        button.PowerValue.Text = Loc.GetString("power-monitoring-window-button-value", ("value", Math.Round(entry.PowerValue).ToString("#,0", WattsFormat))); // CorvaxGoob: "50 000", not "50,000" (read as 50 W)
 
         // Update battery level if applicable
         if (entry.BatteryLevel != null)

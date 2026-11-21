@@ -124,6 +124,11 @@ public sealed partial class NPCSteeringComponent : Component
     /// </summary>
     [ViewVariables] public int FailedPathCount;
 
+    /// <summary>
+    /// CorvaxGoob-Pulsar: tiles (grid, tile) the path must not go through, e.g. an airlock the station AI cannot open.
+    /// </summary>
+    [ViewVariables] public HashSet<(EntityUid Grid, Vector2i Tile)>? AvoidTiles;
+
     [ViewVariables] public SteeringStatus Status = SteeringStatus.Moving;
 
     [ViewVariables(VVAccess.ReadWrite)] public PathFlags Flags = PathFlags.None;

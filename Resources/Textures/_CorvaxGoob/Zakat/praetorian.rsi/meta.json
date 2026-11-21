@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Made for Abisfera-SS14 (sentient disease «Закат»), generated pixel art (p3.1, biomass after the Prototype games); Created for Abisfera-SS14 «Закат» (upd2 rework: lit, hand-tuned procedural pixel art)",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "claws",
+      "directions": 4
+    },
+    {
+      "name": "absorb",
+      "delays": [
+        [
+          0.15,
+          0.15,
+          0.15,
+          0.15
+        ]
+      ]
+    }
+  ]
+}

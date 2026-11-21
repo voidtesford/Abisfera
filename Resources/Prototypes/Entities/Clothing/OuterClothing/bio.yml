@@ -40,8 +40,12 @@
     incoming:
       powerModifiers:
         Blood: -1 # immune to plague mice
+        Contact: -1 # Abisfera - «Закат»: no skin contact through a bio suit
       chanceMultipliers:
         Blood: 0.5
+    outgoing: # Abisfera - «Закат»: a sick wearer can't pass it by touch either
+      powerModifiers:
+        Contact: -1
 
 - type: entity
   parent: ClothingOuterBioGeneral

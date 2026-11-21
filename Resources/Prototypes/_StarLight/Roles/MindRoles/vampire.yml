@@ -1,0 +1,26 @@
+# Vampire mind roles — required for AntagSelection / admin ForceMakeAntag
+- type: entity
+  parent: BaseMindRoleAntag
+  id: MindRoleVampire
+  name: Vampire Role
+  components:
+  - type: MindRole
+    antagPrototype: Vampire
+    exclusiveAntag: true
+    roleType: SoloAntagonist
+    subtype: role-subtype-vampire
+    subtypeColor: '#A83864'
+  - type: VampireRole
+
+# Renamed to avoid clash with Shadowling MindRoleThrall
+- type: entity
+  parent: BaseMindRoleAntag
+  id: MindRoleVampireThrall
+  name: Vampire Thrall Role
+  components:
+  - type: MindRole
+    antagPrototype: VampireThrall
+    roleType: TeamAntagonist
+    subtype: role-subtype-vampire-thrall
+    subtypeColor: '#A83864'
+  - type: VampireThrall

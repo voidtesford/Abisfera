@@ -2,6 +2,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 using Content.Shared.Construction.Components;
+using Content.Shared._CorvaxGoob.Kamerton; // CorvaxGoob-Kamerton
 using Content.Shared.Administration.Logs;
 using Content.Shared.Containers.ItemSlots;
 using Content.Shared.Database;
@@ -51,6 +52,9 @@ public abstract class SharedFlatpackSystem : EntitySystem
         if (HasComp<MachineBoardComponent>(args.Item))
             return;
 
+        if (HasComp<KamertonFlatpackBoardComponent>(args.Item)) // CorvaxGoob-Kamerton
+            return;
+
         if (TryComp<ComputerBoardComponent>(args.Item, out var computer) && computer.Prototype != null)
             return;
 
@@ -85,7 +89,17 @@ public abstract class SharedFlatpackSystem : EntitySystem
         // TODO FLATPAK
         // Make this logic smarter. This should eventually allow for shit like building microwaves on tables and such.
         // Also: make it ignore ghosts
-        if (_entityLookup.AnyEntitiesIntersecting(coords, LookupFlags.Dynamic | LookupFlags.Static))
+        // CorvaxGoob-Kamerton: a flatpack lying on the build tile must not block itself.
+        var blocked = false;
+        foreach (var other in _entityLookup.GetEntitiesIntersecting(coords, LookupFlags.Dynamic | LookupFlags.Static))
+        {
+            if (other == uid)
+                continue;
+            blocked = true;
+            break;
+        }
+
+        if (blocked)
         {
             // this popup is on the server because the predicts on the intersection is crazy
             if (_net.IsServer)
@@ -128,6 +142,20 @@ public abstract class SharedFlatpackSystem : EntitySystem
         Appearance.SetData(ent, FlatpackVisuals.Machine, MetaData(board).EntityPrototype?.ID ?? string.Empty);
     }
 
+    // CorvaxGoob-Kamerton-Start
+    /// <summary>Flatpacker cost of a Kamerton board, as negative material changes like <see cref="TryGetFlatpackCreationCost"/>.</summary>
+    public bool TryGetKamertonBoard(EntityUid board, out KamertonFlatpackBoardComponent? kamerton, out Dictionary<string, int> cost)
+    {
+        cost = new();
+        if (!TryComp(board, out kamerton))
+            return false;
+
+        foreach (var (mat, amount) in kamerton.Cost)
+            cost[mat] = -amount;
+        return true;
+    }
+    // CorvaxGoob-Kamerton-End
+
     /// <summary>
     /// Returns the prototype from a board that the flatpacker will create.
     /// </summary>
@@ -135,7 +163,9 @@ public abstract class SharedFlatpackSystem : EntitySystem
     {
         prototype = null;
 
-        if (TryComp<MachineBoardComponent>(board, out var machine))
+        if (TryComp<KamertonFlatpackBoardComponent>(board, out var kamerton)) // CorvaxGoob-Kamerton
+            prototype = kamerton.Entity;
+        else if (TryComp<MachineBoardComponent>(board, out var machine))
             prototype = machine.Prototype;
         else if (TryComp<ComputerBoardComponent>(board, out var computer))
             prototype = computer.Prototype;
@@ -150,6 +180,10 @@ public abstract class SharedFlatpackSystem : EntitySystem
     /// <param name="cost">Cost to produce</param>
     public bool TryGetFlatpackCreationCost(Entity<FlatpackCreatorComponent> entity, EntityUid machineBoard, out Dictionary<string, int> cost)
     {
+        // CorvaxGoob-Kamerton: Kamerton boards have their own fixed cost.
+        if (TryGetKamertonBoard(machineBoard, out _, out cost))
+            return true;
+
         cost = new();
         Dictionary<ProtoId<MaterialPrototype>, int> baseCost;
         if (TryComp<MachineBoardComponent>(machineBoard, out var machineBoardComp))

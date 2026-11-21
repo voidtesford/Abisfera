@@ -162,7 +162,7 @@ public abstract partial class SharedDiseaseSystem : EntitySystem
 
         var ev = new GetImmunityEvent(ent);
         // don't even check immunity if we can't affect this disease
-        if (CanImmunityAffect(args.Ent.Owner, ent.Comp))
+        if (!ent.Comp.BypassesImmunity && CanImmunityAffect(args.Ent.Owner, ent.Comp)) // Abisfera - «Закат»
             RaiseLocalEvent(args.Ent.Owner, ref ev);
 
         // infection progression
@@ -208,6 +208,34 @@ public abstract partial class SharedDiseaseSystem : EntitySystem
         ent.Comp.ImmunityProgress = Math.Clamp(ent.Comp.ImmunityProgress + amount, 0f, 1f);
         Dirty(ent);
     }
+
+    // Abisfera - «Закат» start
+    public void SetGenotype(Entity<DiseaseComponent?> ent, int genotype)
+    {
+        if (!Resolve(ent, ref ent.Comp))
+            return;
+
+        ent.Comp.Genotype = genotype;
+        Dirty(ent);
+    }
+
+    public void SetCureMultiplier(Entity<DiseaseComponent?> ent, float multiplier)
+    {
+        if (!Resolve(ent, ref ent.Comp))
+            return;
+
+        ent.Comp.CureMultiplier = Math.Max(0f, multiplier);
+        Dirty(ent);
+    }
+
+    /// <summary>
+    /// Finds a disease of the given genotype in the carrier, if any.
+    /// </summary>
+    public bool TryFindDisease(Entity<DiseaseCarrierComponent?> ent, int genotype, [NotNullWhen(true)] out EntityUid? disease)
+    {
+        return FindDisease(ent, genotype, out disease);
+    }
+    // Abisfera - «Закат» end
 
     #endregion
 

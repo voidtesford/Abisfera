@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 using Content.Shared.ActionBlocker;
+using Content.Shared.Traits.Assorted.Components;
 using Content.Shared.Buckle.Components;
 using Content.Shared.Climbing.Components;
 using Content.Shared.Climbing.Events;
@@ -227,7 +228,11 @@ public sealed partial class ClimbSystem : VirtualController
         if (ev.Cancelled)
             return false;
 
-        var args = new DoAfterArgs(EntityManager, user, comp.ClimbDelay, new ClimbDoAfterEvent(),
+        var climbDelay = comp.ClimbDelay;
+        if (TryComp<ClimbDelayModifierComponent>(user, out var climbMod))
+            climbDelay *= climbMod.ClimbDelayMultiplier;
+
+        var args = new DoAfterArgs(EntityManager, user, climbDelay, new ClimbDoAfterEvent(),
             entityToMove,
             target: climbable,
             used: entityToMove)

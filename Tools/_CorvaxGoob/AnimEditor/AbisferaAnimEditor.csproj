@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    Abisfera animation editor: a standalone desktop app (Avalonia) for ProcAnim scenes (procAnimScene prototypes).
+    Not part of the game solution. It compiles the game's own ProcAnim evaluator and puppet splitter (linked below)
+    against small stand-ins for the engine types (Shims/), so the editor poses the puppets exactly like the game.
+    Build / publish: see README.md next to this file.
+  -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>14</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AssemblyName>AbisferaAnimEditor</AssemblyName>
+    <RootNamespace>Abisfera.AnimEditor</RootNamespace>
+    <ApplicationIcon>Assets/icon.ico</ApplicationIcon>
+    <Version>1.0.0</Version>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <SatelliteResourceLanguages>ru;en</SatelliteResourceLanguages>
+    <BuiltInComInteropSupport>false</BuiltInComInteropSupport>
+    <NoWarn>$(NoWarn);CS0649;CS0169;CS0414;CS1591</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(RuntimeIdentifier)' != ''">
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <DebugType>embedded</DebugType>
+    <PublishTrimmed>false</PublishTrimmed>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.3.23" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.3.23" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.23" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.23" />
+    <PackageReference Include="YamlDotNet" Version="16.3.0" />
+  </ItemGroup>
+
+  <!-- The game's ProcAnim code, compiled as-is (no copies): the editor's poses are the game's poses. -->
+  <ItemGroup>
+    <Compile Include="../../../Content.Shared/_CorvaxGoob/ProcAnim/ProcAnimScenePrototype.cs" Link="Game/ProcAnimScenePrototype.cs" />
+    <Compile Include="../../../Content.Shared/_CorvaxGoob/ProcAnim/ProcAnimTimeline.cs" Link="Game/ProcAnimTimeline.cs" />
+    <Compile Include="../../../Content.Shared/_CorvaxGoob/ProcAnim/ProcAnimFx.cs" Link="Game/ProcAnimFx.cs" />
+    <Compile Include="../../../Content.Shared/_CorvaxGoob/ProcAnim/ProcAnimValidation.cs" Link="Game/ProcAnimValidation.cs" />
+    <Compile Include="../../../Content.Client/_CorvaxGoob/ProcAnim/ProcAnimPuppet.cs" Link="Game/ProcAnimPuppet.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Assets/**" />
+  </ItemGroup>
+</Project>

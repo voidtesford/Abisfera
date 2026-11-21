@@ -22,6 +22,7 @@
     - Botany
     - Chemicals
   - type: DiseaseSwab # Goobstation
+  - type: ZakatSwab # CorvaxGoob-Zakat
 
 - type: entity
   parent: BaseAmmoProvider # this is for cycling swabs out and not spawning 30 entities, trust

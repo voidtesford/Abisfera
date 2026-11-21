@@ -1,0 +1,80 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Made for Abisfera-SS14 (sentient disease «Закат»), generated pixel art; biohazard glyph traced from a standard biohazard symbol; Created for Abisfera-SS14 «Закат» (upd2 rework: lit, hand-tuned procedural pixel art)",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "infect"
+    },
+    {
+      "name": "shop"
+    },
+    {
+      "name": "host"
+    },
+    {
+      "name": "possess"
+    },
+    {
+      "name": "harpoon"
+    },
+    {
+      "name": "devour"
+    },
+    {
+      "name": "infest"
+    },
+    {
+      "name": "p3_birth"
+    },
+    {
+      "name": "p3_spewer"
+    },
+    {
+      "name": "p3_cocoon_small"
+    },
+    {
+      "name": "p3_cocoon_hunter"
+    },
+    {
+      "name": "p3_cocoon_large"
+    },
+    {
+      "name": "p3_praetorian"
+    },
+    {
+      "name": "p3_to_core"
+    },
+    {
+      "name": "p3_absorb"
+    },
+    {
+      "name": "p3_hunter_devour"
+    },
+    {
+      "name": "p3_liberate"
+    },
+    {
+      "name": "p3_shift"
+    },
+    {
+      "name": "p3_claws"
+    },
+    {
+      "name": "p4_wall"
+    },
+    {
+      "name": "p4_door"
+    },
+    {
+      "name": "upd1_transform"
+    },
+    {
+      "name": "upd1_spore_spewer"
+    }
+  ]
+}

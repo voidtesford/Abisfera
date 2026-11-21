@@ -11,6 +11,7 @@ using Robust.Shared.Collections;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Physics;
+using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Events;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
@@ -454,6 +455,25 @@ public sealed partial class PathfindingSystem
                     }
 
                     tileEntities.Add(ent);
+                }
+
+                // CorvaxGoob-Pulsar: a tile blocked only by loose things (not anchored, not people) can be shoved through.
+                if (tileEntities.Count > 0)
+                {
+                    var movable = true;
+                    foreach (var ent in tileEntities)
+                    {
+                        if (!TryComp<PhysicsComponent>(ent, out var body) || body.BodyType != BodyType.Dynamic
+                            || _xformQuery.GetComponent(ent).Anchored || _doorQuery.HasComponent(ent)
+                            || HasComp<Content.Shared.Mobs.Components.MobStateComponent>(ent))
+                        {
+                            movable = false;
+                            break;
+                        }
+                    }
+
+                    if (movable)
+                        flags |= PathfindingBreadcrumbFlag.Movable;
                 }
 
                 for (var subX = 0; subX < SubStep; subX++)

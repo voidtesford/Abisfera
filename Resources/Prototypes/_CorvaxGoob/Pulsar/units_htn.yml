@@ -1,0 +1,16 @@
+# А.М.Ц.И.И «Пульсар», stage 5: minibots linked to the AI («Подключить к ЦИИ»). The module puts the place it wants
+# the bot at into the blackboard (PulsarGoto); this branch goes there first, then the bot's own behaviour resumes.
+- type: htnCompound
+  id: PulsarGotoCompound
+  branches:
+    - preconditions:
+        - !type:KeyExistsPrecondition
+          key: PulsarGoto
+      tasks:
+        - !type:HTNPrimitiveTask
+          operator: !type:MoveToOperator
+            pathfindInPlanning: true
+            removeKeyOnFinish: false
+            targetKey: PulsarGoto
+            pathfindKey: PulsarGotoPathfind
+            rangeKey: PulsarGotoRange

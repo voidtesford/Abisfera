@@ -137,8 +137,9 @@ public abstract class SharedWieldableSystem : EntitySystem
             (wield.Wielded)
             )
         {
-            args.MinAngle += bonus.Comp.MinAngle;
-            args.MaxAngle += bonus.Comp.MaxAngle;
+            // Abisfera - a bonus bigger than the base spread (M7S: 15 - 20) must not flip it negative.
+            args.MinAngle = Angle.FromDegrees(Math.Max(0, (args.MinAngle + bonus.Comp.MinAngle).Degrees));
+            args.MaxAngle = Angle.FromDegrees(Math.Max(0, (args.MaxAngle + bonus.Comp.MaxAngle).Degrees));
             args.AngleDecay += bonus.Comp.AngleDecay;
             args.AngleIncrease += bonus.Comp.AngleIncrease;
         }

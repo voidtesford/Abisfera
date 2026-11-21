@@ -47,6 +47,12 @@ public sealed partial class NPCSteeringSystem
         {
             return true;
         }
+        // CorvaxGoob-Pulsar: only loose things in the way and we may shove them: walk on, physics pushes them.
+        else if ((node.Data.Flags & PathfindingBreadcrumbFlag.Movable) != 0x0 &&
+                 (steering.Flags & PathFlags.Pushing) != 0x0)
+        {
+            return true;
+        }
         // Handle the case where the node is a climb, we can climb, and we are climbing.
         else if ((node.Data.Flags & PathfindingBreadcrumbFlag.Climb) != 0x0 &&
             (steering.Flags & PathFlags.Climbing) != 0x0 &&

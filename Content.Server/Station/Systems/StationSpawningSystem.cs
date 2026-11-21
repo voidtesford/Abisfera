@@ -5,6 +5,7 @@ using Content.Server.Humanoid;
 using Content.Server.Mind;
 using Content.Server.PDA;
 using Content.Server.Station.Components;
+using Content.Server.Traits;
 using Content.Shared.Access.Components;
 using Content.Shared.Access.Systems;
 using Content.Shared.CCVar;
@@ -45,6 +46,7 @@ public sealed partial class StationSpawningSystem : SharedStationSpawningSystem 
     [Dependency] private readonly PdaSystem _pdaSystem = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly MindSystem _mindSystem = default!;
+    [Dependency] private readonly TraitSystem _traits = default!;
 
     /// <summary>
     /// Attempts to spawn a player character onto the given station.
@@ -166,6 +168,8 @@ public sealed partial class StationSpawningSystem : SharedStationSpawningSystem 
         }
 
         DoJobSpecials(job, entity.Value);
+        if (profile != null)
+            _traits.ApplyToMob(entity.Value, profile, prototype);
         _identity.QueueIdentityUpdate(entity.Value);
         return entity.Value;
     }

@@ -36,6 +36,16 @@ public sealed class RoboticsConsoleBoundUserInterface : BoundUserInterface
         {
             SendMessage(new RoboticsConsoleDestroyMessage(address));
         };
+        // CorvaxGoob-Pulsar-Start
+        _window.OnPulsarLinkPressed += (address, link) =>
+        {
+            SendMessage(new RoboticsConsolePulsarLinkMessage(address, link));
+        };
+        _window.OnMinibotLinkPressed += (bot, link) =>
+        {
+            SendMessage(new RoboticsConsoleMinibotLinkMessage(bot, link));
+        };
+        // CorvaxGoob-Pulsar-End
     }
 
     protected override void UpdateState(BoundUserInterfaceState state)

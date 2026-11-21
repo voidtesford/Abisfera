@@ -31,4 +31,5 @@ public enum ComboAttackType : byte
     Disarm,
     Grab,
     Hug,
+    Power, // Abisfera - «Тяжёлая атака» (Shift+RMB); also fills a Harm slot of combos that don't ask for Power
 }

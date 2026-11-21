@@ -31,8 +31,14 @@ public sealed class RoboticsConsoleSystem : SharedRoboticsConsoleSystem
     [Dependency] private readonly UserInterfaceSystem _ui = default!;
     [Dependency] private readonly ItemSlotsSystem _slots = default!;
 
+    [Dependency] private readonly Content.Server._CorvaxGoob.Pulsar.Units.PulsarUnitsSystem _pulsarUnits = default!; // CorvaxGoob-Pulsar
+    [Dependency] private readonly Content.Server.Popups.PopupSystem _popup = default!; // CorvaxGoob-Pulsar
+
     // almost never timing out more than 1 per tick so initialize with that capacity
     private List<string> _removing = new(1);
+
+    // CorvaxGoob-Pulsar: which entity sent each transponder address (to link it to the station AI).
+    private readonly Dictionary<string, EntityUid> _senders = new();
 
     public override void Initialize()
     {
@@ -49,6 +55,10 @@ public sealed class RoboticsConsoleSystem : SharedRoboticsConsoleSystem
             subs.Event<BoundUIOpenedEvent>(OnOpened);
             subs.Event<RoboticsConsoleDisableMessage>(OnDisable);
             subs.Event<RoboticsConsoleDestroyMessage>(OnDestroy);
+            // CorvaxGoob-Pulsar-Start
+            subs.Event<RoboticsConsolePulsarLinkMessage>(OnPulsarLink);
+            subs.Event<RoboticsConsoleMinibotLinkMessage>(OnMinibotLink);
+            // CorvaxGoob-Pulsar-End
             // TODO: camera stuff
         });
     }
@@ -94,6 +104,7 @@ public sealed class RoboticsConsoleSystem : SharedRoboticsConsoleSystem
         var real = data.Value;
         real.Timeout = _timing.CurTime + ent.Comp.Timeout;
         ent.Comp.Cyborgs[args.SenderAddress] = real;
+        _senders[args.SenderAddress] = args.Sender; // CorvaxGoob-Pulsar
 
         UpdateUserInterface(ent);
     }
@@ -198,10 +209,43 @@ public sealed class RoboticsConsoleSystem : SharedRoboticsConsoleSystem
         Dirty(ent, ent.Comp);
     }
 
-    private void UpdateUserInterface(Entity<RoboticsConsoleComponent> ent)
+    // CorvaxGoob-Pulsar-Start: «Подключить к ЦИИ» / «Отключить от ЦИИ».
+    private void OnPulsarLink(Entity<RoboticsConsoleComponent> ent, ref RoboticsConsolePulsarLinkMessage args)
     {
-        var state = new RoboticsConsoleState(ent.Comp.Cyborgs, ent.Comp.AllowBorgControl,
+        if (_lock.IsLocked(ent.Owner) || !ent.Comp.Cyborgs.TryGetValue(args.Address, out var data)
+            || !_senders.TryGetValue(args.Address, out var borg) || TerminatingOrDeleted(borg))
+            return;
+
+        PulsarLink(ent, args.Actor, borg, args.Link, data.Name);
+    }
+
+    private void OnMinibotLink(Entity<RoboticsConsoleComponent> ent, ref RoboticsConsoleMinibotLinkMessage args)
+    {
+        if (_lock.IsLocked(ent.Owner) || !TryGetEntity(args.Bot, out var bot) || TerminatingOrDeleted(bot))
+            return;
+
+        PulsarLink(ent, args.Actor, bot.Value, args.Link, Name(bot.Value));
+    }
+
+    private void PulsarLink(Entity<RoboticsConsoleComponent> ent, EntityUid actor, EntityUid unit, bool link, string name)
+    {
+        if (!_pulsarUnits.ConsoleLink(ent, unit, link, out var fail))
+        {
+            _popup.PopupEntity(Loc.GetString(fail), ent, actor);
+            return;
+        }
+
+        _popup.PopupEntity(Loc.GetString(link ? "robotics-console-pulsar-linked" : "robotics-console-pulsar-unlinked", ("name", name)), ent, actor);
+        _adminLogger.Add(LogType.Action, LogImpact.Medium, $"{ToPrettyString(actor):user} {(link ? "linked" : "unlinked")} {ToPrettyString(unit)} to the station AI module");
+        UpdateUserInterface(ent);
+    }
+    // CorvaxGoob-Pulsar-End
+
+    public void UpdateUserInterface(Entity<RoboticsConsoleComponent> ent) // CorvaxGoob-Pulsar: public for the periodic refresh
+    {
+        var state = new RoboticsConsoleState(new Dictionary<string, CyborgControlData>(ent.Comp.Cyborgs), ent.Comp.AllowBorgControl, // CorvaxGoob-Pulsar: a copy, the link flags are added to it
         _slots.TryGetSlot(ent, ent.Comp.CircuitBoardItemSlot, out var slot) && slot.HasItem);// Corvax-Goob-MutableLaws
+        _pulsarUnits.FillConsoleState(ent, state, _senders); // CorvaxGoob-Pulsar
 
         _ui.SetUiState(ent.Owner, RoboticsConsoleUiKey.Key, state);
     }

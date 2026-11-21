@@ -156,6 +156,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                 </BoxContainer>
                 <BoxContainer Orientation="Vertical" Margin="10">
                     <!-- Traits -->
+                    <Label Name="TraitPointsLabel" HorizontalAlignment="Stretch" Align="Center" />
+                    <ProgressBar Name="TraitPointsBar" MaxValue="10" Value="10" MaxHeight="8" Margin="0 5" />
+                    <Button Name="TraitsShowUnusableButton"
+                            Text="{Loc 'humanoid-profile-editor-traits-show-unusable-button'}"
+                            ToolTip="{Loc 'humanoid-profile-editor-traits-show-unusable-button-tooltip'}"
+                            ToggleMode="True"
+                            HorizontalAlignment="Stretch"
+                            Margin="0 0 0 5" />
                     <ScrollContainer VerticalExpand="True">
                         <BoxContainer Name="TraitsList" Orientation="Vertical" />
                     </ScrollContainer>

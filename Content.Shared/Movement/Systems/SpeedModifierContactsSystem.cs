@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 using Content.Shared.Movement.Components;
+using Content.Shared.Traits.Assorted.Components;
 using Content.Shared.Movement.Events;
 using Content.Shared.Gravity;
 using Content.Shared.Slippery;
@@ -138,6 +139,12 @@ public sealed class SpeedModifierContactsSystem : EntitySystem
         {
             walkSpeed /= entries;
             sprintSpeed /= entries;
+
+            if (TryComp<SpeedModifiedByContactModifierComponent>(uid, out var contactMod))
+            {
+                walkSpeed = 1f + (walkSpeed - 1f) * contactMod.WalkModifierEffectiveness;
+                sprintSpeed = 1f + (sprintSpeed - 1f) * contactMod.SprintModifierEffectiveness;
+            }
 
             var evMax = new GetSpeedModifierContactCapEvent();
             RaiseLocalEvent(uid, ref evMax);

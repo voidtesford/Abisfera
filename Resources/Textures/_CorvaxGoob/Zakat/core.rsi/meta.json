@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Made for Abisfera-SS14 (sentient disease «Закат»), generated pixel art (p3.1, biomass after the Prototype games)",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "core",
+      "delays": [
+        [
+          0.35,
+          0.2,
+          0.35,
+          0.25
+        ]
+      ]
+    }
+  ]
+}

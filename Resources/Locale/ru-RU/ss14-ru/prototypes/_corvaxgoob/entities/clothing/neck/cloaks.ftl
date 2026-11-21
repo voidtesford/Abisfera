@@ -15,3 +15,6 @@ ent-ClothingNeckCloakHosExperimental = экспериментальный пла
 ent-ClothingNeckSlayerCoatUnremoveable = { ent-ClothingNeckSlayerCoat }
     .suffix = Неснимаемый
     .desc = { ent-ClothingNeckSlayerCoat.desc }
+
+ent-ClothingNeckCloakForgottenVariables = плащ забытых перемен
+    .desc = { "" }

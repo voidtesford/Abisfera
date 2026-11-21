@@ -31,7 +31,6 @@
         stomach: OrganVulpkaninStomach
         liver: OrganVulpkaninLiver # CorvaxGoob resprite
         kidneys: OrganVulpkaninKidneys # CorvaxGoob resprite
-        butt: Butt # Goob
     right arm:
       part: RightArmVulpkanin
       connections:

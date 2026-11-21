@@ -17,4 +17,11 @@ public enum NodeGroupID : byte
     /// <seealso cref="Content.Server.Power.Generation.Teg.TegNodeGroup"/>
     Teg,
     ExCable,
+
+    // CorvaxGoob-Kamerton-start
+    /// <summary>
+    /// Kamerton reactor parts, linked like the AME shielding.
+    /// </summary>
+    KamertonReactor,
+    // CorvaxGoob-Kamerton-end
 }

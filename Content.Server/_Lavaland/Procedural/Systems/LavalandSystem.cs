@@ -77,6 +77,7 @@ public sealed partial class LavalandSystem : EntitySystem
 
     private void OnRoundRestart(RoundRestartCleanupEvent ev)
     {
+        ResetRuinGroupCounts(); // Corvax-Goob
         var ent = GetPreloaderEntity();
         if (ent == null)
             return;

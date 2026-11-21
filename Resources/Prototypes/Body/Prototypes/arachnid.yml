@@ -34,7 +34,6 @@
         stomach: OrganArachnidStomach
         liver: OrganArachnidLiver
         kidneys: OrganArachnidKidneys
-        butt: Butt # Goob
     right arm:
       part: RightArmArachnid
       connections:

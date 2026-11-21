@@ -5,7 +5,7 @@ meta:
   forkId: ""
   forkVersion: ""
   time: 06/23/2025 11:14:27
-  entityCount: 3504
+  entityCount: 3491
 maps: []
 grids:
 - 2
@@ -20257,31 +20257,6 @@ entities:
     - type: Transform
       pos: 31.5,-1.5
       parent: 2
-  - uid: 33
-    components:
-    - type: Transform
-      pos: 31.5,-1.5
-      parent: 2
-  - uid: 35
-    components:
-    - type: Transform
-      pos: 31.5,-1.5
-      parent: 2
-  - uid: 38
-    components:
-    - type: Transform
-      pos: 31.5,-5.5
-      parent: 2
-  - uid: 39
-    components:
-    - type: Transform
-      pos: 31.5,-5.5
-      parent: 2
-  - uid: 40
-    components:
-    - type: Transform
-      pos: 31.5,-5.5
-      parent: 2
   - uid: 126
     components:
     - type: Transform
@@ -20291,46 +20266,6 @@ entities:
     components:
     - type: Transform
       pos: 10.5,10.5
-      parent: 2
-  - uid: 1823
-    components:
-    - type: Transform
-      pos: 20.5,-1.5
-      parent: 2
-  - uid: 1845
-    components:
-    - type: Transform
-      pos: 20.5,-1.5
-      parent: 2
-  - uid: 1850
-    components:
-    - type: Transform
-      pos: 20.5,-1.5
-      parent: 2
-  - uid: 1855
-    components:
-    - type: Transform
-      pos: 20.5,-1.5
-      parent: 2
-  - uid: 1865
-    components:
-    - type: Transform
-      pos: 20.5,-1.5
-      parent: 2
-  - uid: 1951
-    components:
-    - type: Transform
-      pos: 20.5,-1.5
-      parent: 2
-  - uid: 1952
-    components:
-    - type: Transform
-      pos: 20.5,-1.5
-      parent: 2
-  - uid: 2242
-    components:
-    - type: Transform
-      pos: 31.5,-1.5
       parent: 2
   - uid: 2272
     components:

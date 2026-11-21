@@ -32,6 +32,24 @@ public abstract partial class SharedGunSystem
 
     private const float SpreadWithoutSkill = MathHelper.PiOver6; // CorvaxGoob-Skills
 
+    /// <summary>Abisfera - the untrained spread never shrinks below this share of <see cref="SpreadWithoutSkill"/>.</summary>
+    public const float MinUnskilledSpreadFactor = 0.25f;
+
+    /// <summary>
+    /// Abisfera - how much of the untrained-shooter spread applies right now: the gun's current maximum spread over its
+    /// base one (a wielded rifle: 2 / 32), clamped to [<see cref="MinUnskilledSpreadFactor"/>, 1].
+    /// Before this the flat ±15° made wielding pointless for anyone without the shooting skill.
+    /// </summary>
+    public static float GetUnskilledSpreadFactor(GunComponent gun)
+    {
+        var baseMax = Math.Abs(gun.MaxAngle.Theta);
+        if (baseMax < 1e-6)
+            return 1f;
+
+        var ratio = (float) (Math.Abs(gun.MaxAngleModified.Theta) / baseMax);
+        return Math.Clamp(ratio, MinUnskilledSpreadFactor, 1f);
+    }
+
     /// <summary>
     /// Get a predicted random instance for an entity, specific to this tick.
     /// </summary>
@@ -91,7 +109,9 @@ public abstract partial class SharedGunSystem
         // CorvaxGoob-Skills-Start
         if (gun.Comp.RequiresSkill && user is not null && !_skills.HasSkill(user!.Value, Skills.Shooting) && !HasComp<NoWieldNeededComponent>(user!.Value))
         {
-            var spread = -SpreadWithoutSkill / 2 + GetRandom(user!.Value, gun).NextFloat() * SpreadWithoutSkill;
+            // Abisfera - the untrained wobble shrinks with the gun's own spread, so a two-handed grip still helps.
+            var unskilled = SpreadWithoutSkill * GetUnskilledSpreadFactor(gun.Comp);
+            var spread = -unskilled / 2 + GetRandom(user!.Value, gun).NextFloat() * unskilled;
 
             mapAngle += spread;
             angle += spread;

@@ -1,0 +1,68 @@
+- type: entity
+  parent: WeaponRifleAk
+  id: WeaponRifleAkk
+  name: AKK
+  description: A tactical automatic rifle for special operations. Feeds from 7.62x39 magazines.
+  components:
+  - type: Sprite
+    sprite: _CorvaxGoob/Objects/Weapons/Guns/Rifles/akk.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-0
+      map: ["enum.GunVisualLayers.Mag"]
+  - type: Clothing
+    sprite: _CorvaxGoob/Objects/Weapons/Guns/Rifles/akk.rsi
+    quickEquip: false
+    slots:
+    - Back
+    - suitStorage
+  - type: Gun
+    fireRate: 5
+    selectedMode: FullAuto
+    availableModes:
+    - FullAuto
+    - SemiAuto
+    # Half the AKM spread in both stances: 10.5-16 deg from the hip, 0.5-1 deg wielded (GunWieldBonus below). The old
+    # 0.5-1 base with the inherited -20/-30 wield bonus went negative when wielded (wide spread, recoil debug assert).
+    minAngle: 10.5
+    maxAngle: 16
+    angleIncrease: 0.25
+    angleDecay: 4
+    projectileSpeed: 70
+    soundGunshot:
+      path: /Audio/Weapons/Guns/Gunshots/rifle2.ogg
+    requiresSkill: true
+  - type: GunWieldBonus
+    minAngle: -10
+    maxAngle: -15
+  - type: ChamberMagazineAmmoProvider
+    boltClosed: null
+    soundRack:
+      path: /Audio/Weapons/Guns/Cock/ltrifle_cock.ogg
+  - type: ItemSlots
+    slots:
+      gun_magazine:
+        startingItem: MagazineAkk762
+        insertSound: /Audio/Weapons/Guns/MagIn/ltrifle_magin.ogg
+        ejectSound: /Audio/Weapons/Guns/MagOut/ltrifle_magout.ogg
+        priority: 2
+        whitelist:
+          tags:
+          - MagazineAkk762
+        whitelistFailPopup: gun-magazine-whitelist-fail
+      gun_chamber:
+        startingItem: CartridgeAkk762
+        priority: 1
+        whitelist:
+          tags:
+          - CartridgeAkk762
+  - type: ContainerContainer
+    containers:
+      gun_magazine: !type:ContainerSlot
+      gun_chamber: !type:ContainerSlot
+  - type: MagazineVisuals
+    magState: mag
+    steps: 1
+    zeroVisible: true
+  - type: Appearance

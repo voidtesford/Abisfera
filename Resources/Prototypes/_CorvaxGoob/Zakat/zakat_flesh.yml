@@ -1,0 +1,1024 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# «Закат» prototype 3: «рождение», the core of flesh, captured tiles, buildings, creatures, «преторианец».
+
+- type: npcFaction
+  id: ZakatFlesh
+  hostile:
+  - NanoTrasen
+  - Syndicate
+  - Passive
+  - PetsNT
+  - Zombie
+  - Revolutionary
+  - Dragon
+  - Xeno
+  - AllHostile
+  - Xenoborg
+  - Heretic
+  - Blob
+  - PirateFaction
+  - SimpleHostile
+  - SimpleNeutral
+  - Gilbert
+  - ShogkkOperative
+  - ShogkkZombified
+
+# ---------- the disease's actions after Рост 3 ----------
+
+- type: entity
+  parent: BaseMentalAction
+  id: ActionZakatBirth
+  name: Birth
+  description: lets you come into the world
+  components:
+  - type: Action
+    itemIconStyle: BigAction
+    icon:
+      sprite: _CorvaxGoob/Zakat/actions.rsi
+      state: p3_birth
+  - type: TargetAction
+    checkCanAccess: false
+    range: 0
+    interactOnMiss: false
+  - type: EntityTargetAction
+    canTargetSelf: false
+    whitelist:
+      components:
+      - MobState # hosts are checked on the server; the client doesn't know who is infected
+    event: !type:ZakatBirthActionEvent
+
+- type: entity
+  parent: BaseMentalAction
+  id: BaseActionZakatBuild
+  abstract: true
+  components:
+  - type: Action
+    itemIconStyle: BigAction
+    useDelay: 1
+  - type: TargetAction
+    checkCanAccess: false
+    range: 0
+    interactOnMiss: false
+  - type: WorldTargetAction
+    event: !type:ZakatBuildActionEvent
+
+- type: entity
+  parent: BaseActionZakatBuild
+  id: ActionZakatBuildSpewer
+  name: Mass spewer
+  description: mines mass
+  components:
+  - type: Action
+    icon:
+      sprite: _CorvaxGoob/Zakat/actions.rsi
+      state: p3_spewer
+  - type: WorldTargetAction
+    event: !type:ZakatBuildActionEvent
+      structure: Spewer
+
+- type: entity
+  parent: BaseActionZakatBuild
+  id: ActionZakatBuildWall
+  name: Biomass wall
+  components:
+  - type: Action
+    icon:
+      sprite: _CorvaxGoob/Zakat/actions.rsi
+      state: p4_wall
+  - type: WorldTargetAction
+    event: !type:ZakatBuildActionEvent
+      structure: Wall
+
+- type: entity
+  parent: BaseActionZakatBuild
+  id: ActionZakatBuildDoor
+  name: Biomass door
+  components:
+  - type: Action
+    icon:
+      sprite: _CorvaxGoob/Zakat/actions.rsi
+      state: p4_door
+  - type: WorldTargetAction
+    event: !type:ZakatBuildActionEvent
+      structure: Door
+
+- type: entity
+  parent: BaseActionZakatBuild
+  id: ActionZakatBuildCocoonSmall
+  name: Cocoon of small creatures
+  components:
+  - type: Action
+    icon:
+      sprite: _CorvaxGoob/Zakat/actions.rsi
+      state: p3_cocoon_small
+  - type: WorldTargetAction
+    event: !type:ZakatBuildActionEvent
+      structure: SmallCocoon
+
+- type: entity
+  parent: BaseActionZakatBuild
+  id: ActionZakatBuildCocoonHunter
+  name: Hunter cocoon
+  components:
+  - type: Action
+    icon:
+      sprite: _CorvaxGoob/Zakat/actions.rsi
+      state: p3_cocoon_hunter
+  - type: WorldTargetAction
+    event: !type:ZakatBuildActionEvent
+      structure: HunterCocoon
+
+- type: entity
+  parent: BaseActionZakatBuild
+  id: ActionZakatBuildCocoonLarge
+  name: Cocoon of large creatures
+  components:
+  - type: Action
+    icon:
+      sprite: _CorvaxGoob/Zakat/actions.rsi
+      state: p3_cocoon_large
+  - type: WorldTargetAction
+    event: !type:ZakatBuildActionEvent
+      structure: LargeCocoon
+
+- type: entity
+  parent: BaseMentalAction
+  id: ActionZakatLiberate
+  name: Release from shackles
+  components:
+  - type: Action
+    useDelay: 20
+    itemIconStyle: BigAction
+    icon:
+      sprite: _CorvaxGoob/Zakat/actions.rsi
+      state: p3_liberate
+  - type: TargetAction
+    checkCanAccess: false
+    range: 0
+    interactOnMiss: false
+  - type: EntityTargetAction
+    canTargetSelf: false
+    whitelist:
+      components:
+      - MobState # hosts are checked on the server; the client doesn't know who is infected
+    event: !type:ZakatLiberateActionEvent
+
+- type: entity
+  parent: BaseMentalAction
+  id: ActionZakatPraetorian
+  name: Create a praetorian
+  components:
+  - type: Action
+    useDelay: 2
+    itemIconStyle: BigAction
+    icon:
+      sprite: _CorvaxGoob/Zakat/actions.rsi
+      state: p3_praetorian
+  - type: TargetAction
+    checkCanAccess: false
+    range: 0
+    interactOnMiss: false
+  - type: EntityTargetAction
+    canTargetSelf: false
+    whitelist:
+      components:
+      - HumanoidAppearance
+    event: !type:ZakatPraetorianActionEvent
+
+- type: entity
+  parent: BaseMentalAction
+  id: ActionZakatToCore
+  name: To the core
+  components:
+  - type: Action
+    itemIconStyle: BigAction
+    icon:
+      sprite: _CorvaxGoob/Zakat/actions.rsi
+      state: p3_to_core
+  - type: InstantAction
+    event: !type:ZakatToCoreActionEvent
+
+# ---------- praetorian / hunter actions ----------
+
+- type: entity
+  parent: BaseAction
+  id: ActionZakatAbsorb
+  name: Absorb
+  components:
+  - type: Action
+    useDelay: 5
+    itemIconStyle: BigAction
+    icon:
+      sprite: _CorvaxGoob/Zakat/actions.rsi
+      state: p3_absorb
+  - type: TargetAction
+    range: 1.5
+  - type: EntityTargetAction
+    canTargetSelf: false
+    whitelist:
+      components:
+      - HumanoidAppearance
+    event: !type:ZakatAbsorbActionEvent
+
+- type: entity
+  parent: BaseAction
+  id: ActionZakatShift
+  name: Change appearance
+  components:
+  - type: Action
+    useDelay: 3
+    itemIconStyle: BigAction
+    icon:
+      sprite: _CorvaxGoob/Zakat/actions.rsi
+      state: p3_shift
+  - type: InstantAction
+    event: !type:ZakatShiftActionEvent
+
+- type: entity
+  parent: BaseAction
+  id: ActionZakatTransform
+  name: Transform
+  components:
+  - type: Action
+    useDelay: 5
+    itemIconStyle: BigAction
+    icon:
+      sprite: _CorvaxGoob/Zakat/actions.rsi
+      state: upd1_transform
+  - type: InstantAction
+    event: !type:ZakatTransformActionEvent
+
+- type: entity
+  parent: BaseAction
+  id: ActionZakatSlaveClaws
+  name: Claws
+  components:
+  - type: Action
+    useDelay: 1
+    itemIconStyle: BigAction
+    icon:
+      sprite: _CorvaxGoob/Zakat/actions.rsi
+      state: p3_claws
+  - type: InstantAction
+    event: !type:ZakatSlaveClawsActionEvent
+
+# upd1: the hive slave's bone claws, grown out of the hand
+- type: entity
+  parent: BaseItem
+  id: ZakatSlaveClaws
+  name: bone claws
+  description: Long bone claws grown right out of the hand.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: _CorvaxGoob/Zakat/slave_claws.rsi
+    state: icon
+  - type: Item
+    size: Huge
+    sprite: _CorvaxGoob/Zakat/slave_claws.rsi
+  - type: Unremoveable
+  - type: Sharp
+  - type: MeleeWeapon
+    attackRate: 1.25
+    animation: WeaponArcClaw
+    wideAnimationRotation: 90
+    soundHit:
+      collection: AlienClaw
+    damage:
+      types:
+        Slash: 15
+
+- type: entity
+  parent: BaseAction
+  id: ActionZakatClaws
+  name: Claws
+  components:
+  - type: Action
+    useDelay: 1
+    itemIconStyle: BigAction
+    icon:
+      sprite: _CorvaxGoob/Zakat/actions.rsi
+      state: p3_claws
+  - type: InstantAction
+    event: !type:ZakatClawsActionEvent
+
+- type: entity
+  parent: BaseAction
+  id: ActionZakatHunterDevour
+  name: Devour
+  components:
+  - type: Action
+    useDelay: 10
+    itemIconStyle: BigAction
+    icon:
+      sprite: _CorvaxGoob/Zakat/actions.rsi
+      state: p3_hunter_devour
+  - type: TargetAction
+    range: 1.5
+  - type: EntityTargetAction
+    canTargetSelf: false
+    whitelist:
+      components:
+      - MobState
+    event: !type:ZakatHunterDevourActionEvent
+
+# ---------- the core and the flesh ----------
+
+- type: entity
+  id: BaseZakatFleshStructure
+  abstract: true
+  placement:
+    mode: SnapgridCenter
+  components:
+  - type: Transform
+    anchored: true
+  - type: Clickable
+  - type: InteractionOutline
+  - type: Physics
+    bodyType: Static
+  - type: Damageable
+    damageContainer: Biological
+  - type: Appearance
+  - type: Tag
+    tags:
+    - Flesh
+  - type: SpecialPressureImmunity
+  - type: SpecialLowTempImmunity
+
+- type: entity
+  parent: BaseZakatFleshStructure
+  id: ZakatCore
+  name: core of Zakat
+  description: A trembling pile of living mass. It looks back.
+  components:
+  - type: Sprite
+    sprite: _CorvaxGoob/Zakat/core.rsi
+    drawdepth: Mobs
+    layers:
+    - state: core
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.4,-0.4,0.4,0.4"
+        density: 1000
+        mask:
+        - MachineMask
+        layer:
+        - MachineLayer
+  - type: PointLight
+    radius: 2.5
+    energy: 1.2
+    color: "#d01426"
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 300
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: gib
+      - !type:SpillBehavior
+        solution: blood
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+  - type: SolutionContainerManager
+    solutions:
+      blood:
+        maxVol: 100
+        reagents:
+        - ReagentId: Blood
+          Quantity: 100
+  - type: ZakatCore
+
+- type: entity
+  id: ZakatFleshFloor
+  name: flesh
+  description: Tentacles of living meat cover the floor. They grab at your feet.
+  placement:
+    mode: SnapgridCenter
+  components:
+  - type: Transform
+    anchored: true
+  - type: Clickable
+  - type: Sprite
+    sprite: _CorvaxGoob/Zakat/flesh.rsi
+    drawdepth: FloorObjects
+  - type: Icon
+    sprite: _CorvaxGoob/Zakat/flesh.rsi
+    state: floor
+  - type: IconSmooth
+    key: zakatFlesh
+    base: f0a # the variant digit is picked per tile on the client
+  - type: Appearance
+  - type: Physics
+    bodyType: Static
+  - type: Fixtures
+    fixtures:
+      slowFixture:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.45,-0.45,0.45,0.45"
+        mask:
+        - ItemMask
+        layer:
+        - SlipLayer
+        hard: false
+  - type: SpeedModifierContacts
+    walkSpeedModifier: 0.7
+    sprintSpeedModifier: 0.7
+    ignoreWhitelist:
+      components:
+      - ZakatFleshFriend # infected and the hive's creatures; networked so movement prediction agrees
+      - Zakat
+  - type: Damageable
+    damageContainer: Biological
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 30
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+  - type: Tag
+    tags:
+    - Flesh
+  - type: ZakatFleshTile
+
+- type: entity
+  parent: ZakatFleshFloor
+  id: ZakatFleshWall
+  name: flesh growths
+  description: Meat has grown over the wall.
+  components:
+  - type: Sprite
+    sprite: _CorvaxGoob/Zakat/flesh.rsi
+    drawdepth: WallMountedItems
+  - type: Icon
+    sprite: _CorvaxGoob/Zakat/flesh.rsi
+    state: wall
+  - type: IconSmooth
+    key: zakatFleshWall
+    base: w0a
+  - type: Fixtures
+    fixtures: {}
+  - type: SpeedModifierContacts
+    walkSpeedModifier: 1
+    sprintSpeedModifier: 1
+  - type: ZakatFleshTile
+    wall: true
+
+- type: entity
+  parent: ZakatFleshWall
+  id: ZakatFleshWindow
+  name: flesh growths
+  description: Meat has grown over the window.
+  components:
+  - type: Icon
+    sprite: _CorvaxGoob/Zakat/flesh.rsi
+    state: window
+  - type: IconSmooth
+    key: zakatFleshWall
+    base: g0a
+
+- type: entity
+  id: ZakatFleshController
+  name: flesh
+  categories: [ HideSpawnMenu ]
+  save: false
+  components:
+  - type: Sprite
+    sprite: _CorvaxGoob/Zakat/controller.rsi
+    state: icon
+  - type: Item
+    sprite: _CorvaxGoob/Zakat/controller.rsi
+    size: Ginormous
+  - type: Unremoveable
+    deleteOnDrop: true
+  - type: ZakatFleshController
+
+# ---------- buildings ----------
+
+- type: entity
+  parent: BaseZakatFleshStructure
+  id: ZakatBiomassWall
+  name: biomass wall
+  description: A wall of packed living meat. It breathes.
+  components:
+  - type: Sprite
+    sprite: _CorvaxGoob/Zakat/biomass_wall.rsi
+    drawdepth: Walls
+  - type: Icon
+    sprite: _CorvaxGoob/Zakat/biomass_wall.rsi
+    state: full
+  - type: IconSmooth # like the meat wall: joins the station's walls
+    key: walls
+    base: bwall
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.5,-0.5,0.5,0.5"
+        density: 1000
+        mask:
+        - FullTileMask
+        layer:
+        - WallLayer
+  - type: Airtight
+  - type: Occluder
+  - type: BlockWeather
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 200
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: gib
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+  - type: ZakatStructure
+    kind: Wall
+
+- type: entity
+  parent: BaseZakatFleshStructure
+  id: ZakatBiomassDoor
+  name: biomass door
+  description: A sphincter of living meat. It parts only for its own.
+  components:
+  - type: Sprite
+    sprite: _CorvaxGoob/Zakat/biomass_door.rsi
+    drawdepth: Doors
+    layers:
+    - state: closed
+      map: ["enum.DoorVisualLayers.Base"]
+  - type: Icon
+    sprite: _CorvaxGoob/Zakat/biomass_door.rsi
+    state: closed
+  - type: IconSmooth # the walls next to it connect to the door, like the resin door
+    key: walls
+    mode: NoSprite
+  - type: AnimationPlayer
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.49,-0.49,0.49,0.49"
+        density: 100
+        mask:
+        - FullTileMask
+        layer:
+        - AirlockLayer
+  - type: Airtight
+  - type: Occluder
+  - type: BlockWeather
+  - type: Door
+    bumpOpen: true
+    clickOpen: true
+    canCrush: false
+    canPry: false
+    closeTimeOne: 0.2
+    closeTimeTwo: 0.4
+    openTimeOne: 0.4
+    openTimeTwo: 0.2
+    openingAnimationTime: 0.7 # the resin door's 7 frames
+    closingAnimationTime: 0.7
+    openSound:
+      path: /Audio/Effects/Fluids/splat.ogg
+    closeSound:
+      path: /Audio/Effects/Fluids/splat.ogg
+  - type: Damageable
+    damageContainer: Biological
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 150
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: gib
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+  - type: ZakatFleshDoor
+  - type: ZakatStructure
+    kind: Door
+
+
+- type: entity
+  parent: BaseZakatFleshStructure
+  id: BaseZakatBuilding
+  abstract: true
+  components:
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.35,-0.35,0.35,0.35"
+        density: 500
+        mask:
+        - MachineMask
+        layer:
+        - MachineLayer
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 100
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: gib
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+
+- type: entity
+  parent: BaseZakatBuilding
+  id: ZakatSpewer
+  name: mass spewer
+  description: A gaping fleshy chimney. It coughs up lumps of meat.
+  components:
+  - type: Sprite
+    sprite: _CorvaxGoob/Zakat/structures.rsi
+    drawdepth: Mobs
+    layers:
+    - state: spewer
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 80
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: gib
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+  - type: ZakatStructure
+    kind: Spewer
+    income: 5
+    interval: 30
+
+- type: entity
+  parent: BaseZakatBuilding
+  id: ZakatCocoonSmall
+  name: cocoon of small creatures
+  description: A cluster of pulsing sacs. Something small squirms inside.
+  components:
+  - type: Sprite
+    sprite: _CorvaxGoob/Zakat/structures.rsi
+    drawdepth: Mobs
+    layers:
+    - state: cocoon_small
+  - type: ZakatStructure
+    kind: SmallCocoon
+    interval: 30
+    maxAlive: 4
+    spawns:
+    - MobZakatBioshmat
+
+- type: entity
+  parent: BaseZakatBuilding
+  id: ZakatCocoonHunter
+  name: hunter cocoon
+  description: A tall spiked sac. A dark shape inside is waiting.
+  components:
+  - type: Sprite
+    sprite: _CorvaxGoob/Zakat/structures.rsi
+    drawdepth: Mobs
+    layers:
+    - state: cocoon_hunter
+  - type: ZakatStructure
+    kind: HunterCocoon
+    interval: 15
+    hatch: true
+    spawns:
+    - MobZakatHunter
+
+- type: entity
+  parent: BaseZakatBuilding
+  id: ZakatCocoonLarge
+  name: cocoon of large creatures
+  description: A squat sac. Something with arms and legs is folded inside.
+  components:
+  - type: Sprite
+    sprite: _CorvaxGoob/Zakat/structures.rsi
+    drawdepth: Mobs
+    layers:
+    - state: cocoon_large
+  - type: ZakatStructure
+    kind: LargeCocoon
+    interval: 15
+    hatch: true
+    spawns:
+    - MobZakatFleshWalker
+    - MobZakatFleshBrute
+    - MobZakatFleshStalker
+
+# ---------- creatures ----------
+
+- type: entity
+  parent: BaseMobFlesh
+  id: MobZakatHunter
+  name: hunter
+  description: A hunched beast of meat and bone. It is always hungry.
+  components:
+  - type: NpcFactionMember
+    factions:
+    - ZakatFlesh
+  - type: Sprite
+    drawdepth: Mobs
+    sprite: _CorvaxGoob/Zakat/hunter.rsi
+    layers:
+    - map: [ "enum.DamageStateVisualLayers.Base" ]
+      state: alive
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: alive
+      Dead:
+        Base: dead
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      150: Dead
+  - type: MovementSpeedModifier
+    baseWalkSpeed: 3
+    baseSprintSpeed: 5
+  - type: MeleeWeapon
+    soundHit:
+      path: /Audio/Weapons/Xeno/alien_claw_flesh3.ogg
+    angle: 0
+    attackRate: 1
+    animation: WeaponArcClaw
+    damage:
+      types:
+        Slash: 20
+  - type: GhostRole
+    name: ghost-role-information-zakat-hunter-name
+    description: ghost-role-information-zakat-hunter-description
+    rules: ghost-role-information-zakat-rules
+    raffle:
+      settings: short
+  - type: GhostTakeoverAvailable
+  - type: Actions
+  - type: ZakatHunter
+  - type: ZakatFleshFriend
+  - type: SpecialBreathingImmunity
+  - type: SpecialPressureImmunity
+  - type: SpecialLowTempImmunity
+
+- type: entity
+  parent: BaseMobFlesh
+  id: BaseMobZakatFleshHumanoid
+  abstract: true
+  components:
+  - type: ZakatFleshFriend
+  - type: SpecialBreathingImmunity
+  - type: SpecialPressureImmunity
+  - type: SpecialLowTempImmunity
+  - type: NpcFactionMember
+    factions:
+    - ZakatFlesh
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      100: Dead
+  - type: GhostRole
+    name: ghost-role-information-zakat-flesh-humanoid-name
+    description: ghost-role-information-zakat-flesh-humanoid-description
+    rules: ghost-role-information-zakat-rules
+    raffle:
+      settings: short
+  - type: GhostTakeoverAvailable
+  - type: Actions
+
+- type: entity
+  parent: BaseMobZakatFleshHumanoid
+  id: MobZakatFleshWalker
+  name: flesh walker
+  description: Skinned meat in the shape of a man.
+  components:
+  - type: Sprite
+    drawdepth: Mobs
+    sprite: _CorvaxGoob/Zakat/humanoids.rsi
+    layers:
+    - map: [ "enum.DamageStateVisualLayers.Base" ]
+      state: walker
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: walker
+      Dead:
+        Base: walker_dead
+  - type: MovementSpeedModifier
+    baseWalkSpeed: 2.5
+    baseSprintSpeed: 4
+  - type: MeleeWeapon
+    soundHit:
+      path: /Audio/Weapons/Xeno/alien_claw_flesh3.ogg
+    angle: 0
+    animation: WeaponArcClaw
+    damage:
+      types:
+        Slash: 10
+
+- type: entity
+  parent: BaseMobZakatFleshHumanoid
+  id: MobZakatFleshBrute
+  name: flesh brute
+  description: A swollen mountain of meat with bone knuckles.
+  components:
+  - type: Sprite
+    drawdepth: Mobs
+    sprite: _CorvaxGoob/Zakat/humanoids.rsi
+    layers:
+    - map: [ "enum.DamageStateVisualLayers.Base" ]
+      state: brute
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: brute
+      Dead:
+        Base: brute_dead
+  - type: MovementSpeedModifier
+    baseWalkSpeed: 2
+    baseSprintSpeed: 3.5
+  - type: MeleeWeapon
+    soundHit:
+      collection: Punch
+    angle: 0
+    attackRate: 0.7
+    animation: WeaponArcFist
+    damage:
+      types:
+        Blunt: 15
+
+- type: entity
+  parent: BaseMobZakatFleshHumanoid
+  id: MobZakatFleshStalker
+  name: flesh stalker
+  description: A thin long-armed figure of meat. It moves too fast.
+  components:
+  - type: Sprite
+    drawdepth: Mobs
+    sprite: _CorvaxGoob/Zakat/humanoids.rsi
+    layers:
+    - map: [ "enum.DamageStateVisualLayers.Base" ]
+      state: stalker
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: stalker
+      Dead:
+        Base: stalker_dead
+  - type: MovementSpeedModifier
+    baseWalkSpeed: 3
+    baseSprintSpeed: 5
+  - type: MeleeWeapon
+    soundHit:
+      path: /Audio/Weapons/Xeno/alien_claw_flesh3.ogg
+    angle: 0
+    animation: WeaponArcClaw
+    damage:
+      types:
+        Slash: 8
+
+# Cosmetic tentacles wrapping a body the praetorian swallows.
+- type: entity
+  id: ZakatAbsorbTentacles
+  name: tentacles
+  categories: [ HideSpawnMenu ]
+  save: false
+  components:
+  - type: Sprite
+    sprite: _CorvaxGoob/Zakat/praetorian.rsi
+    drawdepth: Effects
+    layers:
+    - state: absorb
+  - type: TimedDespawn
+    lifetime: 6
+  - type: Tag
+    tags:
+    - HideContextMenu
+
+# upd1: tentacles tearing out of the praetorian's body
+- type: entity
+  parent: ZakatAbsorbTentacles
+  id: ZakatAbsorbBurst
+  categories: [ HideSpawnMenu ]
+  save: false
+  components:
+  - type: Sprite
+    sprite: _CorvaxGoob/Zakat/praetorian_absorb.rsi
+    drawdepth: Effects
+    layers:
+    - state: burst
+
+# upd1: tentacles stretched to the body (the sprite points east, the entity is turned to the body)
+- type: entity
+  parent: ZakatAbsorbTentacles
+  id: ZakatAbsorbReach
+  categories: [ HideSpawnMenu ]
+  save: false
+  components:
+  - type: Sprite
+    sprite: _CorvaxGoob/Zakat/praetorian_reach.rsi
+    drawdepth: Effects
+    noRot: false
+    snapCardinals: false
+    layers:
+    - state: reach_mid
+
+- type: entity
+  parent: ZakatAbsorbReach
+  id: ZakatAbsorbReachShort
+  categories: [ HideSpawnMenu ]
+  save: false
+  components:
+  - type: Sprite
+    sprite: _CorvaxGoob/Zakat/praetorian_reach.rsi
+    drawdepth: Effects
+    noRot: false
+    snapCardinals: false
+    layers:
+    - state: reach_short
+
+- type: entity
+  parent: ZakatAbsorbReach
+  id: ZakatAbsorbReachLong
+  categories: [ HideSpawnMenu ]
+  save: false
+  components:
+  - type: Sprite
+    sprite: _CorvaxGoob/Zakat/praetorian_reach.rsi
+    drawdepth: Effects
+    noRot: false
+    snapCardinals: false
+    layers:
+    - state: reach_long
+
+# upd1: the body sinks into the praetorian
+- type: entity
+  parent: ZakatAbsorbTentacles
+  id: ZakatAbsorbEngulf
+  categories: [ HideSpawnMenu ]
+  save: false
+  components:
+  - type: Sprite
+    sprite: _CorvaxGoob/Zakat/praetorian_absorb.rsi
+    drawdepth: Effects
+    layers:
+    - state: engulf
+  - type: TimedDespawn
+    lifetime: 0.8
+
+# upd2: the hive slave tearing a corpse apart (lives on the corpse while the do-after runs)
+- type: entity
+  id: ZakatSlaveDevourGore
+  name: gore
+  categories: [ HideSpawnMenu ]
+  save: false
+  components:
+  - type: Sprite
+    sprite: _CorvaxGoob/Zakat/effects.rsi
+    drawdepth: Effects
+    layers:
+    - state: devour
+  - type: TimedDespawn
+    lifetime: 8
+  - type: Tag
+    tags:
+    - HideContextMenu
+
+# ---------- Рост 4: the vines ----------
+
+- type: entity
+  id: ZakatVine
+  name: flesh vines
+  description: Predatory vines of meat. They bite.
+  categories: [ HideSpawnMenu ]
+  placement:
+    mode: SnapgridCenter
+  components:
+  - type: Transform
+    anchored: true
+  - type: Sprite
+    sprite: _CorvaxGoob/Zakat/vines.rsi
+    drawdepth: HighFloorObjects
+  - type: Icon
+    sprite: _CorvaxGoob/Zakat/vines.rsi
+    state: vine
+  - type: IconSmooth
+    key: zakatVines
+    base: v0a # the cell of the texture is picked per tile on the client
+  - type: SpecialPressureImmunity
+  - type: SpecialLowTempImmunity
+  - type: ZakatVine

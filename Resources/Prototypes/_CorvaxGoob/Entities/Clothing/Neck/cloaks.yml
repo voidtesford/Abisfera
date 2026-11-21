@@ -71,3 +71,15 @@
   suffix: Unremoveable
   components:
   - type: Unremoveable
+# CorvaxGoob: Sanabi cloak variant with crimson peace + inverted-pentagram seal on the back.
+# Colour #C41E3A. Goat-head silhouette omitted (unreadable at 32²); inverted pentagram in peace circle is the seal.
+- type: entity
+  parent: ClothingNeckCloakSanabi
+  id: ClothingNeckCloakForgottenVariables
+  name: cloak of forgotten variables
+  description: ""
+  components:
+  - type: Sprite
+    sprite: _CorvaxGoob/Clothing/Neck/Cloaks/sanabi.rsi
+  - type: Clothing
+    sprite: _CorvaxGoob/Clothing/Neck/Cloaks/sanabi.rsi

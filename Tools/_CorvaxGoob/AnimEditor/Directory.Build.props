@@ -1,0 +1,3 @@
+<Project>
+  <!-- Standalone tool: do not inherit the game's build settings. -->
+</Project>

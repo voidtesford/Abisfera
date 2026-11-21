@@ -1,0 +1,821 @@
+# Base abilities
+
+- type: entity
+  parent: BaseAction
+  id: ActionVampireToggleFangs
+  name: Переключить клыки
+  description: Выдвигайте или убирайте клыки, чтобы пить кровь жертв.
+  components:
+    - type: Action
+      useDelay: 2 # Toggle
+      itemIconStyle: NoItem
+      priority: 1
+      icon:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: fangs_retracted
+      iconOn:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: fangs_extended
+    - type: InstantAction
+      event: !type:VampireToggleFangsActionEvent {}
+    - type: VampireAction
+      bloodToUnlock: 0
+      bloodCost: 0
+
+- type: entity
+  parent: BaseAction
+  id: ActionVampireGlare
+  name: Взгляд
+  description: Уставиться на ближайшие цели, парализуя и лишая их голоса.
+  components:
+    - type: Action
+      useDelay: 60
+      itemIconStyle: NoItem
+      priority: 2
+      icon:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: glare
+    - type: InstantAction
+      event: !type:VampireGlareActionEvent
+        dotTickCount: 10
+        dotTickInterval: 1
+    - type: VampireAction
+      bloodToUnlock: 0
+      bloodCost: 0
+
+- type: entity
+  parent: BaseAction
+  id: ActionVampireSleep
+  name: Сон (15)
+  description: Отправьте жертву в состояние временного сна.
+  components:
+    - type: Action
+      useDelay: 2
+      itemIconStyle: NoItem
+      priority: 25
+      icon:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: sleep_icon
+    - type: TargetAction
+      range: 2
+      checkCanAccess: false
+      interactOnMiss: false
+    - type: EntityTargetAction
+      canTargetSelf: false
+      whitelist:
+        components:
+          - HumanoidAppearance
+      event: !type:VampireSleepActionEvent
+    - type: VampireAction
+      bloodToUnlock: 0
+      bloodCost: 15
+
+- type: entity
+  parent: BaseAction
+  id: ActionVampireRejuvenateI
+  name: Омоложение
+  description: Снимает любые оглушения, восстанавливает выносливость.
+  components:
+    - type: Action
+      useDelay: 35
+      itemIconStyle: NoItem
+      priority: 3
+      checkCanInteract: false
+      checkConsciousness: false
+      icon:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: rejuvinate
+    - type: InstantAction
+      event: !type:VampireRejuvenateIActionEvent {}
+    - type: VampireAction
+      bloodToUnlock: 0
+      bloodCost: 0
+
+- type: entity
+  parent: BaseAction
+  id: ActionVampireRejuvenateII
+  name: Омоложение II
+  description: Снимает любые эффекты оглушения, восстанавливает выносливость. Устраняет действие ядов и обеспечивает постепенное исцеление.
+  components:
+    - type: Action
+      useDelay: 30
+      itemIconStyle: NoItem
+      priority: 4
+      checkCanInteract: false
+      checkConsciousness: false
+      icon:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: rejuvinate
+    - type: InstantAction
+      event: !type:VampireRejuvenateIIActionEvent
+        reagentPurgeAmount: 10
+        purgedMetabolismStages:
+        - Bloodstream
+        healTicks: 5
+        healTickInterval: 3.5
+        healGroups:
+          Brute: 4
+          Burn: 4
+        healTypes:
+          Poison: 4
+          Asphyxiation: 5
+    - type: VampireAction
+      bloodToUnlock: 200
+      bloodCost: 0
+
+- type: entity
+  parent: BaseAction
+  id: ActionClassSelectId
+  name: Выбрать класс вампира
+  description: Выберите свой подкласс вампира.
+  components:
+    - type: Action
+      useDelay: 2 # Toggle
+      itemIconStyle: NoItem
+      priority: 5
+      icon:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: select_class
+    - type: InstantAction
+      event: !type:VampireClassSelectActionEvent {}
+    - type: VampireAction
+      bloodToUnlock: 150
+      bloodCost: 0
+
+# Haemomancer abilities
+
+- type: entity
+  parent: BaseAction
+  id: ActionVampireHemomancerClaws
+  name: Вампирские когти (30)
+  description: Превратите руки в кровавые когти. Вытягивайте кровь каждым ударом. Когти исчезнут после нескольких успешных поглощений крови или активного использования.
+  components:
+    - type: Action
+      useDelay: 30
+      itemIconStyle: NoItem
+      priority: 10
+      icon:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: claws
+    - type: InstantAction
+      event: !type:VampireHemomancerClawsActionEvent {}
+    - type: VampireAction
+      bloodToUnlock: 150
+      bloodCost: 30
+      requiredClass: Hemomancer
+
+- type: entity
+  parent: BaseAction
+  id: ActionVampireSanguinePool
+  name: Кровавая лужа (30)
+  description: Растворись в луже крови — это позволит тебе проскользнуть под дверями и окнами.
+  components:
+    - type: Action
+      useDelay: 30
+      itemIconStyle: NoItem
+      priority: 13
+      icon:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: blood_pool
+    - type: InstantAction
+      event: !type:VampireSanguinePoolActionEvent {}
+    - type: VampireAction
+      bloodToUnlock: 400
+      bloodCost: 30
+      requiredClass: Hemomancer
+
+- type: entity
+  parent: BaseAction
+  id: ActionVampireHemomancerTendrils
+  name: Кровавые щупальца (25)
+  description: Из земли вырываются отростки, образуя квадрат; они отравляют жертв и замедляют их.
+  components:
+    - type: Action
+      useDelay: 30
+      itemIconStyle: NoItem
+      priority: 11
+      icon:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: blood_tendrils
+    - type: TargetAction
+      checkCanAccess: false
+      range: 7
+    - type: WorldTargetAction
+      event: !type:VampireHemomancerTendrilsActionEvent
+    - type: VampireAction
+      bloodToUnlock: 250
+      bloodCost: 25
+      requiredClass: Hemomancer
+
+- type: entity
+  parent: BaseAction
+  id: ActionVampireBloodBarrier
+  name: Кровавый барьер (40)
+  description: Создайте в указанном месте ряд кровавых барьеров. Проходить сквозь них можете только вы.
+  components:
+    - type: Action
+      useDelay: 60
+      itemIconStyle: NoItem
+      priority: 12
+      icon:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: blood_barrier
+    - type: TargetAction
+      checkCanAccess: false
+      range: 6
+    - type: WorldTargetAction
+      event: !type:VampireBloodBarrierActionEvent
+        barrierCount: 3
+    - type: VampireAction
+      bloodToUnlock: 250
+      bloodCost: 40
+      requiredClass: Hemomancer
+
+- type: entity
+  parent: BaseAction
+  id: ActionVampirePredatorSense
+  name: Чутьё хищника (20)
+  description: Выслеживай свою добычу — спрятаться негде...
+  components:
+    - type: Action
+      useDelay: 40
+      itemIconStyle: NoItem
+      priority: 14
+      icon:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: predator_sense
+    - type: InstantAction
+      event: !type:VampireLocateMindActionEvent {}
+    - type: VampireAction
+      bloodToUnlock: 600
+      bloodCost: 20
+      requiredClass: Hemomancer
+
+- type: entity
+  parent: BaseAction
+  id: ActionVampireBloodEruption
+  name: Кровавое извержение (100)
+  description: Вокруг вас возникают лужи крови, наносящие урон.
+  components:
+    - type: Action
+      useDelay: 90
+      itemIconStyle: NoItem
+      priority: 13
+      icon:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: blood_spikes
+    - type: InstantAction
+      event: !type:VampireBloodEruptionActionEvent
+        range: 10
+        damage: 50
+        targetRange: 2
+        puddleReagent: Blood
+    - type: VampireAction
+      bloodToUnlock: 800
+      bloodCost: 100
+      requiredClass: Hemomancer
+
+- type: entity
+  parent: BaseAction
+  id: ActionVampireBloodBringersRite
+  name: Ритуал несущих кровь (10/2с)
+  description: Активируйте разрушительную ауру, которая вытягивает жизненную силу из находящихся поблизости жертв, исцеляя вас.
+  components:
+    - type: Action
+      useDelay: 1 # Toggle
+      itemIconStyle: NoItem
+      priority: 14
+      icon:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: blood_rite
+    - type: InstantAction
+      event: !type:VampireBloodBringersRiteActionEvent
+        range: 4
+        damage: 5
+        healBrute: 8
+        healBurn: 2
+        healStamina: 15
+        toggleInterval: 2
+        cost: 10
+        maxTicks: 150
+        beamPrototype: VampireDrainBeamVisual
+    - type: VampireAction
+      bloodToUnlock: 1000
+      bloodCost: 0
+      requiredClass: Hemomancer
+      requiresFullPower: true
+
+# Umbrae abilities
+
+- type: entity
+  parent: BaseAction
+  id: ActionVampireCloakOfDarkness
+  name: Плащ тьмы
+  description: Включает режим скрытности, который наиболее эффективен в темноте и наименее — при ярком свете. Находящиеся поблизости противники могут вас обнаружить.
+  components:
+    - type: Action
+      useDelay: 2 # Toggle
+      itemIconStyle: NoItem
+      priority: 15
+      icon:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: cloak_of_darkness
+    - type: InstantAction
+      event: !type:VampireCloakOfDarknessActionEvent {}
+    - type: VampireAction
+      bloodToUnlock: 150
+      bloodCost: 0
+      requiredClass: Umbrae
+
+- type: entity
+  parent: BaseAction
+  id: ActionVampireShadowSnare
+  name: Теневой силок (20)
+  description: Установите теневую ловушку, наносящую урон и поджидающую своих жертв. Ловушка замедляет цели и испускает ослепляющую вспышку.
+  components:
+    - type: Action
+      useDelay: 25
+      itemIconStyle: NoItem
+      priority: 16
+      icon:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: shadow_snare
+    - type: TargetAction
+      checkCanAccess: false
+      range: 15
+    - type: WorldTargetAction
+      event: !type:VampireShadowSnareActionEvent {}
+    - type: VampireAction
+      bloodToUnlock: 200
+      bloodCost: 20
+      requiredClass: Umbrae
+
+- type: entity
+  parent: BaseAction
+  id: ActionVampireShadowAnchor
+  name: Теневой якорь (20)
+  description: Установите у своих ног теневой якорь. Активируйте его повторно, чтобы переместиться обратно к якорю, или же произойдет автоматический возврат.
+  components:
+    - type: Action
+      useDelay: 60 # 1min
+      itemIconStyle: NoItem
+      priority: 20
+      icon:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: shadow_anchor
+    - type: InstantAction
+      event: !type:VampireShadowAnchorActionEvent {}
+    - type: VampireAction
+      bloodToUnlock: 200
+      bloodCost: 20
+      requiredClass: Umbrae
+
+- type: entity
+  parent: BaseAction
+  id: ActionVampireShadowBoxing
+  name: Теневой бой (50)
+  description: Прикажите своим теневым летучим мышам атаковать. Если вы отойдёте слишком далеко, стая рассеется.
+  components:
+    - type: Action
+      useDelay: 30
+      itemIconStyle: NoItem
+      priority: 21
+      icon:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: shadow_boxing
+    - type: TargetAction
+      interactOnMiss: false
+      range: 2
+    - type: EntityTargetAction
+      canTargetSelf: false
+      whitelist:
+        components:
+          - MobState
+      event: !type:VampireShadowBoxingActionEvent
+        duration: 10
+        interval: 0.9
+        brutePerTick: 6
+        range: 4
+        punchEffectPrototype: WeaponArcPunch
+        hitSound: !type:SoundCollectionSpecifier
+          collection: Knuckles
+    - type: VampireAction
+      bloodToUnlock: 800
+      bloodCost: 50
+      requiredClass: Umbrae
+
+- type: entity
+  parent: BaseAction
+  id: ActionVampireDarkPassage
+  name: Тёмный проход (20)
+  description: Телепортируйтесь в указанное место, используя тени.
+  components:
+    - type: Action
+      useDelay: 40
+      itemIconStyle: NoItem
+      priority: 17
+      icon:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: dark_passage
+    - type: TargetAction
+      range: 15
+      repeat: false
+      checkCanAccess: false
+    - type: WorldTargetAction
+      event: !type:VampireDarkPassageActionEvent {}
+    - type: VampireAction
+      bloodToUnlock: 300
+      bloodCost: 20
+      requiredClass: Umbrae
+
+- type: entity
+  parent: BaseAction
+  id: ActionVampireExtinguish
+  name: Погасить свет
+  description: Разбейте расположенные поблизости включенные светильники.
+  components:
+    - type: Action
+      useDelay: 20
+      itemIconStyle: NoItem
+      priority: 18
+      icon:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: extinguish
+    - type: InstantAction
+      event: !type:VampireExtinguishActionEvent {}
+    - type: VampireAction
+      bloodToUnlock: 400
+      bloodCost: 0
+      requiredClass: Umbrae
+
+- type: entity
+  parent: BaseAction
+  id: ActionVampireEternalDarkness
+  name: Вечная тьма
+  description: Активируйте, чтобы окутать пространство вокруг себя тьмой; от вас исходит неестественный холод.
+  components:
+    - type: Action
+      useDelay: 2 # Toggle
+      itemIconStyle: NoItem
+      priority: 19
+      icon:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: eternal_darkness
+    - type: InstantAction
+      event: !type:VampireEternalDarknessActionEvent
+        maxTicks: 360
+        bloodPerTick: 5
+        freezeRadius: 6
+        targetFreezeTemp: 233.15
+        tempDropInterval: 2
+        tempDropPerInterval: 60
+    - type: VampireAction
+      bloodToUnlock: 1000
+      bloodCost: 0
+      requiredClass: Umbrae
+      requiresFullPower: true
+
+# Dantalion abilities
+
+- type: entity
+  parent: BaseAction
+  id: ActionVampireEnthrall
+  name: Поработить (150)
+  description: Направьте энергию, чтобы подчинить своей воле гуманоидную цель. Любое перемещение — с вашей стороны или со стороны цели — разорвет эту связь.
+  components:
+    - type: Action
+      useDelay: 1 # Jus no CD
+      itemIconStyle: NoItem
+      priority: 25
+      icon:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: enthrall
+    - type: TargetAction
+      range: 2
+      checkCanAccess: false
+      interactOnMiss: false
+    - type: EntityTargetAction
+      canTargetSelf: false
+      whitelist:
+        components:
+          - HumanoidAppearance
+      event: !type:VampireEnthrallActionEvent
+    - type: VampireAction
+      bloodToUnlock: 150
+      bloodCost: 150
+      requiredClass: Dantalion
+
+- type: entity
+  parent: BaseAction
+  id: ActionVampirePacify
+  name: Усмирить (30)
+  description: Наполните сознание жертвы блаженством, умиротворяя её.
+  components:
+    - type: Action
+      useDelay: 30
+      itemIconStyle: NoItem
+      priority: 26
+      icon:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: pacify
+    - type: TargetAction
+      range: 7
+      checkCanAccess: false
+      interactOnMiss: false
+    - type: EntityTargetAction
+      canTargetSelf: false
+      whitelist:
+        components:
+          - MobState
+      event: !type:VampirePacifyActionEvent
+        pacifyDuration: 40
+    - type: VampireAction
+      bloodToUnlock: 250
+      bloodCost: 30
+      requiredClass: Dantalion
+
+- type: entity
+  parent: BaseAction
+  id: ActionVampireSubspaceSwap
+  name: Подпространственный обмен (30)
+  description: Поменяйся местами со смертным. Жертва замедляется и погружается в безумие.
+  components:
+    - type: Action
+      useDelay: 30
+      itemIconStyle: NoItem
+      priority: 27
+      icon:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: subspace_swap
+    - type: TargetAction
+      range: 7
+      checkCanAccess: false
+      interactOnMiss: false
+    - type: EntityTargetAction
+      canTargetSelf: false
+      whitelist:
+        components:
+          - MobState
+      event: !type:VampireSubspaceSwapActionEvent
+        slowDuration: 4
+        slowMultiplier: 0.4
+        hysteriaDuration: 15
+        hysteriaDisguiseSprites:
+        - path: /_Starlight/Effects/vampire.rsi
+          state: schizo
+          size: 1.5, 1.5
+        - path: /Mobs/Animals/bear.rsi
+          state: bear
+          size: 1.65, 1.65
+    - type: VampireAction
+      bloodToUnlock: 250
+      bloodCost: 30
+      requiredClass: Dantalion
+
+- type: entity
+  parent: BaseAction
+  id: ActionVampireDecoy
+  name: Приманка (30)
+  description: Создайте приманку, которая делает вас невидимым. При получении урона приманка испускает вспышку, ослепляющую атакующих.
+  components:
+    - type: Action
+      useDelay: 40
+      itemIconStyle: NoItem
+      priority: 28
+      icon:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: decoy
+    - type: InstantAction
+      event: !type:VampireDecoyActionEvent
+        decoyDuration: 6
+        invisibilityDuration: 6
+    - type: VampireAction
+      bloodToUnlock: 400
+      bloodCost: 30
+      requiredClass: Dantalion
+
+- type: entity
+  parent: BaseAction
+  id: ActionVampireRallyThralls
+  name: Созвать рабов (100)
+  description: Прикажите подневольным стряхнуть с себя оглушение, очнуться и восстановить выносливость.
+  components:
+    - type: Action
+      useDelay: 100
+      itemIconStyle: NoItem
+      priority: 29
+      icon:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: thralls_up
+    - type: InstantAction
+      event: !type:VampireRallyThrallsActionEvent
+    - type: VampireAction
+      bloodToUnlock: 600
+      bloodCost: 100
+      requiredClass: Dantalion
+
+- type: entity
+  parent: BaseAction
+  id: ActionVampireBloodBond
+  name: Кровавая связь (2.5/1с)
+  description: Активируйте, чтобы прикрепить кровавые связи к ближайшим видимым прислужникам; получаемый вами урон будет распределяться между всеми участниками этой группы.
+  components:
+    - type: Action
+      useDelay: 2 # Toggle
+      itemIconStyle: NoItem
+      priority: 30
+      icon:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: blood_bond
+    - type: InstantAction
+      event: !type:VampireBloodBondActionEvent
+        range: 3
+        bloodCostPerTick: 5
+        tickInterval: 2
+        beamPrototype: VampireBloodBondBeamVisual
+    - type: VampireAction
+      bloodToUnlock: 800
+      bloodCost: 0
+      requiredClass: Dantalion
+
+- type: entity
+  parent: BaseAction
+  id: ActionVampireMassHysteria
+  name: Массовая истерия (70)
+  description: Погрузите всех находящихся поблизости гуманоидов (не являющихся вашими рабами) в состояние ужаса, вызывающего истерию.
+  components:
+    - type: Action
+      useDelay: 180 # 3min
+      itemIconStyle: NoItem
+      priority: 31
+      icon:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: hysteria
+    - type: InstantAction
+      event: !type:VampireMassHysteriaActionEvent
+        range: 8
+        flashDuration: 3
+        hysteriaDuration: 30
+        hysteriaDisguiseSprites:
+        - path: /_Starlight/Effects/vampire.rsi
+          state: schizo
+          size: 1.5, 1.5
+        - path: /Mobs/Animals/bear.rsi
+          state: bear
+          size: 1.65, 1.65
+    - type: VampireAction
+      bloodToUnlock: 1000
+      bloodCost: 70
+      requiredClass: Dantalion
+      requiresFullPower: true
+
+# Gargantua abilities
+
+- type: entity
+  parent: BaseAction
+  id: ActionVampireBloodSwell
+  name: Прилив крови (30)
+  description: Переходите в особое временное состояние, в котором ваша кожа становится твердой. Использование огнестрельного оружия невозможно.
+  components:
+    - type: Action
+      useDelay: 40
+      itemIconStyle: NoItem
+      priority: 40
+      icon:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: blood_swell
+    - type: InstantAction
+      event: !type:VampireBloodSwellActionEvent
+        duration: 30
+        enhancedThreshold: 400
+        meleeBonusDamage: 14
+        incomingDamageMultiplier: 0.5
+        staminaDamageMultiplier: 0.5
+        statusEffectDurationMultiplier: 0.5
+        reducedDamageTypes:
+        - Blunt
+        - Slash
+        - Piercing
+        - Heat
+        - Cold
+        - Shock
+        - Caustic
+    - type: VampireAction
+      bloodToUnlock: 150
+      bloodCost: 30
+      requiredClass: Gargantua
+
+- type: entity
+  parent: BaseAction
+  id: ActionVampireBloodRush
+  name: Кровавый рывок (30)
+  description: В течение ограниченного времени передвигайтесь с неестественной быстротой.
+  components:
+    - type: Action
+      useDelay: 30
+      itemIconStyle: NoItem
+      priority: 41
+      icon:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: blood_rush
+    - type: InstantAction
+      event: !type:VampireBloodRushActionEvent
+        duration: 10
+        speedMultiplier: 1.5
+    - type: VampireAction
+      bloodToUnlock: 250
+      bloodCost: 30
+      requiredClass: Gargantua
+
+- type: entity
+  parent: BaseAction
+  id: ActionVampireSeismicStomp
+  name: Сейсмический топот (30)
+  description: Ударьте по земле, отбросив от себя всех существ.
+  components:
+    - type: Action
+      useDelay: 60
+      itemIconStyle: NoItem
+      priority: 42
+      icon:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: seismic_stomp
+    - type: InstantAction
+      event: !type:VampireSeismicStompActionEvent
+    - type: VampireAction
+      bloodToUnlock: 250
+      bloodCost: 30
+      requiredClass: Gargantua
+
+- type: entity
+  parent: BaseAction
+  id: ActionVampireOverwhelmingForce
+  name: Сокрушительная сила
+  description: При активации вас невозможно толкнуть, оттеснить или притянуть. Вы автоматически взламываете двери с электроприводом, расплачиваясь за это собственной кровью. (15)
+  components:
+    - type: Action
+      useDelay: 2 # Toggle
+      itemIconStyle: NoItem
+      priority: 43
+      icon:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: overwhelming_force
+    - type: InstantAction
+      event: !type:VampireOverwhelmingForceActionEvent {}
+    - type: VampireAction
+      bloodToUnlock: 600
+      bloodCost: 0
+      requiredClass: Gargantua
+
+- type: entity
+  parent: BaseAction
+  id: ActionVampireDemonicGrasp
+  name: Демоническая хватка (20)
+  description: Призывает демоническую руку, которая обездвиживает цель. В боевом режиме также притягивает её к вам.
+  components:
+    - type: Action
+      useDelay: 30
+      itemIconStyle: NoItem
+      priority: 44
+      icon:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: demonic_grasp
+    - type: TargetAction
+      checkCanAccess: false
+      range: 15
+    - type: WorldTargetAction
+      event: !type:VampireDemonicGraspActionEvent
+        range: 15
+        immobilizeDuration: 10
+        projectileSpeed: 15
+        tileInterval: 0.05
+        effectPrototype: VampireDemonicGraspEffect
+        immobilizedEffectPrototype: VampireImmobilizedEffect
+    - type: VampireAction
+      bloodToUnlock: 800
+      bloodCost: 20
+      requiredClass: Gargantua
+
+- type: entity
+  parent: BaseAction
+  id: ActionVampireCharge
+  name: Рывок (30)
+  description: Совершает рывок до столкновения с препятствием или пустотой. Наносит значительный урон и отбрасывает существ назад, попутно уничтожая стены и постройки.
+  components:
+    - type: Action
+      useDelay: 30
+      itemIconStyle: NoItem
+      priority: 45
+      icon:
+        sprite: _Starlight/Interface/Actions/actions_vampire.rsi
+        state: charge
+    - type: TargetAction
+      checkCanAccess: false
+      range: -1
+    - type: WorldTargetAction
+      event: !type:VampireChargeActionEvent
+    - type: VampireAction
+      bloodToUnlock: 1000
+      bloodCost: 30
+      requiredClass: Gargantua
+      requiresFullPower: true

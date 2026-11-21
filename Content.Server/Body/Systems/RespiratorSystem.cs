@@ -4,6 +4,7 @@ using Content.Goobstation.Shared.Body;
 using Content.Server.Administration.Logs;
 using Content.Server.Atmos.EntitySystems;
 using Content.Server.Body.Components;
+using Content.Shared._CorvaxGoob.Zakat; // Abisfera
 using Content.Server.Chat.Systems;
 using Content.Shared.Body.Systems;
 using Content.Shared.EntityEffects.Effects;
@@ -93,7 +94,8 @@ public sealed partial class RespiratorSystem : EntitySystem // Goob - made parti
             var multiplier = ShitmedGetSaturationLossMultiplier((uid, respirator));
             UpdateSaturation(uid, multiplier * (float) respirator.UpdateInterval.TotalSeconds, respirator); // Goob - use multiplier instead of just negating. from deltaV
 
-            if (!_mobState.IsIncapacitated(uid) && !HasComp<DebrainedComponent>(uid)) // Goob - Cannot breathe when no brain. shitmed
+            if (!_mobState.IsIncapacitated(uid) && !HasComp<DebrainedComponent>(uid) // Goob - Cannot breathe when no brain. shitmed
+                && !HasComp<ZakatBreathBlockedComponent>(uid)) // Abisfera - «Закат» lung symptoms: no air gets in
             {
                 switch (respirator.Status)
                 {

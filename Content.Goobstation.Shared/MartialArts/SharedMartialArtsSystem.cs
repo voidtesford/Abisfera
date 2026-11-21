@@ -109,6 +109,7 @@ public abstract partial class SharedMartialArtsSystem : EntitySystem
         InitializeNinjutsu();
         InitializeHellRip();
         InitializeMimejutsu(); // CorvaxGoob
+        InitializeArtOfThePunch(); // Abisfera
         InitializeCanPerformCombo();
 
         SubscribeLocalEvent<MartialArtsKnowledgeComponent, ComponentShutdown>(OnShutdown);
@@ -395,6 +396,7 @@ public abstract partial class SharedMartialArtsSystem : EntitySystem
             comboComponent.AllowedCombos.Clear();
 
         RemCompDeferred<DragonKungFuTimerComponent>(ent);
+        RemCompDeferred<Content.Goobstation.Shared._CorvaxGoob.MartialArts.Components.ArtOfThePunchComponent>(ent); // Abisfera
     }
 
     private void CheckGrabStageOverride<T>(EntityUid uid, T component, CheckGrabOverridesEvent args)
@@ -517,6 +519,9 @@ public abstract partial class SharedMartialArtsSystem : EntitySystem
                 break;
             case MartialArtsForms.Ninjutsu:
                 EnsureComp<NinjutsuSneakAttackComponent>(user);
+                break;
+            case MartialArtsForms.ArtOfThePunch: // Abisfera
+                EnsureComp<Content.Goobstation.Shared._CorvaxGoob.MartialArts.Components.ArtOfThePunchComponent>(user);
                 break;
             case MartialArtsForms.CloseQuartersCombat:
                 var itcryeverytime =
@@ -650,7 +655,8 @@ public abstract partial class SharedMartialArtsSystem : EntitySystem
         string damageType,
         float damageAmount,
         out DamageSpecifier damage,
-        TargetBodyPart? targetBodyPart = null)
+        TargetBodyPart? targetBodyPart = null,
+        bool canMiss = false) // Abisfera - combat s4.5: martial arts are melee, they always land on the aimed part
     {
         damage = new DamageSpecifier();
         if(!TryComp<TargetingComponent>(ent, out var targetingComponent))
@@ -665,7 +671,8 @@ public abstract partial class SharedMartialArtsSystem : EntitySystem
         _damageable.TryChangeDamage(target,
             damage,
             origin: ent,
-            targetPart: targetBodyPart ?? targetingComponent.Target);
+            targetPart: targetBodyPart ?? targetingComponent.Target,
+            canMiss: canMiss);
     }
 
     #endregion

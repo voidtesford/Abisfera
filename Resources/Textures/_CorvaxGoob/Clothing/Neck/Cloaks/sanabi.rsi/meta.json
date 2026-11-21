@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "made by fizzoghoster. CorvaxGoob: back North seal = peace + inverted pentagram; front South (sprite-right) only = shortened calligraphic letter A (flat top serif, mid crossbar, flared feet, no circle); colour #860404 from hem trim. Goat-head omitted (too few pixels).",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "icon"
+    },
+    {
+      "name": "equipped-NECK",
+      "directions": 4
+    },
+    {
+      "name": "inhand-left",
+      "directions": 4
+    },
+    {
+      "name": "inhand-right",
+      "directions": 4
+    }
+  ]
+}

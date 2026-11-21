@@ -1,6 +1,10 @@
 - type: htnCompound
   id: WeldbotCompound
   branches:
+    # CorvaxGoob-Pulsar: an order from the station AI comes first.
+    - tasks:
+        - !type:HTNCompoundTask
+          task: PulsarGotoCompound
     - tasks:
         - !type:HTNCompoundTask
           task: WeldNearbyCompound

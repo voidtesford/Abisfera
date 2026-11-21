@@ -1,0 +1,195 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# «Закат» prototype 2: the hive mind, «раб улья» and its mutations, «биошмат».
+
+- type: collectiveMind
+  id: ZakatHivemind
+  name: collective-mind-zakat-hivemind
+  keycode: 'з' # CorvaxGoob-Loc
+  color: "#d01426"
+
+# ---------- раб улья ----------
+
+- type: antag
+  id: ZakatSlave
+  name: roles-antag-zakat-slave-name
+  antagonist: true
+  setPreference: false
+  objective: roles-antag-zakat-slave-objective
+
+- type: entity
+  parent: BaseMindRoleAntag
+  id: MindRoleZakatSlave
+  name: Zakat slave role
+  components:
+  - type: MindRole
+    antagPrototype: ZakatSlave
+    roleType: TeamAntagonist
+  - type: ZakatSlaveRole
+
+- type: entity
+  parent: BaseObjective
+  id: ZakatSlaveObjective
+  components:
+  - type: Objective
+    difficulty: 1
+    issuer: objective-issuer-zakat
+    unique: true
+    icon:
+      sprite: /Textures/_CorvaxGoob/Zakat/status.rsi
+      state: infected
+  - type: RoleRequirement
+    roles:
+    - ZakatSlaveRole
+  - type: ZakatSlaveCondition
+
+# ---------- slave abilities ----------
+
+- type: entity
+  parent: BaseAction
+  id: ActionZakatHarpoon
+  name: Meat harpoon
+  components:
+  - type: Action
+    useDelay: 30
+    itemIconStyle: BigAction
+    icon:
+      sprite: _CorvaxGoob/Zakat/actions.rsi
+      state: harpoon
+  - type: TargetAction
+    checkCanAccess: false
+    range: 10
+  - type: WorldTargetAction
+    event: !type:ZakatHarpoonActionEvent
+
+- type: entity
+  parent: BaseAction
+  id: ActionZakatDevour
+  name: Devour
+  components:
+  - type: Action
+    useDelay: 80
+    itemIconStyle: BigAction
+    icon:
+      sprite: _CorvaxGoob/Zakat/actions.rsi
+      state: devour
+  - type: TargetAction
+    range: 1.5
+  - type: EntityTargetAction
+    canTargetSelf: false
+    whitelist:
+      components:
+      - MobState
+    event: !type:ZakatDevourActionEvent
+
+- type: entity
+  parent: BaseAction
+  id: ActionZakatBioshmatInfest
+  name: Infest
+  components:
+  - type: Action
+    useDelay: 2
+    itemIconStyle: BigAction
+    icon:
+      sprite: _CorvaxGoob/Zakat/actions.rsi
+      state: infest
+  - type: TargetAction
+    range: 1.5
+  - type: EntityTargetAction
+    canTargetSelf: false
+    whitelist:
+      components:
+      - HumanoidAppearance
+    event: !type:ZakatBioshmatInfestActionEvent
+
+# Cosmetic flesh line of «мясной гарпун».
+- type: entity
+  id: ZakatHarpoonTentacle
+  name: meat harpoon
+  categories: [ HideSpawnMenu ]
+  save: false
+  components:
+  - type: Sprite
+    sprite: _CorvaxGoob/Zakat/harpoon.rsi
+    drawdepth: Effects
+    layers:
+    - state: tentacle
+  - type: Physics
+    canCollide: false
+  - type: Beam
+  - type: TimedDespawn
+    lifetime: 0.6
+  - type: Tag
+    tags:
+    - HideContextMenu
+
+- type: entity
+  id: ZakatHarpoonAnchor
+  name: meat harpoon tip
+  categories: [ HideSpawnMenu ]
+  save: false
+  components:
+  - type: TimedDespawn
+    lifetime: 1
+
+# ---------- биошмат ----------
+
+- type: entity
+  parent: BaseMobFlesh
+  id: MobZakatBioshmat
+  name: bioshmat
+  description: A lump of flesh on tentacles.
+  components:
+  - type: NpcFactionMember
+    factions:
+    - ZakatFlesh
+  - type: Sprite
+    drawdepth: SmallMobs
+    sprite: _CorvaxGoob/Zakat/bioshmat.rsi
+    layers:
+    - map: [ "enum.DamageStateVisualLayers.Base" ]
+      state: alive
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: alive
+      Dead:
+        Base: dead
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      25: Dead
+  - type: MovementSpeedModifier
+    baseWalkSpeed: 2.5
+    baseSprintSpeed: 3.5
+  - type: MeleeWeapon
+    soundHit:
+      path: /Audio/Weapons/Xeno/alien_claw_flesh3.ogg
+    angle: 0
+    animation: WeaponArcClaw
+    damage:
+      types:
+        Slash: 6
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.25
+        density: 60
+        mask:
+        - SmallMobMask
+        layer:
+        - SmallMobLayer
+  - type: GhostRole
+    name: ghost-role-information-zakat-bioshmat-name
+    description: ghost-role-information-zakat-bioshmat-description
+    rules: ghost-role-information-zakat-rules
+    raffle:
+      settings: short
+  - type: GhostTakeoverAvailable
+  - type: Actions
+  - type: ZakatBioshmat
+  - type: ZakatFleshFriend
+  - type: SpecialBreathingImmunity
+  - type: SpecialPressureImmunity
+  - type: SpecialLowTempImmunity

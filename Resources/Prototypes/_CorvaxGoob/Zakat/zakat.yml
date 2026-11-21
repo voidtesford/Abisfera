@@ -1,0 +1,265 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Sentient disease «Закат», prototypes 1-2.
+
+- type: entity
+  id: MobZakat
+  name: Zakat
+  description: A sentient disease. It is everywhere it has hosts.
+  categories: [ HideSpawnMenu ]
+  save: false
+  components:
+  - type: Zakat
+  - type: MindContainer
+  - type: GhostRole
+    name: ghost-role-information-zakat-name
+    description: ghost-role-information-zakat-description
+    rules: ghost-role-information-zakat-rules
+    mindRoles:
+    - MindRoleGhostRoleSoloAntagonistGoob
+    raffle:
+      settings: default
+  - type: GhostTakeoverAvailable
+  - type: Actions
+  - type: ActionGrant # the free-pick infect action is added in code and taken away when the picks are spent
+    actions:
+    - ActionZakatShop
+    - ActionZakatHostEvolve
+  - type: UserInterface
+    interfaces:
+      enum.ZakatUiKey.Shop:
+        type: ZakatBoundUserInterface
+      enum.ZakatUiKey.Host:
+        type: ZakatBoundUserInterface
+  - type: Sprite
+    sprite: _CorvaxGoob/Zakat/zakat.rsi
+    state: zakat
+    noRot: true
+    drawdepth: Ghosts
+    layers:
+    - state: zakat
+      shader: unshaded
+  - type: Visibility
+    layer: 2 # Ghost visflag: only ghosts and Закат itself see it
+  - type: Eye
+    drawFov: false
+    visMask:
+    - Ghost
+    - Normal
+  - type: ContentEye
+    maxZoom: 1.44,1.44
+  - type: Input
+    context: "ghost"
+  - type: InputMover
+  - type: Examiner
+    skipChecks: true
+  - type: Physics
+    bodyType: KinematicController
+    bodyStatus: InAir
+    fixedRotation: true
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.35
+        density: 15
+        layer:
+        - GhostImpassable
+  - type: MovementSpeedModifier
+    baseWalkSpeed: 8
+    baseSprintSpeed: 12
+  - type: MovementIgnoreGravity
+  - type: CanMoveInAir
+  - type: Tag
+    tags:
+    - BypassInteractionRangeChecks
+  - type: Appearance
+  - type: Alerts
+
+# The strain. Natural immunity never fights it (bypassesImmunity); only medicine (Devirate) and vaccines do.
+- type: entity
+  id: DiseaseZakat
+  parent: DiseaseBase
+  name: Zakat
+  description: A sentient flesh-eating virus.
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Disease
+    diseaseType: Viral
+    # no base symptoms: everything a host shows is bought for that host on its neural map
+    infectionRate: 0.0033 # about 5 min to full strength
+    mutationRate: 0 # the genome only changes when Закат wants it to
+    bypassesImmunity: true
+    canGainImmunity: true # cured hosts and vaccinated crew become immune (blue)
+    complexity: 20
+
+# ---------- actions ----------
+
+- type: entity
+  parent: BaseMentalAction
+  id: ActionZakatInfect
+  name: Seed
+  components:
+  - type: Action
+    useDelay: 2
+    itemIconStyle: BigAction
+    icon:
+      sprite: _CorvaxGoob/Zakat/actions.rsi
+      state: infect
+  - type: TargetAction
+    checkCanAccess: false
+    range: 0
+    interactOnMiss: false
+  - type: EntityTargetAction
+    canTargetSelf: false
+    whitelist:
+      components:
+      - MobState
+    event: !type:ZakatInfectActionEvent
+
+- type: entity
+  parent: BaseMentalAction
+  id: ActionZakatShop
+  name: Core
+  components:
+  - type: Action
+    itemIconStyle: BigAction
+    icon:
+      sprite: _CorvaxGoob/Zakat/actions.rsi
+      state: shop
+  - type: InstantAction
+    event: !type:ZakatOpenShopActionEvent
+
+- type: entity
+  parent: BaseMentalAction
+  id: ActionZakatHostEvolve
+  name: Grow
+  components:
+  - type: Action
+    itemIconStyle: BigAction
+    icon:
+      sprite: _CorvaxGoob/Zakat/actions.rsi
+      state: host
+  - type: TargetAction
+    checkCanAccess: false
+    range: 0
+    interactOnMiss: false
+  - type: EntityTargetAction
+    canTargetSelf: false
+    whitelist:
+      components:
+      - MobState
+    event: !type:ZakatHostEvolveActionEvent
+
+# Рост 1: take a host's body for 30 s.
+- type: entity
+  parent: BaseMentalAction
+  id: ActionZakatPossess
+  name: Possess
+  components:
+  - type: Action
+    useDelay: 120
+    itemIconStyle: BigAction
+    icon:
+      sprite: _CorvaxGoob/Zakat/actions.rsi
+      state: possess
+  - type: TargetAction
+    checkCanAccess: false
+    range: 0
+    interactOnMiss: false
+  - type: EntityTargetAction
+    canTargetSelf: false
+    whitelist:
+      components:
+      - MobState
+    event: !type:ZakatPossessActionEvent
+
+# The host's own mind waits here while the disease drives the body: it rides along, blind to nothing, unable to act.
+- type: entity
+  id: ZakatVictimEye
+  name: Zakat victim
+  categories: [ HideSpawnMenu ]
+  save: false
+  components:
+  - type: MindContainer
+  - type: Eye
+    drawFov: false
+  - type: ContentEye
+  - type: Input
+    context: "ghost"
+
+# ---------- biomass counter ----------
+
+- type: alert
+  id: ZakatBiomass
+  category: Health
+  icons:
+  - sprite: /Textures/_CorvaxGoob/Zakat/biomass_counter.rsi
+    state: biomass
+  alertViewEntity: AlertZakatBiomassSpriteView
+  name: alerts-zakat-biomass-name
+  description: alerts-zakat-biomass-desc
+
+- type: entity
+  id: AlertZakatBiomassSpriteView
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: GenericCounterAlert
+    centerGlyph: false
+    hideLeadingZeroes: false
+  - type: Sprite
+    sprite: /Textures/_CorvaxGoob/Zakat/biomass_counter.rsi
+    layers:
+    - map: [ "enum.AlertVisualLayers.Base" ]
+      state: biomass
+    - map: [ "1" ]
+      offset: 0.5, 0
+    - map: [ "10" ]
+      offset: 0.375, 0
+    - map: [ "100" ]
+      offset: 0.25, 0
+
+# ---------- status icons (seen only by Закат) ----------
+
+- type: diseaseIcon
+  id: ZakatIcon
+  abstract: true
+  priority: 3
+  locationPreference: Left
+  isShaded: false
+
+- type: diseaseIcon
+  parent: ZakatIcon
+  id: ZakatIconInfected
+  icon:
+    sprite: /Textures/_CorvaxGoob/Zakat/status.rsi
+    state: infected
+
+- type: diseaseIcon
+  parent: ZakatIcon
+  id: ZakatIconImmune
+  icon:
+    sprite: /Textures/_CorvaxGoob/Zakat/status.rsi
+    state: immune
+
+- type: diseaseIcon
+  parent: ZakatIcon
+  id: ZakatIconHealthy
+  icon:
+    sprite: /Textures/_CorvaxGoob/Zakat/status.rsi
+    state: healthy
+
+# ---------- spawning ----------
+# Not added to any event table yet: start it with `addgamerule ZakatSpawn` or spawn MobZakat as an admin.
+- type: entity
+  id: ZakatSpawn
+  parent: BaseStationEventShortDelay
+  components:
+  - type: StationEvent
+    earliestStart: 20
+    weight: 0
+    duration: 1
+    minimumPlayers: 20
+    maxOccurrences: 1
+  - type: RandomSpawnRule
+    prototype: MobZakat

@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Created for Abisfera-SS14 «Закат» (upd1, procedurally drawn in the style of the existing flesh sprites); Created for Abisfera-SS14 «Закат» (upd2 rework: lit, hand-tuned procedural pixel art)",
+  "size": {
+    "x": 96,
+    "y": 96
+  },
+  "states": [
+    {
+      "name": "reach_short",
+      "delays": [
+        [
+          0.12,
+          0.12,
+          0.12,
+          0.12
+        ]
+      ]
+    },
+    {
+      "name": "reach_mid",
+      "delays": [
+        [
+          0.12,
+          0.12,
+          0.12,
+          0.12
+        ]
+      ]
+    },
+    {
+      "name": "reach_long",
+      "delays": [
+        [
+          0.12,
+          0.12,
+          0.12,
+          0.12
+        ]
+      ]
+    }
+  ]
+}

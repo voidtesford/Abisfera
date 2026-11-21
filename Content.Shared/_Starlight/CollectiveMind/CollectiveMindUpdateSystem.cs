@@ -13,7 +13,7 @@ public sealed class CollectiveMindUpdateSystem : EntitySystem
     [Dependency] private readonly IComponentFactory _componentFactory = default!;
     [Dependency] private readonly TagSystem _tag = default!;
 
-    private static Dictionary<string, int> _currentId = new();
+    private Dictionary<string, int> _currentId = new(); // CorvaxGoob-Zakat: per server, a static one races between parallel test servers
 
     public void UpdateCollectiveMind(EntityUid uid, CollectiveMindComponent collective)
     {

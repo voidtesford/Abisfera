@@ -1,0 +1,365 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Unique Corvax-Goob traits kept in the points-based system.
+
+- type: trait
+  id: Unrevivable
+  category: Physical
+  points: 2
+  functions:
+    - !type:TraitAddComponent
+      components:
+        - type: Unrevivable
+          cloneable: true
+
+- type: trait
+  id: Monochromacy
+  category: Visual
+  points: 1
+  functions:
+    - !type:TraitAddComponent
+      components:
+        - type: BlackAndWhiteOverlay
+
+- type: trait
+  id: PainNumbness
+  category: Physical
+  points: 1
+  specials:
+    - !type:ApplyStatusEffectSpecial
+      statusEffects:
+        - PainNumbnessTraitStatusEffect
+
+- type: trait
+  id: ImpairedMobility
+  category: Physical
+  points: 2
+  traitGear: OffsetCane
+  requirements:
+    - !type:CharacterTraitRequirement
+      inverted: true
+      traits:
+        - MovementImpaired
+        - WheelchairBound
+        - Sluggish
+        - SnailPaced
+        - ParkourTraining
+  functions:
+    - !type:TraitAddComponent
+      components:
+        - type: ImpairedMobility
+
+- type: trait
+  id: MovementImpaired
+  category: Physical
+  points: 3
+  traitGear: Cane
+  blacklist:
+    components:
+      - BorgChassis
+  requirements:
+    - !type:CharacterTraitRequirement
+      inverted: true
+      traits:
+        - ImpairedMobility
+        - WheelchairBound
+        - Sluggish
+        - SnailPaced
+        - ParkourTraining
+  functions:
+    - !type:TraitAddComponent
+      components:
+        - type: MovementImpaired
+          impairedSpeedMultiplier: 0.6
+
+- type: trait
+  id: WheelchairBound
+  category: Physical
+  points: 6
+  blacklist:
+    components:
+      - BorgChassis
+  requirements:
+    - !type:CharacterTraitRequirement
+      inverted: true
+      traits:
+        - ImpairedMobility
+        - MovementImpaired
+        - ParkourTraining
+        - Sluggish
+        - SnailPaced
+        - BadKnees
+  functions:
+    - !type:TraitAddComponent
+      components:
+        - type: BuckleOnMapInit
+          prototype: VehicleWheelchair
+        - type: LegsStartParalyzed
+        - type: LegsParalyzed
+
+- type: trait
+  id: DeafTrait
+  category: Auditory
+  points: 4
+  blacklist:
+    components:
+      - BorgChassis
+  functions:
+    - !type:TraitAddComponent
+      components:
+        - type: Deaf
+
+
+- type: trait
+  id: UltraVision
+  category: Visual
+  points: 0
+  requirements:
+    - !type:CharacterTraitRequirement
+      inverted: true
+      traits:
+        - DogVision
+        - Monochromacy
+        - Blindness
+  functions:
+    - !type:TraitAddComponent
+      components:
+        - type: UltraVision
+
+- type: trait
+  id: DogVision
+  category: Visual
+  points: 0
+  requirements:
+    - !type:CharacterTraitRequirement
+      inverted: true
+      traits:
+        - UltraVision
+        - Monochromacy
+        - Blindness
+  functions:
+    - !type:TraitAddComponent
+      components:
+        - type: DogVision
+
+- type: trait
+  id: CowboyAccent
+  category: TraitsSpeechAccents
+  points: 0
+  requirements:
+    - !type:CharacterTraitRequirement
+      inverted: true
+      traits:
+        - FrontalLisp
+        - SocialAnxiety
+        - PirateAccent
+        - Accentless
+        - SouthernAccent
+        - GermanAccent
+        - RussianAccent
+        - FrenchAccent
+        - ItalianAccent
+        - SpanishAccent
+        - SkeletonAccent
+        - BritishAccent
+        - Dementia
+        - ScottishAccent
+        - Bogan
+        - MedievalAccent
+        - NewYorkAccent
+        - Liar
+  functions:
+    - !type:TraitAddComponent
+      components:
+        - type: ReplacementAccent
+          accent: cowboy
+
+- type: trait
+  id: Dementia
+  category: TraitsSpeechAccents
+  points: 0
+  requirements:
+    - !type:CharacterTraitRequirement
+      inverted: true
+      traits:
+        - FrontalLisp
+        - SocialAnxiety
+        - PirateAccent
+        - Accentless
+        - SouthernAccent
+        - GermanAccent
+        - RussianAccent
+        - FrenchAccent
+        - ItalianAccent
+        - SpanishAccent
+        - SkeletonAccent
+        - BritishAccent
+        - CowboyAccent
+        - ScottishAccent
+        - Bogan
+        - MedievalAccent
+        - NewYorkAccent
+        - Liar
+  functions:
+    - !type:TraitAddComponent
+      components:
+        - type: ReplacementAccent
+          accent: dementia
+
+- type: trait
+  id: ScottishAccent
+  category: TraitsSpeechAccents
+  points: 0
+  requirements:
+    - !type:CharacterTraitRequirement
+      inverted: true
+      traits:
+        - FrontalLisp
+        - SocialAnxiety
+        - PirateAccent
+        - Accentless
+        - SouthernAccent
+        - GermanAccent
+        - RussianAccent
+        - FrenchAccent
+        - ItalianAccent
+        - SpanishAccent
+        - SkeletonAccent
+        - BritishAccent
+        - CowboyAccent
+        - Dementia
+        - Bogan
+        - MedievalAccent
+        - NewYorkAccent
+        - Liar
+  functions:
+    - !type:TraitAddComponent
+      components:
+        - type: ReplacementAccent
+          accent: scottish
+
+- type: trait
+  id: Bogan
+  category: TraitsSpeechAccents
+  points: 0
+  requirements:
+    - !type:CharacterTraitRequirement
+      inverted: true
+      traits:
+        - FrontalLisp
+        - SocialAnxiety
+        - PirateAccent
+        - Accentless
+        - SouthernAccent
+        - GermanAccent
+        - RussianAccent
+        - FrenchAccent
+        - ItalianAccent
+        - SpanishAccent
+        - SkeletonAccent
+        - BritishAccent
+        - CowboyAccent
+        - Dementia
+        - ScottishAccent
+        - MedievalAccent
+        - NewYorkAccent
+        - Liar
+  functions:
+    - !type:TraitAddComponent
+      components:
+        - type: ReplacementAccent
+          accent: bogan
+
+- type: trait
+  id: MedievalAccent
+  category: TraitsSpeechAccents
+  points: 0
+  requirements:
+    - !type:CharacterTraitRequirement
+      inverted: true
+      traits:
+        - FrontalLisp
+        - SocialAnxiety
+        - PirateAccent
+        - Accentless
+        - SouthernAccent
+        - GermanAccent
+        - RussianAccent
+        - FrenchAccent
+        - ItalianAccent
+        - SpanishAccent
+        - SkeletonAccent
+        - BritishAccent
+        - CowboyAccent
+        - Dementia
+        - ScottishAccent
+        - Bogan
+        - NewYorkAccent
+        - Liar
+  functions:
+    - !type:TraitAddComponent
+      components:
+        - type: MedievalAccent
+
+- type: trait
+  id: NewYorkAccent
+  category: TraitsSpeechAccents
+  points: 0
+  requirements:
+    - !type:CharacterTraitRequirement
+      inverted: true
+      traits:
+        - FrontalLisp
+        - SocialAnxiety
+        - PirateAccent
+        - Accentless
+        - SouthernAccent
+        - GermanAccent
+        - RussianAccent
+        - FrenchAccent
+        - ItalianAccent
+        - SpanishAccent
+        - SkeletonAccent
+        - BritishAccent
+        - CowboyAccent
+        - Dementia
+        - ScottishAccent
+        - Bogan
+        - MedievalAccent
+        - Liar
+  functions:
+    - !type:TraitAddComponent
+      components:
+        - type: ReplacementAccent
+          accent: newyork
+
+- type: trait
+  id: BritishAccent
+  category: TraitsSpeechAccents
+  points: 0
+  requirements:
+    - !type:CharacterTraitRequirement
+      inverted: true
+      traits:
+        - FrontalLisp
+        - SocialAnxiety
+        - PirateAccent
+        - Accentless
+        - SouthernAccent
+        - GermanAccent
+        - RussianAccent
+        - FrenchAccent
+        - ItalianAccent
+        - SpanishAccent
+        - SkeletonAccent
+        - CowboyAccent
+        - Dementia
+        - ScottishAccent
+        - Bogan
+        - MedievalAccent
+        - NewYorkAccent
+        - Liar
+  functions:
+    - !type:TraitAddComponent
+      components:
+        - type: ReplacementAccent
+          accent: british

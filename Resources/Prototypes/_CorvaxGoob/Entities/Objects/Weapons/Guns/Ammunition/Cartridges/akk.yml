@@ -1,0 +1,19 @@
+- type: entity
+  id: CartridgeAkk762
+  name: cartridge (7.62x39)
+  parent: [ BaseCartridge, BaseSecurityContraband ]
+  description: An intermediate 7.62x39 cartridge for the AKK tactical rifle.
+  components:
+  - type: Tag
+    tags:
+    - Cartridge
+    - CartridgeAkk762
+  - type: CartridgeAmmo
+    proto: BulletAkk762
+  - type: Sprite
+    sprite: _CorvaxGoob/Objects/Weapons/Guns/Ammunition/Casings/akk_casing.rsi
+    layers:
+    - state: base
+      map: ["enum.AmmoVisualLayers.Base"]
+  - type: Appearance
+  - type: SpentAmmoVisuals

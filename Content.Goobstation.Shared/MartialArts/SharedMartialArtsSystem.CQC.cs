@@ -112,7 +112,7 @@ public partial class SharedMartialArtsSystem
             case ComboAttackType.Disarm:
                 _stamina.TakeStaminaDamage(args.Target, 25f);
                 break;
-            case ComboAttackType.Harm:
+            case ComboAttackType.Harm or ComboAttackType.Power: // Abisfera - Power
                 // Snap neck
                 if (!_mobState.IsDead(args.Target) && !HasComp<GodmodeComponent>(args.Target) &&
                     TryComp(ent, out PullerComponent? puller) && puller.Pulling == args.Target &&

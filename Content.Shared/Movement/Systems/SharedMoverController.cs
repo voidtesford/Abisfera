@@ -12,6 +12,7 @@ using Content.Shared.Mobs.Systems;
 using Content.Shared.Movement.Components;
 using Content.Shared.Movement.Events;
 using Content.Shared._DV.StepTrigger.Components; // DeltaV - NoShoesSilentFootstepsComponent
+using Content.Shared.Traits.Assorted.Components;
 using Content.Shared.Shuttles.Components;
 using Content.Shared.Tag;
 using Robust.Shared.Audio;
@@ -437,6 +438,8 @@ public abstract partial class SharedMoverController : VirtualController
                 TryGetSound(weightless, uid, mover, mobMover, xform, out var sound, tileDef: tileDef))
             {
                 var soundModifier = mover.Sprinting ? InputMoverComponent.SprintingSoundModifier : InputMoverComponent.WalkingSoundModifier;
+                if (TryComp<FootstepVolumeModifierComponent>(uid, out var footstepMod))
+                    soundModifier += mover.Sprinting ? footstepMod.SprintVolumeModifier : footstepMod.WalkVolumeModifier;
 
                 var audioParams = sound.Params
                     .WithVolume(sound.Params.Volume + soundModifier)

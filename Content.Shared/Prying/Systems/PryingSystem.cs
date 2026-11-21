@@ -146,6 +146,8 @@ public sealed class PryingSystem : EntitySystem
         var modEv = new GetPryTimeModifierEvent(user, instaPry); // Goob edit
 
         RaiseLocalEvent(target, ref modEv);
+        // CorvaxGoob: the user raise (DeltaV) was lost upstream; Gilbert's pry time and PlayerToolModifier need it.
+        RaiseLocalEvent(user, ref modEv);
         var doAfterArgs = new DoAfterArgs(EntityManager, user, modEv.BaseTime * modEv.PryTimeModifier / toolModifier, new DoorPryDoAfterEvent(), target, target, tool)
         {
             BreakOnDamage = true,

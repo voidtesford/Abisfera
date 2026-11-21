@@ -420,7 +420,8 @@ public sealed partial class SupermatterComponent : Component
         {Gas.Nitrium, 0f }, // EE Compatibility
         {Gas.BZ, 0f}, // Assmos - /tg/ gases
         {Gas.Healium, 0f}, // Assmos - /tg/ gases
-        {Gas.Pluoxium, 0f} // Assmos - /tg/ gases
+        {Gas.Pluoxium, 0f}, // Assmos - /tg/ gases
+        {Gas.ZakatSpores, 0f}, // Abisfera
     };
 
     /// <summary>
@@ -441,6 +442,7 @@ public sealed partial class SupermatterComponent : Component
         [Gas.BZ] = (TransmitModifier: 0f, HeatPenalty: 5f, PowerMixRatio: 1f, AngerValue: 3f), // Assmos - /tg/ gases
         [Gas.Healium] = (TransmitModifier: 2.4f, HeatPenalty: 4f, PowerMixRatio: 1f, AngerValue: -5f), // Assmos - /tg/ gases
         [Gas.Pluoxium] = (TransmitModifier: 0f, HeatPenalty: -2.5f, PowerMixRatio: -1f, AngerValue: -3f), // Assmos - /tg/ gases
+        [Gas.ZakatSpores] = (TransmitModifier: 0f, HeatPenalty: 1f, PowerMixRatio: 1f, AngerValue: 1f), // Abisfera
     };
 
     #endregion SM Gas

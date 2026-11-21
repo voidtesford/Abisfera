@@ -1,0 +1,315 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Generated from Einstein Engines traits, adapted for Corvax-Goob.
+- type: trait
+  id: Accentless
+  category: TraitsSpeechAccents
+  # slots: 0
+  # itemGroupSlots: 0
+  requirements:
+    - !type:CharacterTraitRequirement
+      inverted: true
+      traits:
+        - FrontalLisp
+        - SocialAnxiety
+        - PirateAccent
+        - SouthernAccent
+        - GermanAccent
+        - RussianAccent
+        - FrenchAccent
+        - ItalianAccent
+        - SpanishAccent
+        - SkeletonAccent
+        - BritishAccent
+        - CowboyAccent
+        - Dementia
+        - ScottishAccent
+        - Bogan
+        - MedievalAccent
+        - NewYorkAccent
+        - Liar
+    - !type:CharacterJobRequirement
+      inverted: true
+      jobs:
+        - Borg
+        - MedicalBorg
+  functions:
+    - !type:TraitAddComponent
+      components:
+        - type: Accentless
+          removes:
+          - type: LizardAccent
+          - type: MothAccent
+          - type: ReplacementAccent
+            accent: dwarf
+
+- type: trait
+  id: SouthernAccent
+  # slots: 0
+  # itemGroupSlots: 0
+  category: TraitsSpeechAccents
+  requirements:
+    - !type:CharacterTraitRequirement
+      inverted: true
+      traits:
+        - FrontalLisp
+        - SocialAnxiety
+        - PirateAccent
+        - Accentless
+        - GermanAccent
+        - RussianAccent
+        - FrenchAccent
+        - ItalianAccent
+        - SpanishAccent
+        - SkeletonAccent
+        - BritishAccent
+        - CowboyAccent
+        - Dementia
+        - ScottishAccent
+        - Bogan
+        - MedievalAccent
+        - NewYorkAccent
+        - Liar
+  functions:
+    - !type:TraitAddComponent
+      components:
+        - type: SouthernAccent
+
+- type: trait
+  id: GermanAccent
+  # slots: 0
+  # itemGroupSlots: 0
+  category: TraitsSpeechAccents
+  requirements:
+    - !type:CharacterTraitRequirement
+      inverted: true
+      traits:
+        - FrontalLisp
+        - SocialAnxiety
+        - PirateAccent
+        - Accentless
+        - SouthernAccent
+        - RussianAccent
+        - FrenchAccent
+        - ItalianAccent
+        - SpanishAccent
+        - SkeletonAccent
+        - BritishAccent
+        - CowboyAccent
+        - Dementia
+        - ScottishAccent
+        - Bogan
+        - MedievalAccent
+        - NewYorkAccent
+        - Liar
+  functions:
+    - !type:TraitAddComponent
+      components:
+        - type: GermanAccent
+
+- type: trait
+  id: RussianAccent
+  # slots: 0
+  # itemGroupSlots: 0
+  category: TraitsSpeechAccents
+  requirements:
+    - !type:CharacterTraitRequirement
+      inverted: true
+      traits:
+        - FrontalLisp
+        - SocialAnxiety
+        - PirateAccent
+        - Accentless
+        - SouthernAccent
+        - GermanAccent
+        - FrenchAccent
+        - ItalianAccent
+        - SpanishAccent
+        - SkeletonAccent
+        - BritishAccent
+        - CowboyAccent
+        - Dementia
+        - ScottishAccent
+        - Bogan
+        - MedievalAccent
+        - NewYorkAccent
+        - Liar
+  functions:
+    - !type:TraitAddComponent
+      components:
+        - type: RussianAccent
+
+- type: trait
+  id: FrenchAccent
+  # slots: 0
+  # itemGroupSlots: 0
+  category: TraitsSpeechAccents
+  requirements:
+    - !type:CharacterTraitRequirement
+      inverted: true
+      traits:
+        - FrontalLisp
+        - SocialAnxiety
+        - PirateAccent
+        - Accentless
+        - SouthernAccent
+        - GermanAccent
+        - RussianAccent
+        - ItalianAccent
+        - SpanishAccent
+        - SkeletonAccent
+        - BritishAccent
+        - CowboyAccent
+        - Dementia
+        - ScottishAccent
+        - Bogan
+        - MedievalAccent
+        - NewYorkAccent
+        - Liar
+  functions:
+    - !type:TraitAddComponent
+      components:
+        - type: FrenchAccent
+
+- type: trait
+  id: ItalianAccent
+  # slots: 0
+  # itemGroupSlots: 0
+  category: TraitsSpeechAccents
+  requirements:
+    - !type:CharacterTraitRequirement
+      inverted: true
+      traits:
+        - FrontalLisp
+        - SocialAnxiety
+        - PirateAccent
+        - Accentless
+        - SouthernAccent
+        - GermanAccent
+        - RussianAccent
+        - FrenchAccent
+        - SpanishAccent
+        - SkeletonAccent
+        - BritishAccent
+        - CowboyAccent
+        - Dementia
+        - ScottishAccent
+        - Bogan
+        - MedievalAccent
+        - NewYorkAccent
+        - Liar
+  functions:
+    - !type:TraitAddComponent
+      components:
+        - type: MobsterAccent
+
+- type: trait
+  id: SpanishAccent
+  # slots: 0
+  # itemGroupSlots: 0
+  category: TraitsSpeechAccents
+  requirements:
+    - !type:CharacterTraitRequirement
+      inverted: true
+      traits:
+        - FrontalLisp
+        - SocialAnxiety
+        - PirateAccent
+        - Accentless
+        - SouthernAccent
+        - GermanAccent
+        - RussianAccent
+        - FrenchAccent
+        - ItalianAccent
+        - SkeletonAccent
+        - BritishAccent
+        - CowboyAccent
+        - Dementia
+        - ScottishAccent
+        - Bogan
+        - MedievalAccent
+        - NewYorkAccent
+        - Liar
+  functions:
+    - !type:TraitAddComponent
+      components:
+        - type: SpanishAccent
+
+- type: trait
+  id: SkeletonAccent
+  # slots: 0
+  # itemGroupSlots: 0
+  category: TraitsSpeechAccents
+  requirements:
+    - !type:CharacterTraitRequirement
+      inverted: true
+      traits:
+        - FrontalLisp
+        - SocialAnxiety
+        - PirateAccent
+        - Accentless
+        - SouthernAccent
+        - GermanAccent
+        - RussianAccent
+        - FrenchAccent
+        - ItalianAccent
+        - SpanishAccent
+        - BritishAccent
+        - CowboyAccent
+        - Dementia
+        - ScottishAccent
+        - Bogan
+        - MedievalAccent
+        - NewYorkAccent
+        - Liar
+    - !type:CharacterSpeciesRequirement
+      species:
+        - Plasmaman
+  functions:
+    - !type:TraitAddComponent
+      components:
+        - type: SkeletonAccent
+
+- type: trait
+  id: NormalVision
+  category: Visual
+  requirements:
+    - !type:CharacterSpeciesRequirement
+      species:
+        - Harpy
+        - Vulpkanin
+  functions:
+    - !type:TraitRemoveComponent
+      components:
+        - type: UltraVision
+        - type: DogVision
+
+- type: trait
+  id: Liar
+  category: Mental
+  requirements:
+    - !type:CharacterTraitRequirement
+      inverted: true
+      traits:
+        - FrontalLisp
+        - SocialAnxiety
+        - PirateAccent
+        - Accentless
+        - SouthernAccent
+        - GermanAccent
+        - RussianAccent
+        - FrenchAccent
+        - ItalianAccent
+        - SpanishAccent
+        - SkeletonAccent
+        - BritishAccent
+        - CowboyAccent
+        - Dementia
+        - ScottishAccent
+        - Bogan
+        - MedievalAccent
+        - NewYorkAccent
+  functions:
+    - !type:TraitAddComponent
+      components:
+        - type: ReplacementAccent
+          accent: liar

@@ -12,6 +12,7 @@
   - DragonKungFu
   - HellRip
   - Mimejutsu #CorvaxGoob
+  - ArtOfThePunch # Abisfera
 
 - type: guideEntry
   id: CQC
@@ -57,3 +58,8 @@
   id: Mimejutsu
   name: guide-entry-mimejutsu
   text: "/ServerInfo/_CorvaxGoob/Guidebook/MartialArts/Mimejutsu.xml"
+
+- type: guideEntry # Abisfera
+  id: ArtOfThePunch
+  name: guide-entry-art-of-the-punch
+  text: "/ServerInfo/_CorvaxGoob/Guidebook/MartialArts/ArtOfThePunch.xml"

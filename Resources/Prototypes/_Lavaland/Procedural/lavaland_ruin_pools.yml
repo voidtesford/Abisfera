@@ -8,6 +8,9 @@
   ruinDistance: 14
   minDistance: 60
   maxDistance: 256
+  # Corvax-Goob: at most 2 syndicate ruins (bases, syndicate shuttle) per round.
+  groupLimits:
+    Syndicate: 2
   gridRuins:
     # Corvax-Goob-start
     #SyndicateBase: 1

@@ -157,6 +157,13 @@
   - type: Fiber
     fiberMaterial: fibers-latex
   - type: FingerprintMask
+  - type: DiseaseProtection # Abisfera - «Закат»: gloves halve contact spread both ways
+    incoming:
+      chanceMultipliers:
+        Contact: 0.5
+    outgoing:
+      chanceMultipliers:
+        Contact: 0.5
 
 - type: entity
   parent: ClothingHandsButcherable
@@ -171,6 +178,13 @@
   - type: Fiber
     fiberMaterial: fibers-nitrile
   - type: FingerprintMask
+  - type: DiseaseProtection # Abisfera - «Закат»: gloves halve contact spread both ways
+    incoming:
+      chanceMultipliers:
+        Contact: 0.5
+    outgoing:
+      chanceMultipliers:
+        Contact: 0.5
 ####
 - type: entity
   parent: ClothingHandsButcherable

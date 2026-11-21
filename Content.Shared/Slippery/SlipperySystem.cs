@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 using Content.Shared.Administration.Logs;
+using Content.Shared.Traits.Assorted.Components;
 using Content.Shared.Damage.Systems;
 using Content.Shared.Database;
 using Content.Shared.Inventory;
@@ -173,7 +174,10 @@ public sealed class SlipperySystem : EntitySystem
         }
 
         // Slippery is so tied to knockdown that we really just need to force it here.
-        _stun.TryKnockdown(other, component.SlipData.KnockdownTime, force: true);
+        var knockdown = component.SlipData.KnockdownTime;
+        if (TryComp<SlippableModifierComponent>(other, out var slipMod))
+            knockdown *= slipMod.ParalyzeTimeMultiplier;
+        _stun.TryKnockdown(other, knockdown, force: true);
 
         _adminLogger.Add(LogType.Slip, LogImpact.Low, $"{ToPrettyString(other):mob} slipped on collision with {ToPrettyString(uid):entity}");
     }

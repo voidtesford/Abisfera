@@ -34,12 +34,6 @@ public sealed partial class FartComponent : Component
     public float SuperFartMolesMultiplier = 2f;
 
     [DataField]
-    public EntProtoId ButtPrototype = "Butt";
-
-    [DataField]
-    public float ButtThrowDistance = 2f;
-
-    [DataField]
     public float ShakeRange = 10f;
 
     [DataField]

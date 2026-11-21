@@ -60,6 +60,8 @@ public sealed partial class DiseaseSystem : SharedDiseaseSystem
         ent.Comp.DeadInfectionRate = args.Source.Comp.DeadInfectionRate;
         ent.Comp.AvailableEffects = args.Source.Comp.AvailableEffects;
         ent.Comp.DiseaseType = args.Source.Comp.DiseaseType;
+        ent.Comp.BypassesImmunity = args.Source.Comp.BypassesImmunity; // Abisfera - «Закат»
+        ent.Comp.CureMultiplier = args.Source.Comp.CureMultiplier; // Abisfera - «Закат»
     }
 
     private void OnGrantDiseaseInit(Entity<GrantDiseaseComponent> ent, ref MapInitEvent args)
@@ -214,6 +216,9 @@ public sealed partial class DiseaseSystem : SharedDiseaseSystem
                 amt *= args.Scale;
                 amt *= args.Quantity;
             }
+
+            if (amt < 0f) // Abisfera - «Закат»: resistant strains are cured slower
+                amt *= disease.CureMultiplier;
 
             EntityManager.System<DiseaseSystem>().ChangeInfectionProgress((diseaseUid, disease), amt);
         }

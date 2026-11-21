@@ -342,6 +342,11 @@ public sealed partial class NPCBlackboard : IEnumerable<KeyValuePair<string, obj
      public const string NavBlob = "NavBlob"; // Goobstation - Blob
 
     /// <summary>
+    /// CorvaxGoob-Pulsar: path through access doors too; the station AI opens them when the NPC has no access.
+    /// </summary>
+    public const string NavAccess = "NavAccess";
+
+    /// <summary>
     /// Default key storage for a movement pathfind.
     /// </summary>
     public const string PathfindKey = "MovementPathfind";

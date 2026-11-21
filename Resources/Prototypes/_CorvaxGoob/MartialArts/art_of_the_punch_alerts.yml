@@ -1,0 +1,8 @@
+# Abisfera - «Маятник» («Искусство панча»): a swinging punching bag, shown while the art is known.
+- type: alert
+  id: ArtOfThePunchPendulum
+  icons:
+  - sprite: /Textures/_CorvaxGoob/Interface/Alerts/punch_pendulum.rsi
+    state: pendulum
+  name: alerts-art-of-the-punch-pendulum-name
+  description: alerts-art-of-the-punch-pendulum-desc

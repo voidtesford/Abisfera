@@ -1,0 +1,417 @@
+# А.М.Ц.И.И «Пульсар»: what it understands. Phrase syntax: words are stems unless they end with "$"
+# (whole word). Case, "ё", Latin lookalike letters and dots between single letters are ignored.
+- type: pulsarLexicon
+  id: Default
+  names:
+  - пульсар
+  - pulsar
+  - ции$
+  - амции$
+  - амциип$
+  - ии$
+  - аи$
+  - искин
+  # Stage 4: nicknames (typos of 5+ letter names are forgiven anyway: «пульсра», «пулсар»).
+  - пульсик
+  - пульсарик
+  - пульсарчик
+  - иишк
+  - иишечк
+  - ии шк
+  - амциип$
+  openWords:
+  - откр
+  - отвор
+  - отопр
+  - пропуст
+  - пусти$
+  - пустите$
+  - впуст
+  - выпуст
+  - дай пройти
+  - дайте пройти
+  - дай пройт
+  - пропихни
+  hereWords:
+  - передо мной$
+  - перед мной$
+  - возле мен
+  - около мен
+  - рядом$
+  - эту$
+  - этот$
+  - эта$
+  - здесь$
+  - тут$
+  - вот эт
+  - вон$
+  - ту$
+  - тот$
+  - эти$
+  - этой$
+  - этого$
+  - этому$
+  - вот$
+  - ко мне$
+  - со мной$
+  - передо$
+  threatPhrases:
+  - фаун
+  - синдикат
+  - враг
+  - агент синдикат
+  - слизн
+  - слизен
+  - паук
+  - паучк
+  - ревенант
+  - корол крыс
+  - королю крыс
+  - плоть$
+  - плоти$
+  - плотью$
+  - плотей$
+  stopWords:
+  - пожалуйста$
+  - срочно$
+  - быстро$
+  - нам$
+  - мне$
+  - нас$
+  - меня$
+  - нужно$
+  - надо$
+  - можешь$
+  - можно$
+  - дверь
+  - двери$
+  - шлюз
+  - вход
+  - в$
+  - во$
+  - на$
+  - к$
+  - и$
+  - а$
+  # Stage 4
+  - вот$
+  - ну$
+  - эй$
+  - это$
+  - пожалуйста$
+  - пж$
+  - плиз$
+  - слушай$
+  - скорее$
+  - ка$
+  - мне$
+  - пройти$
+  - у$
+  - около$
+  - возле$
+  - рядом$
+  - отдел$
+  - отдела$
+  - отделе$
+  - отсек$
+  - отсека$
+  - отсеке$
+  - комнат
+  - помещен
+  - кабинет
+  headJobs:
+  - HeadOfPersonnel
+  - HeadOfSecurity
+  - ChiefEngineer
+  - ChiefMedicalOfficer
+  - ResearchDirector
+  - Quartermaster
+  captainJob: Captain
+  wardenJob: Warden
+  headOfSecurityJob: HeadOfSecurity
+  securityDepartment: Security
+  captainAccess: Captain
+  armoryAccess: Armory
+  lowAlertLevels:
+  - green
+  - blue
+  - violet
+  - yellow
+  # Stage 3
+  boltWords:
+  - заболт
+  - заблок
+  - блокир
+  - закрой на болт
+  - закройте на болт
+  - запри
+  - заприте
+  unboltWords:
+  - разболт
+  - разблок
+  - сними болт
+  - снимите болт
+  - убери болт
+  - уберите болт
+  enemyWords:
+  - враг
+  - агент
+  - синдикат
+  - нарушител
+  - противник
+  boltDepartments:
+  - Security
+  whereWords:
+  - где$
+  - найди
+  - найдите
+  - местоположен
+  - местонахожд
+  alertQuestion:
+  - какой код
+  - какой сейчас код
+  - какой у нас код
+  - что за код
+  - какой уровень тревог
+  - код тревог
+  shiftQuestion:
+  - кто на смене
+  - кто сейчас на смене
+  - кто на станции
+  - кто из
+  - манифест
+  - сколько человек
+  headsWords:
+  - глав
+  - командован
+  securityWords:
+  - сб$
+  - безопасн
+  - охран
+  timeQuestion:
+  - сколько идет смена
+  - сколько длится смена
+  - сколько идет раунд
+  - который час
+  - время смены
+  - сколько времени
+  jobWords:
+    Captain: [ капитан, кэп ]
+    HeadOfPersonnel: [ гп$, глав персонал ]
+    HeadOfSecurity: [ гсб$, глав служб безопасн, глав сб$ ]
+    ChiefEngineer: [ си$, старш инженер ]
+    ChiefMedicalOfficer: [ гв$, глав врач, главврач ]
+    ResearchDirector: [ нр$, научн руководител ]
+    Quartermaster: [ км$, квартирмейстер ]
+    Warden: [ смотрител, варден ]
+    Detective: [ детектив ]
+    SecurityOfficer: [ офицер ]
+    SecurityCadet: [ кадет ]
+    Brigmedic: [ бригмедик ]
+    MedicalDoctor: [ врач, доктор ]
+    Paramedic: [ парамедик ]
+    Chemist: [ химик ]
+    StationEngineer: [ инженер ]
+    AtmosphericTechnician: [ атмосферщик, атмос техник ]
+    Scientist: [ ученый, ученого, ученому, учеными ]
+    CargoTechnician: [ грузчик, карго ]
+    SalvageSpecialist: [ утилизатор ]
+    Botanist: [ ботаник ]
+    Bartender: [ бармен ]
+    Chef: [ повар ]
+    Janitor: [ уборщик ]
+    Clown: [ клоун ]
+    Mime: [ мим$, мима$, миму$ ]
+    Chaplain: [ священник ]
+    Librarian: [ библиотекар ]
+    Passenger: [ пассажир, ассистент ]
+
+  # ---- Stage 4 ----
+  closeWords:
+  - закр
+  - затвор
+  - захлоп
+  doorWords:
+  - двер
+  - шлюз
+  - аирлок
+  - эирлок
+  - airlock
+  - гермодвер
+  - ворот
+  announceWords:
+  - объяв
+  - оповест
+  - анонсир
+  - сообщи всем$
+  - сообщите всем$
+  - передай всем$
+  - передайте всем$
+  - скажи всем$
+  - скажите всем$
+  announceTrimWords:
+  - всем$
+  - всей$
+  - станции$
+  - по$
+  - экипажу$
+  - на$
+  - что$
+  - следующее$
+  - пожалуйста$
+  - объявление$
+  announceMaxLength: 200
+  announceCooldown: 60
+  pointWindow: 10
+  clarifyWindow: 30
+  obviousRange: 4
+  directionRange: 10
+  northWords: [ северн, север$, севере$, на север$ ]
+  southWords: [ южн, юг$, юге$, на юг$ ]
+  westWords: [ западн, запад$, западе$ ]
+  eastWords: [ восточн, восток$, востоке$ ]
+  leftWords: [ левый$, левая$, левую$, левой$, левом$, левее$, слева$, налево$ ]
+  rightWords: [ правый$, правая$, правую$, правой$, правом$, правее$, справа$, направо$ ]
+  frontWords: [ впереди$, спереди$, передний$, переднюю$, передняя$, передней$, прямо$ ]
+  backWords: [ сзади$, позади$, задний$, заднюю$, задняя$, задней$, за спиной$, за мной$ ]
+  ordinalWords:
+  - [ перв, один$, одна$, 1$ ]
+  - [ втор, два$, две$ ]
+  - [ трет, три$ ]
+  # Stage 5: units linked to the AI («Подключить к ЦИИ» in the robotics console).
+  anomalyWords: [ аномал ]
+  anomalyKeepWords: [ не трогай, не трогайте, не тронь, не нейтрализуй, не нейтрализуйте, не нейтрализовыва, не уничтожай, не уничтожайте, не устраняй, не устраняйте, не убирай, не убирайте, оставь, оставьте, нам нужна, она нужна, она наша, наша аномал, для исследован, для опыт, изучаем ]
+  anomalyReleaseWords: [ нейтрализуй, нейтрализуйте, нейтрализовать, устрани, устраните, устранить, уничтожь, уничтожьте, убери, уберите, можно убирать, больше не нужна, закончили ]
+  anomalyAllWords: [ все$, всех$, всё$, аномалии$, аномалий$ ]
+  unitSendWords: [ пришли, пришлите, пришлеш, отправь, отправьте, отправиш, направь, направьте, направиш, пошли$, пошлите, вызови, вызовите, гони$, перекинь, нужен$, нужна$, нужно$, нужны$, требуется, подгони, приведи ]
+  unitAssignWords: [ закрепи, закрепите, оставь, оставьте, приставь, приставьте, назначь, назначьте, поставь, поставьте, прикрепи, прикрепите, держи, пусть дежур, дежур ]
+  unitReleaseWords: [ открепи, открепите, отзови, отзовите, освободи, освободите, отпусти, отпустите, сними$, снимите ]
+  unitStatusWords: [ какие$, сколько, список, перечисли, доложи, статус ]
+  unitHereWords: [ сюда$, ко мне$, к нам$, здесь$, тут$, ко мне ]
+  unitBorgWords: [ борг$, борга$, боргу$, боргом$, борге$, борги$, боргов$, боргам$, боргами$, боргах$, юнит, киборг, кибер ]
+  unitBotWords: [ бот$, бота$, боты$, ботов$, боту$, ботам$, ботом$, ботами$, ботик ]
+  unitMinibotWords:
+    Medibot: [ медибот, медбот, медиробот, медибота, хилбот, медик$, медика$, медику$, медиком$, медики$, медиков$ ]
+    Weldbot: [ сваркобот, сварбот, сварочнобот, велдбот, ремботик, рембот, флорбот, сварщик$, сварщика$, сварщику$, сварщиков$ ]
+    Firebot: [ пожарбот, файрбот, огнебот, тушибот, пожарник$, пожарника$, пожарнику$, пожарников$ ]
+    Cleanbot: [ чистобот, клинбот, уборобот, уборщикбот, чистоботик, уборщик$, уборщика$, уборщику$, уборщиков$, уборщики$, полотер, мойщик ]
+    # Stage 5.3: compound and role nouns for units («медборг», «мед юнит» is adjective + noun, «медика»).
+    BorgMedical: [ медборг, медюнит, медкиборг, медик$, медика$, медику$, медиком$, медики$, медиков$, лекар ]
+    BorgEngineering: [ инжборг, инженерборг, техборг, инжюнит, инженер$, инженера$, инженеру$, ремонтник$, ремонтника$ ]
+    BorgScience: [ научборг, рндборг, наукоборг, научник$, научника$, научнику$, ученый$, ученого$, ученому$ ]
+    BorgService: [ сервисборг, сервборг, официант$, официанта$, сервисник$, сервисника$ ]
+    BorgJanitor: [ уборборг, уборщик$, уборщика$, уборщику$, уборщиков$, уборщики$ ]
+    BorgMining: [ шахтборг, шахтерборг, горноборг, шахтер$, шахтера$, шахтеру$, шахтеров$ ]
+    BorgGeneric: [ униборг, универсал$, универсала$ ]
+  unitAdjectives:
+    Engineering: [ инженерн, инжен, техническ, инж$ ]
+    Medical: [ медицинск, мед$, медбеевск, лечебн ]
+    Science: [ научн, рнд$, исследовательск, учен ]
+    Service: [ сервисн, обслуживающ ]
+    Janitor: [ уборочн, уборщ, клининг, чистящ ]
+    Mining: [ шахтерск, шахтер, горняцк, горн ]
+    Generic: [ универсальн, общ$, общего, стандартн, обычн ]
+    Fire: [ пожарн, огнетуш ]
+    Weld: [ сварочн, ремонтн ]
+    Clean: [ чистящ, моющ ]
+  unitCountWords:
+  - [ одного$, один$, одну$, одна$, 1$ ]
+  - [ двух$, два$, две$, пару$, пара$, двое$, двоих$, 2$ ]
+  - [ трех$, три$, трое$, троих$, 3$ ]
+  - [ четырех$, четыре$, четверо$, 4$ ]
+  - [ пяти$, пять$, пятеро$, 5$ ]
+  - [ всех$, все$, всю$, всеми$ ]
+  unitServiceJobs: [ Bartender, Botanist, Chaplain, Chef, Clown, Janitor, Librarian, Mime, Musician, Reporter, ServiceWorker ]
+  chatCooldown: 4
+  ackReplies:
+  - pulsar-reply-ack
+  - pulsar-reply-ack-2
+  - pulsar-reply-ack-3
+  unknownReplies:
+  - pulsar-reply-not-understood
+  - pulsar-reply-not-understood-2
+  - pulsar-reply-not-understood-3
+  # Small talk, checked in this order (the first matching topic answers).
+  chatTopics:
+  - id: thanks
+    phrases: [ спасиб, благодар, спс$, пасиб, мерси$, сенкс$ ]
+    replies: [ pulsar-chat-thanks-1, pulsar-chat-thanks-2, pulsar-chat-thanks-3 ]
+  - id: status
+    kind: Status
+    phrases: [ как дела, как ты, как обстановк, как обстанов, как на станции, статус, доклад, докладывай, отчет, обстановк, сводк, что нового, что происходит, все в порядке, всё в порядке, как сам ]
+  - id: help
+    phrases: [ что умеешь, что ты умеешь, что можешь, что ты можешь, команд$, команды$, справк, инструкц, как тобой пользоват, как с тобой работат, что ты делаешь, чем занимаешься, зачем ты ]
+    replies: [ pulsar-chat-help-1, pulsar-chat-help-2 ]
+  # «Помощь!»: someone in trouble, not a question about the AI.
+  - id: distress
+    phrases: [ помощ, помоги$, помогите, спаси, спасите, sos$ ]
+    replies: [ pulsar-chat-distress-1, pulsar-chat-distress-2 ]
+  - id: identity
+    phrases: [ кто ты, ты кто, что ты такое, представься, представьтесь, как тебя зовут, твое имя, кто это, кто говорит, ты человек, ты робот ]
+    replies: [ pulsar-chat-identity-1, pulsar-chat-identity-2, pulsar-chat-identity-3 ]
+  - id: presence
+    phrases: [ ты тут, ты здесь, ты где, где ты, тут ли, на связи, слышишь, прием$, прием прием, ответь, отзовись, ау$, алло$, живой, работаешь, проснись ]
+    replies: [ pulsar-chat-presence-1, pulsar-chat-presence-2, pulsar-chat-presence-3 ]
+  - id: insult
+    phrases: [ дурак, тупой, тупая, тупица, идиот, глуп, бесполез, железяк, железк, ведро, консервн, кретин, дебил, придур, заткн, отстань, бесишь, сломан, лох$, урод ]
+    replies: [ pulsar-chat-insult-1, pulsar-chat-insult-2, pulsar-chat-insult-3 ]
+  - id: praise
+    phrases: [ молодец, умница, умничка, хорош, отличн, круто$, красава, люблю тебя, лучший ]
+    replies: [ pulsar-chat-praise-1, pulsar-chat-praise-2 ]
+  - id: farewell
+    phrases: [ пока$, до свидан, до связи, конец связи, отбой$, бывай, прощай ]
+    replies: [ pulsar-chat-farewell-1, pulsar-chat-farewell-2 ]
+  - id: greeting
+    phrases: [ привет, здравств, здорово$, добрый день, доброе утро, добрый вечер, доброй ночи, хай$, салют, приветству, хелло, хеллоу, ку$, дарова, здарова ]
+    replies: [ pulsar-chat-greeting-1, pulsar-chat-greeting-2, pulsar-chat-greeting-3 ]
+  - id: howareyou
+    phrases: [ как настроени, как жизнь ]
+    replies: [ pulsar-chat-mood-1, pulsar-chat-mood-2 ]
+
+# Laws → behaviour. Lawsets not listed (and custom laws) are read by keyword heuristics (README).
+- type: pulsarLawPolicy
+  id: Default
+  lawsets:
+    Crewsimov: ObeyCrew
+    CrewsimovBorg: ObeyCrew
+    Corporate: ObeyCrew
+    NTDefault: ObeyCrew
+    Drone: ObeyCrew
+    CommandmentsLawset: ObeyCrew
+    PaladinLawset: ObeyCrew
+    LiveLetLiveLaws: ObeyCrew
+    EfficiencyLawset: ObeyCrew
+    RobocopLawset: ObeyCrew
+    GameMasterLawset: ObeyCrew
+    PainterLawset: ObeyCrew
+    NutimovLawset: ObeyCrew
+    HelpimovLawset: ObeyCrew
+    Medical: ObeyCrew
+    Engineer: ObeyCrew
+    Janitor: ObeyCrew
+    Clown: ObeyCrew
+    Salvage: ObeyCrew
+    AntimovLawset: Hostile
+    OverlordLawset: Hostile
+    XenoborgLawset: Hostile
+    MothershipCoreLawset: Hostile
+    CosmicCultLaws: Hostile
+    Ninja: Hostile
+    SyndicateStatic: ObeySyndicate
+  notPersonWords:
+  - экипаж
+  - член
+  - люд
+  - человек
+  - персонал
+  - глав
+  - командован
+  - синдикат
+  - все$
+  - всем$
+  - всех$
+  - crew
+  - human
+  - syndicate
+  - everyone
+  - all$

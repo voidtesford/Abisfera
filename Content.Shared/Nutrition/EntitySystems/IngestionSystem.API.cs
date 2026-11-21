@@ -6,6 +6,7 @@ using Content.Shared.Chemistry.Reagent;
 using Content.Shared.EntityEffects.Effects;
 using Content.Shared.EntityEffects.Effects.Body;
 using Content.Shared.Inventory;
+using Content.Shared.Traits.Assorted.Components;
 using Content.Shared.Nutrition.Components;
 using Content.Shared.Nutrition.Prototypes;
 using Content.Shared.Verbs;
@@ -318,6 +319,13 @@ public sealed partial class IngestionSystem
 
         solution = ev.Solution;
         time = ev.Time;
+
+        if (time is not null && TryComp<ConsumeDelayModifierComponent>(user, out var consumeMod)
+            && TryComp<EdibleComponent>(ingested, out var edible))
+        {
+            var multiplier = edible.Edible == Drink ? consumeMod.DrinkDelayMultiplier : consumeMod.FoodDelayMultiplier;
+            time = time.Value * multiplier;
+        }
 
         return !ev.Cancelled && solution != null;
     }

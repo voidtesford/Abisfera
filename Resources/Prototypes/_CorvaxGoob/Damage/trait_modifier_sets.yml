@@ -1,0 +1,26 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Damage modifier sets referenced by ported Einstein Engines traits.
+
+- type: damageModifierSet
+  id: DermalArmor
+  coefficients:
+    Shock: 1.25
+  flatReductions:
+    Blunt: 1.5
+    Slash: 1.5
+    Piercing: 1.5
+
+- type: damageModifierSet
+  id: SuperiorRadiationShielding
+  flatReductions:
+    Radiation: 4
+
+- type: damageModifierSet
+  id: HardenedCircuits
+  coefficients:
+    Shock: 0.666
+
+- type: damageModifierSet
+  id: ExtremePoisonResistance
+  coefficients:
+    Poison: 0.1

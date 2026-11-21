@@ -1,0 +1,105 @@
+# upd1: «вирусный газ заката» - crimson spores of «Закат», let out by the «изрыгатель спор».
+- type: gas
+  id: ZakatSpores
+  name: gases-zakat-spores
+  specificHeat: 20
+  heatCapacityRatio: 1.4
+  molarMass: 30
+  gasOverlaySprite: /Textures/_CorvaxGoob/Zakat/spores_gas.rsi
+  gasOverlayState: spores
+  gasMolesVisible: 0.5
+  color: 'c4122d'
+  reagent: ZakatSpores
+  pricePerMole: 0
+
+- type: reagent
+  id: ZakatSpores
+  name: reagent-name-zakat-spores
+  desc: reagent-desc-zakat-spores
+  physicalDesc: reagent-physical-desc-gaseous
+  flavor: bitter
+  color: "#c4122d"
+  metabolisms:
+    Gas:
+      metabolismRate: 0.5
+      effects:
+      - !type:ZakatSporeInfect
+        chance: 0.2
+
+- type: entity
+  parent: BaseZakatBuilding
+  id: ZakatSporeSpewer
+  name: spore spewer
+  description: A swollen fleshy sac with a gaping vent. Every few seconds it exhales a crimson cloud.
+  components:
+  - type: Sprite
+    sprite: _CorvaxGoob/Zakat/structures.rsi
+    drawdepth: Mobs
+    layers:
+    - state: spore_spewer
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 80
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: gib
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+  - type: ZakatStructure
+    kind: SporeSpewer
+    interval: 10
+    gasMoles: 10
+    gas: ZakatSpores
+    emitEffect: ZakatSporePuff
+
+# upd2: the crimson cloud the spewer spits out every time it vents
+- type: entity
+  id: ZakatSporePuff
+  name: spore cloud
+  categories: [ HideSpawnMenu ]
+  save: false
+  components:
+  - type: Sprite
+    sprite: _CorvaxGoob/Zakat/structures.rsi
+    drawdepth: Effects
+    layers:
+    - state: spore_puff
+  - type: TimedDespawn
+    lifetime: 0.9
+  - type: Tag
+    tags:
+    - HideContextMenu
+
+- type: entity
+  parent: BaseActionZakatBuild
+  id: ActionZakatBuildSporeSpewer
+  name: Spore spewer
+  components:
+  - type: Action
+    icon:
+      sprite: _CorvaxGoob/Zakat/actions.rsi
+      state: upd1_spore_spewer
+  - type: WorldTargetAction
+    event: !type:ZakatBuildActionEvent
+      structure: SporeSpewer
+
+# upd1: the flesh strikes a wall, window or airlock
+- type: entity
+  id: ZakatFleshStrike
+  name: flesh strike
+  categories: [ HideSpawnMenu ]
+  save: false
+  components:
+  - type: Sprite
+    sprite: _CorvaxGoob/Zakat/effects.rsi
+    drawdepth: Effects
+    layers:
+    - state: strike
+  - type: TimedDespawn
+    lifetime: 0.48
+  - type: Tag
+    tags:
+    - HideContextMenu

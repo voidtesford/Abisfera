@@ -145,4 +145,19 @@ public sealed partial class DiseaseComponent : Component
     /// </summary>
     [DataField]
     public ProtoId<DiseaseTypePrototype> DiseaseType = "Debug";
+
+    // Abisfera - «Закат» start
+    /// <summary>
+    /// If true, the host's natural immunity (<see cref="ImmunityComponent"/>) never fights this disease.
+    /// Medicine and vaccines still work.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public bool BypassesImmunity;
+
+    /// <summary>
+    /// Multiplier for medicine that lowers the infection progress (e.g. Devirate). 1 = normal, lower = more resistant.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public float CureMultiplier = 1f;
+    // Abisfera - «Закат» end
 }

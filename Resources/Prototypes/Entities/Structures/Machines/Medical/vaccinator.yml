@@ -8,6 +8,7 @@
   placement:
     mode: SnapgridCenter
   components:
+  - type: ZakatVirology # CorvaxGoob-Zakat
   - type: Sprite
     sprite: Structures/Machines/vaccinator.rsi
     layers:

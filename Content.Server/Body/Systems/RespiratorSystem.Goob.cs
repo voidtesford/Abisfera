@@ -4,6 +4,7 @@ using Content.Goobstation.Common.MartialArts;
 using Content.Goobstation.Shared.Body;
 using Content.Goobstation.Shared.GrabIntent;
 using Content.Server.Body.Components;
+using Content.Shared._CorvaxGoob.Zakat; // Abisfera
 using Content.Shared._DV.CosmicCult.Components;
 using Content.Shared._Shitmed.Body.Components;
 using Content.Shared._Shitmed.Medical.Surgery.Consciousness;
@@ -21,6 +22,10 @@ public sealed partial class RespiratorSystem
     {
         if (GoobHasBreathingImmunity(uid))
             return true;
+
+        // Abisfera - «Закат» lung symptoms and seizures block breathing for a while
+        if (HasComp<ZakatBreathBlockedComponent>(uid))
+            return false;
 
         // DeltaV: Cosmic Cult - One line change but a refactor would be better. this is kinda cringe.
         // Makes cultists gasp and respirate but not asphyxiate in space.

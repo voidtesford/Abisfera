@@ -44,4 +44,26 @@ public sealed partial class LavalandGridRuinPrototype : IPrototype
     /// </summary>
     [DataField]
     public ComponentRegistry ComponentsToGrant = new();
+
+    // Corvax-Goob-start: lavaland ruin performance
+    /// <summary>
+    /// Optional spawn-limit group. The ruin pool can cap how many ruins of one group
+    /// spawn per round (see <see cref="LavalandRuinPoolPrototype.GroupLimits"/>).
+    /// </summary>
+    [DataField]
+    public string? LimitGroup;
+
+    /// <summary>
+    /// If true, NPCs on this ruin grid (non-patched ruins only) are put to sleep while no player is nearby.
+    /// </summary>
+    [DataField]
+    public bool NpcSleep = true;
+
+    /// <summary>
+    /// If true, tiles of this ruin grid (non-patched ruins only) that are open to the outside get the planet
+    /// atmosphere before the first atmos tick, instead of the station air saved in the map.
+    /// </summary>
+    [DataField]
+    public bool PrefillPlanetAtmosphere = true;
+    // Corvax-Goob-end
 }

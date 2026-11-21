@@ -29,7 +29,6 @@
         stomach: OrganYowieStomach
         liver: OrganYowieLiver
         kidneys: OrganHumanKidneys
-        butt: Butt
     right arm:
       part: RightArmYowie
       connections:

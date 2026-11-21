@@ -1,0 +1,13 @@
+- type: entity
+  parent: BaseItem
+  id: ZakatVaccine
+  name: Zakat vaccine
+  description: A single dose made from one person's sample.
+  components:
+  - type: Item
+    size: Tiny
+  - type: Sprite
+    sprite: Objects/Specific/Medical/medipen.rsi
+    layers:
+    - state: salpen
+  - type: ZakatVaccine

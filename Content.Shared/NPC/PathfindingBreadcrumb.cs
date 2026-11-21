@@ -61,7 +61,8 @@ public struct PathfindingData : IEquatable<PathfindingData>
     public int CollisionMask;
     public float Damage;
 
-    public bool IsFreeSpace => (Flags == PathfindingBreadcrumbFlag.None && Damage.Equals(0f));
+    // CorvaxGoob-Pulsar: the Movable mark alone does not change what counts as free space.
+    public bool IsFreeSpace => ((Flags & ~PathfindingBreadcrumbFlag.Movable) == PathfindingBreadcrumbFlag.None && Damage.Equals(0f));
 
     public PathfindingData(PathfindingBreadcrumbFlag flag, int layer, int mask, float damage)
     {
@@ -122,4 +123,9 @@ public enum PathfindingBreadcrumbFlag : ushort
     /// Is there climbing involved
     /// </summary>
     Climb = 1 << 4,
+
+    /// <summary>
+    /// CorvaxGoob-Pulsar: only loose things (crates, lockers, machines not bolted down) block it: they can be shoved.
+    /// </summary>
+    Movable = 1 << 5,
 }

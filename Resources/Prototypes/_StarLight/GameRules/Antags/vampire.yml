@@ -1,0 +1,54 @@
+# Vampire — adapted for Goob/Abisfera AntagSelection
+- type: entity
+  abstract: true
+  parent: BaseGameRule
+  id: BaseVampireRule
+  components:
+  - type: GameRule
+    minPlayers: 20
+    delay:
+      min: 240
+      max: 420
+  - type: VampireRule
+  - type: AntagObjectives
+    objectives:
+    - VampireKillRandomPersonObjective
+    - VampireDrainObjective
+
+# Full gamemode variant
+- type: entity
+  parent: BaseVampireRule
+  id: Vampire
+  components:
+  - type: AntagSelection
+    selectionTime: IntraPlayerSpawn
+    agentName: vampire-roundend-name
+    definitions:
+    - prefRoles: [ Vampire ]
+      max: 12
+      playerRatio: 24
+      lateJoinAdditional: true
+      blacklist:
+        components:
+        - AntagImmune
+      mindRoles:
+      - MindRoleVampire
+
+# Subgamemode variant (fewer vamps)
+- type: entity
+  parent: BaseVampireRule
+  id: VampireLess
+  components:
+  - type: AntagSelection
+    selectionTime: IntraPlayerSpawn
+    agentName: vampire-roundend-name
+    definitions:
+    - prefRoles: [ Vampire ]
+      max: 6
+      playerRatio: 32
+      lateJoinAdditional: true
+      blacklist:
+        components:
+        - AntagImmune
+      mindRoles:
+      - MindRoleVampire

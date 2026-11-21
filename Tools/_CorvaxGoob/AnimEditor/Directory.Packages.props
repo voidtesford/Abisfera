@@ -1,0 +1,6 @@
+<Project>
+  <!-- Standalone tool: no central package management from the game repo. -->
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+</Project>

@@ -32,6 +32,7 @@
       Healium: ignore # it's harmless unless you also breathe in nitrium, which is danger
       Nitrium: danger
       Pluoxium: ignore
+      ZakatSpores: danger # Abisfera
       # </Goobstation>
   - type: GuideHelp
     guides:

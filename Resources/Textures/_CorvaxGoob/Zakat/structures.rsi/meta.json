@@ -1,0 +1,81 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Made for Abisfera-SS14 (sentient disease «Закат»), generated pixel art (p3.1, biomass after the Prototype games); Created for Abisfera-SS14 «Закат» (upd2 rework: lit, hand-tuned procedural pixel art)",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "spewer",
+      "delays": [
+        [
+          0.3,
+          0.2,
+          0.3,
+          0.2
+        ]
+      ]
+    },
+    {
+      "name": "cocoon_small",
+      "delays": [
+        [
+          0.4,
+          0.3,
+          0.4,
+          0.3
+        ]
+      ]
+    },
+    {
+      "name": "cocoon_hunter",
+      "delays": [
+        [
+          0.4,
+          0.3,
+          0.4,
+          0.3
+        ]
+      ]
+    },
+    {
+      "name": "cocoon_large",
+      "delays": [
+        [
+          0.4,
+          0.3,
+          0.4,
+          0.3
+        ]
+      ]
+    },
+    {
+      "name": "spore_spewer",
+      "delays": [
+        [
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3,
+          0.3
+        ]
+      ]
+    },
+    {
+      "name": "spore_puff",
+      "delays": [
+        [
+          0.15,
+          0.15,
+          0.15,
+          0.15,
+          0.15,
+          0.15
+        ]
+      ]
+    }
+  ]
+}

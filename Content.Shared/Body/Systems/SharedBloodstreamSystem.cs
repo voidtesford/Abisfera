@@ -91,7 +91,9 @@ public abstract partial class SharedBloodstreamSystem : EntitySystem
             // Blood level regulation. Must be alive.
             if (!_mobStateSystem.IsDead(uid))
             {
-                TryRegulateBloodLevel(uid, bloodstream.BloodRefreshAmount);
+                var refreshEv = new BloodRefreshAttemptEvent(bloodstream.BloodRefreshAmount, bloodstream.BloodReferenceSolution.Volume);
+                RaiseLocalEvent(uid, ref refreshEv);
+                TryRegulateBloodLevel(uid, refreshEv.Amount);
 
                 TickBleed((uid, bloodstream));
 

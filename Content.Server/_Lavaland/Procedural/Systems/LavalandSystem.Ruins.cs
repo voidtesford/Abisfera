@@ -3,6 +3,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Numerics;
+using Content.Server._CorvaxGoob.Lavaland; // Corvax-Goob
 using Content.Server.Procedural;
 using Content.Shared._Lavaland.Procedural.Components;
 using Content.Shared._Lavaland.Procedural.Prototypes;
@@ -29,7 +30,7 @@ public sealed partial class LavalandSystem
 
         random.Shuffle(coords);
 
-        SetupGridRuins(pool.GridRuins, lavaland, preloader, ref coords, ref usedSpace);
+        SetupGridRuins(pool.GridRuins, pool.GroupLimits, lavaland, preloader, ref coords, ref usedSpace); // Corvax-Goob: group limits
 
         // Create a new list that excludes all already used spaces that intersect with big ruins.
         coords = coords.Where(coord => !usedSpace.Any(usedBox => usedBox.Contains(coord))).ToList();
@@ -44,6 +45,7 @@ public sealed partial class LavalandSystem
 
     private void SetupGridRuins(
         Dictionary<ProtoId<LavalandGridRuinPrototype>, ushort> ruins,
+        Dictionary<string, int> groupLimits, // Corvax-Goob
         Entity<LavalandMapComponent> lavaland,
         Entity<LavalandPreloaderComponent> preloader,
         ref List<Vector2i> coords,
@@ -56,7 +58,21 @@ public sealed partial class LavalandSystem
         Log.Debug($"Spawning {list.Count} Grid Ruins on {ToPrettyString(lavaland)} planet.");
         foreach (var ruin in list)
         {
-            LoadGridRuin(ruin, lavaland, preloader, ref usedSpace, ref coords);
+            // Corvax-Goob-start: per-round cap for ruin groups (e.g. syndicate bases)
+            if (ruin.LimitGroup is { } group
+                && groupLimits.TryGetValue(group, out var limit)
+                && _ruinGroupCounts.GetValueOrDefault(group) >= limit)
+            {
+                Log.Info($"Skipping ruin {ruin.ID}: group {group} already has {limit} ruins this round.");
+                continue;
+            }
+
+            if (!LoadGridRuin(ruin, lavaland, preloader, ref usedSpace, ref coords))
+                continue;
+
+            if (ruin.LimitGroup != null)
+                _ruinGroupCounts[ruin.LimitGroup] = _ruinGroupCounts.GetValueOrDefault(ruin.LimitGroup) + 1;
+            // Corvax-Goob-end
         }
     }
 
@@ -126,7 +142,7 @@ public sealed partial class LavalandSystem
         return boundary;
     }
 
-    private void LoadGridRuin(
+    private bool LoadGridRuin( // Corvax-Goob: returns whether the ruin was placed
         LavalandGridRuinPrototype ruin,
         Entity<LavalandMapComponent> lavaland,
         Entity<LavalandPreloaderComponent> preloader,
@@ -134,14 +150,14 @@ public sealed partial class LavalandSystem
         ref List<Vector2i> coords)
     {
         if (coords.Count == 0)
-            return;
+            return false;
 
         var mapXform = Transform(preloader);
 
         if (!_mapLoader.TryLoadGrid(mapXform.MapID, ruin.Path, out var spawnedBoundedGrid))
         {
             Log.Error($"Failed to load ruin {ruin.ID} onto dummy map, on stage of loading! AAAAA!!");
-            return;
+            return false;
         }
 
         var spawned = spawnedBoundedGrid.Value;
@@ -151,7 +167,7 @@ public sealed partial class LavalandSystem
         {
             Log.Warning($"Failed to load ruin {ruin.ID} on {ToPrettyString(lavaland)} planet's surface: all attempts have failed and no eligible spot was found!");
             Del(spawnedBoundedGrid);
-            return;
+            return false;
         }
 
         usedSpace.Add(ruinBox.Translated(coord.Value));
@@ -175,9 +191,18 @@ public sealed partial class LavalandSystem
             {
                 componentsToGrant.ComponentsToGrant[key] = comp;
             }
+
+            // Corvax-Goob-start: lavaland ruin performance
+            if (ruin.NpcSleep)
+                EnsureComp<LavalandRuinNpcSleepGridComponent>(spawned);
+
+            if (ruin.PrefillPlanetAtmosphere)
+                _prefillGrids.Add(spawned);
+            // Corvax-Goob-end
         }
 
         Log.Debug($"Successfully spawned ruin {ruin.ID} on {ToPrettyString(lavaland)} planet surface at coordinates {coord.ToString()}");
+        return true; // Corvax-Goob
     }
 
     private void LoadDungeonRuin(

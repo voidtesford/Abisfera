@@ -68,7 +68,7 @@ public abstract partial class SharedMartialArtsSystem
         }
 
         if (args.Weapon != args.Performer
-            || args.Type is not (ComboAttackType.Disarm or ComboAttackType.Harm))
+            || args.Type is not (ComboAttackType.Disarm or ComboAttackType.Harm or ComboAttackType.Power)) // Abisfera - Power
             return;
 
         var velocity = GetVelocity(ent);

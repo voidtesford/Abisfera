@@ -1,0 +1,53 @@
+# Abisfera - «Искусство панча» (The Art of the Punch). Fists or (boxing) gloves only.
+# Passives (ArtOfThePunchComponent): unarmed wind-up -20 %, unarmed attack speed +20 %, «Маятник»: dodge cooldown -50 %.
+- type: martialArt
+  id: ArtOfThePunch
+  martialArtsForm: ArtOfThePunch
+  roundstartCombos: ArtOfThePunchMoves
+  baseDamageModifier: 0
+
+# «Долой зубы» goes first: Harm, Harm, «Тяжёлая атака» also matches «Серия панчей»
+# (a heavy attack fills a Harm slot); if the heavy attack isn't aimed at the head, the series fires instead.
+- type: comboList
+  id: ArtOfThePunchMoves
+  combos:
+  - ArtOfThePunchTeeth
+  - ArtOfThePunchAbsCheck
+  - ArtOfThePunchSeries
+
+# extraDamage = bare fists, staminaDamage = in gloves (instead of the damage).
+- type: combo
+  id: ArtOfThePunchSeries
+  name: Punch series
+  martialArtsForm: ArtOfThePunch
+  attacks:
+  - Harm
+  - Harm
+  - Harm
+  event: !type:ArtOfThePunchSeriesPerformedEvent
+  extraDamage: 5
+  staminaDamage: 10
+
+- type: combo
+  id: ArtOfThePunchAbsCheck
+  name: Abs check
+  martialArtsForm: ArtOfThePunch
+  attacks:
+  - Disarm
+  - Harm
+  - Harm
+  event: !type:ArtOfThePunchAbsCheckPerformedEvent
+  staminaDamage: 35
+
+# The last step is «Тяжёлая атака» (Shift+RMB) aimed at the head. Knockout (5 s forced sleep) at 80+ total damage.
+- type: combo
+  id: ArtOfThePunchTeeth
+  name: Teeth off
+  martialArtsForm: ArtOfThePunch
+  attacks:
+  - Harm
+  - Harm
+  - Power
+  event: !type:ArtOfThePunchTeethPerformedEvent
+  extraDamage: 8
+  staminaDamage: 16

@@ -19,6 +19,7 @@
   minDistance: 180
   spawnAttempts: 20
   patchToPlanet: false
+  limitGroup: Syndicate # Corvax-Goob: capped in the ruin pool
 
 - type: lavalandGridRuin
   id: BiodomeSnow

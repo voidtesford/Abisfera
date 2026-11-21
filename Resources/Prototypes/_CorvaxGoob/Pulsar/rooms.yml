@@ -1,0 +1,206 @@
+# Rooms «Пульсар» can be asked to open. Add your own: keywords are phrases from speech (stems, "$" = whole
+# word), doors are picked by access, by the nearest station beacon name and by the door name (map doors are named
+# in English).
+- type: pulsarRoom
+  id: CaptainQuarters
+  name: pulsar-room-captain
+  keywords: [ кают капитан, капитанск, капитан, кэп ]
+  access: [ Captain ]
+  beacons: [ капитан ]
+  doorNames: [ captain ]
+
+- type: pulsarRoom
+  id: Armory
+  name: pulsar-room-armory
+  keywords: [ оружейн, арсенал, армори ]
+  access: [ Armory ]
+  beacons: [ оружейн, арсенал ]
+  doorNames: [ armory, armoury ]
+
+- type: pulsarRoom
+  id: Bridge
+  name: pulsar-room-bridge
+  keywords: [ мостик, командован ]
+  access: [ Command ]
+  beacons: [ мостик ]
+  doorNames: [ bridge ]
+
+- type: pulsarRoom
+  id: HeadOfSecurityOffice
+  name: pulsar-room-hos
+  keywords: [ гсб$, кабинет глав служб безопасн, глав сб$ ]
+  access: [ HeadOfSecurity ]
+  beacons: [ гсб$ ]
+  doorNames: [ hos$ ]
+
+- type: pulsarRoom
+  id: Security
+  name: pulsar-room-security
+  keywords: [ сб$, служб безопасн, отдел безопасн, охран ]
+  access: [ Security, Brig ]
+  beacons: [ сб$, безопасн ]
+  doorNames: [ security ]
+
+- type: pulsarRoom
+  id: Brig
+  name: pulsar-room-brig
+  keywords: [ бриг ]
+  access: [ Security, Brig ]
+  beacons: [ бриг$ ]
+  doorNames: [ brig$ ]
+
+- type: pulsarRoom
+  id: Detective
+  name: pulsar-room-detective
+  keywords: [ детектив ]
+  access: [ Detective ]
+  beacons: [ детектив ]
+  doorNames: [ detective ]
+
+- type: pulsarRoom
+  id: HeadOfPersonnelOffice
+  name: pulsar-room-hop
+  keywords: [ гп$, кабинет глав персонал, глав персонал ]
+  access: [ HeadOfPersonnel ]
+  beacons: [ гп$, персонал ]
+  doorNames: [ personnel, hop$ ]
+
+- type: pulsarRoom
+  id: Medbay
+  name: pulsar-room-medbay
+  keywords: [ медбе, медблок, медотсек, медицин, мед$ ]
+  access: [ Medical ]
+  beacons: [ медбе, медблок, медицин, медотсек ]
+  doorNames: [ medbay, medical, med$ ]
+
+- type: pulsarRoom
+  id: ChiefMedicalOfficerOffice
+  name: pulsar-room-cmo
+  keywords: [ гв$, главврач, кабинет глав врач ]
+  access: [ ChiefMedicalOfficer ]
+  beacons: [ гв$, главврач ]
+  doorNames: [ cmo$ ]
+
+- type: pulsarRoom
+  id: Chemistry
+  name: pulsar-room-chemistry
+  keywords: [ химлаб, химик, химии$, химия$ ]
+  access: [ Chemistry ]
+  beacons: [ хими, хим$ ]
+  doorNames: [ chem ]
+
+- type: pulsarRoom
+  id: Science
+  name: pulsar-room-science
+  keywords: [ рнд$, рнд, нио$, научн отдел, исследов, учен, наук ]
+  access: [ Research ]
+  beacons: [ рнд, нио$, научн, исследов ]
+  doorNames: [ research, science, sci$, rnd$ ]
+
+- type: pulsarRoom
+  id: ResearchDirectorOffice
+  name: pulsar-room-rd
+  keywords: [ нр$, научрук, научн руковод, кабинет нр$ ]
+  access: [ ResearchDirector ]
+  beacons: [ нр$, научн руковод ]
+  doorNames: [ rd$ ]
+
+- type: pulsarRoom
+  id: Cargo
+  name: pulsar-room-cargo
+  keywords: [ карго, снабжен, грузов, склад ]
+  access: [ Cargo ]
+  beacons: [ карго, снабжен, грузов, склад ]
+  doorNames: [ cargo, supply, delivery ]
+
+- type: pulsarRoom
+  id: QuartermasterOffice
+  name: pulsar-room-qm
+  keywords: [ км$, квартирмейстер, кабинет км$ ]
+  access: [ Quartermaster ]
+  beacons: [ км$, квартирмейстер ]
+  doorNames: [ quartermaster, qm$ ]
+
+- type: pulsarRoom
+  id: Salvage
+  name: pulsar-room-salvage
+  keywords: [ утилизатор, утилизац, шахтер ]
+  access: [ Salvage ]
+  beacons: [ утилизат ]
+  doorNames: [ salvage ]
+
+- type: pulsarRoom
+  id: Engineering
+  name: pulsar-room-engineering
+  keywords: [ инженерк, инженерн, инженер, двигател ]
+  access: [ Engineering ]
+  beacons: [ инженер ]
+  doorNames: [ engineering ]
+
+- type: pulsarRoom
+  id: ChiefEngineerOffice
+  name: pulsar-room-ce
+  keywords: [ си$, старш инженер, кабинет си$ ]
+  access: [ ChiefEngineer ]
+  beacons: [ си$, старш инженер ]
+  doorNames: [ ce$ ]
+
+- type: pulsarRoom
+  id: Atmospherics
+  name: pulsar-room-atmos
+  keywords: [ атмос ]
+  access: [ Atmospherics ]
+  beacons: [ атмос ]
+  doorNames: [ atmos ]
+
+- type: pulsarRoom
+  id: Bar
+  name: pulsar-room-bar
+  keywords: [ бар$, бара$, бару$, баре$, бармен ]
+  access: [ Bar ]
+  beacons: [ бар$ ]
+  doorNames: [ bar$ ]
+
+- type: pulsarRoom
+  id: Kitchen
+  name: pulsar-room-kitchen
+  keywords: [ кухн, повар ]
+  access: [ Kitchen ]
+  beacons: [ кухн ]
+  doorNames: [ kitchen ]
+
+- type: pulsarRoom
+  id: Hydroponics
+  name: pulsar-room-hydroponics
+  keywords: [ гидропон, ботани ]
+  access: [ Hydroponics ]
+  beacons: [ гидропон, ботани ]
+  doorNames: [ hydroponic, botany ]
+
+- type: pulsarRoom
+  id: Janitor
+  name: pulsar-room-janitor
+  keywords: [ уборщ, подсобк ]
+  access: [ Janitor ]
+  beacons: [ уборщ ]
+  doorNames: [ janitor, jani$ ]
+
+- type: pulsarRoom
+  id: Chapel
+  name: pulsar-room-chapel
+  keywords: [ церк, часовн, священ ]
+  access: [ Chapel ]
+  beacons: [ церк, часовн, храм ]
+  doorNames: [ chapel$ ]
+
+- type: pulsarRoom
+  id: Maintenance
+  name: pulsar-room-maintenance
+  keywords: [ техтоннел, тех тоннел, техи$, технич тоннел ]
+  access: [ Maintenance ]
+
+- type: pulsarRoom
+  id: External
+  name: pulsar-room-external
+  keywords: [ внешн шлюз, шлюз наружу, наружу$, в$ космос ]
+  access: [ External ]

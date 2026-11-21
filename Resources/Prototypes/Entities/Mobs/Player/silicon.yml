@@ -349,6 +349,7 @@
   - type: ContainerSpawnPoint
     containerId: station_ai_mind_slot
     job: StationAi
+  - type: PulsarAutonomousAi # CorvaxGoob-Pulsar: runs the core while no player takes the AI
 
 # The station AI core assembly
 - type: entity

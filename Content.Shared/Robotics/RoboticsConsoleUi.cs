@@ -29,6 +29,14 @@ public sealed class RoboticsConsoleState : BoundUserInterfaceState
 
     public bool HasCircuitBoard; // Corvax-Goob-MutableLaws
 
+    // CorvaxGoob-Pulsar-Start: the «Миниботы» tab and the link to the station AI («Подключить к ЦИИ»).
+    /// <summary>Medibots, weldbots, firebots and cleanbots on the console's station.</summary>
+    public List<RoboticsMinibotData> Minibots = new();
+
+    /// <summary>Is there a station AI module on this station that units can be linked to.</summary>
+    public bool PulsarAvailable;
+    // CorvaxGoob-Pulsar-End
+
     public RoboticsConsoleState(Dictionary<string, CyborgControlData> cyborgs, bool allowBorgControl, bool hasCircuitBoard)// Corvax-Goob-MutableLaws
     {
         HasCircuitBoard = hasCircuitBoard; // Corvax-Goob-MutableLaws
@@ -44,6 +52,43 @@ public sealed class RoboticsConsoleChangeLawsMessage(string address) : BoundUser
     public readonly string Address = address;
 }
 // Corvax-Goob-MutableLaws-End
+
+// CorvaxGoob-Pulsar-Start
+/// <summary>Link / unlink a cyborg (by its transponder address) to the station AI module.</summary>
+[Serializable, NetSerializable]
+public sealed class RoboticsConsolePulsarLinkMessage(string address, bool link) : BoundUserInterfaceMessage
+{
+    public readonly string Address = address;
+    public readonly bool Link = link;
+}
+
+/// <summary>Link / unlink a minibot to the station AI module.</summary>
+[Serializable, NetSerializable]
+public sealed class RoboticsConsoleMinibotLinkMessage(NetEntity bot, bool link) : BoundUserInterfaceMessage
+{
+    public readonly NetEntity Bot = bot;
+    public readonly bool Link = link;
+}
+
+/// <summary>One minibot row of the «Миниботы» tab.</summary>
+[Serializable, NetSerializable]
+public sealed class RoboticsMinibotData
+{
+    public NetEntity Entity;
+    public string Name = string.Empty;
+    /// <summary>Localized kind: «медибот», «сваркобот»…</summary>
+    public string Kind = string.Empty;
+    /// <summary>Prototype for the icon.</summary>
+    public string Prototype = string.Empty;
+    public float HpPercent;
+    public bool Linked;
+    public bool Anchored;
+    /// <summary>Has a mind (sentient): the AI never drives it.</summary>
+    public bool Sentient;
+    /// <summary>Localized current task / assigned area, empty when idle.</summary>
+    public string Task = string.Empty;
+}
+// CorvaxGoob-Pulsar-End
 
 /// <summary>
 /// Message to disable the selected cyborg.
@@ -145,6 +190,17 @@ public partial record struct CyborgControlData
     // CorvaxGoob-MutableLaws
     [DataField]
     public bool IsLawChangable;
+
+    // CorvaxGoob-Pulsar-Start: filled by the console from the sender entity, not by the transponder.
+    [DataField]
+    public bool PulsarLinkable;
+
+    [DataField]
+    public bool PulsarLinked;
+
+    [DataField]
+    public string PulsarTask = string.Empty;
+    // CorvaxGoob-Pulsar-End
 
     public CyborgControlData(SpriteSpecifier? chassisSprite, string chassisName, string name, float charge, float hpPercent, int moduleCount, bool hasBrain, bool canDisable, bool isAiControllable, bool isLawChangable) // Corvax-Next-AiRemoteControl && CorvaxGoob-MutableLaws
     {

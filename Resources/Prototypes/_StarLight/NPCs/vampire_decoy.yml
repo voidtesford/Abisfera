@@ -1,0 +1,6 @@
+- type: htnCompound
+  id: VampireDecoyCompound
+  branches:
+    - tasks:
+        - !type:HTNCompoundTask
+          task: IdleCompound

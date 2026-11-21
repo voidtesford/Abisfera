@@ -33,4 +33,9 @@ public enum PathFlags : byte
     Interact = 1 << 4,
 
      Blob = 1 << 5,  // Goobstation - Blob
+
+    /// <summary>
+    /// CorvaxGoob-Pulsar: may shove loose things (crates, lockers) out of the way by walking into them.
+    /// </summary>
+    Pushing = 1 << 6,
 }

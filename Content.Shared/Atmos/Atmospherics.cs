@@ -190,6 +190,7 @@ namespace Content.Shared.Atmos
             [Gas.Healium] =  Loc.GetString("gas-healium-abbreviation"),
             [Gas.Nitrium] = Loc.GetString("gas-nitrium-abbreviation"),
             [Gas.Pluoxium] = Loc.GetString("gas-pluoxium-abbreviation"),
+            [Gas.ZakatSpores] = Loc.GetString("gas-zakat-spores-abbreviation"), // Abisfera
             // Goobstation End
         };
 
@@ -220,7 +221,7 @@ namespace Content.Shared.Atmos
         /// <summary>
         ///     Total number of gases. Increase this if you want to add more!
         /// </summary>
-        public const int TotalNumberOfGases = 13; // Assmos - /tg/ gases
+        public const int TotalNumberOfGases = 14; // Assmos - /tg/ gases; Abisfera - ZakatSpores
 
         /// <summary>
         ///     This is the actual length of the gases arrays in mixtures.
@@ -414,5 +415,6 @@ namespace Content.Shared.Atmos
         Healium = 10, // Assmos - /tg/ gases
         Nitrium = 11, // Assmos - /tg/ gases
         Pluoxium = 12, // Assmos - /tg/ gases
+        ZakatSpores = 13, // Abisfera - «вирусный газ заката»
     }
 }

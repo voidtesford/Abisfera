@@ -52,4 +52,5 @@ public enum MartialArtsForms
     Ninjutsu,
     HellRip,
     Mimejutsu, // CorvaxGoob - Mimejutsu
+    ArtOfThePunch, // Abisfera - «Искусство панча»
 }

@@ -450,6 +450,7 @@ namespace Content.Server.NodeContainer.EntitySystems
                 NodeGroupID.WireNet => Color.DarkMagenta,
                 NodeGroupID.Teg => Color.Red,
                 NodeGroupID.ExCable => Color.Pink,
+                NodeGroupID.KamertonReactor => Color.Cyan, // CorvaxGoob-Kamerton
                 _ => Color.White
             };
         }

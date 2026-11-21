@@ -15,6 +15,7 @@ using Content.Client.UserInterface.Systems.Guidebook;
 using Content.Shared._CorvaxGoob;
 using Content.Shared._CorvaxGoob.CCCVars;
 using Content.Shared.CCVar;
+using Content.Shared.Customization.Systems;
 using Content.Shared.Clothing;
 using Content.Shared.GameTicking;
 using Content.Shared.Guidebook;
@@ -467,6 +468,7 @@ namespace Content.Client.Lobby.UI
 
             TabContainer.SetTabTitle(2, Loc.GetString("humanoid-profile-editor-antags-tab"));
 
+            TraitsShowUnusableButton.OnToggled += _ => RefreshTraits();
             RefreshTraits();
 
             TabContainer.SetTabTitle(3, Loc.GetString("humanoid-profile-editor-traits-tab")); // CorvaxGoob-TTS-Edit
@@ -602,8 +604,37 @@ namespace Content.Client.Lobby.UI
         {
             TraitsList.RemoveAllChildren();
 
-            var traits = _prototypeManager.EnumeratePrototypes<TraitPrototype>().OrderBy(t => Loc.GetString(t.Name)).ToList();
-            //TabContainer.SetTabTitle(3, Loc.GetString("humanoid-profile-editor-traits-tab")); // CorvaxGoob-TTS-Edit
+            if (Profile == null)
+                return;
+
+            var enabled = _cfgManager.GetCVar(CCVars.GameTraitsEnabled);
+            var defaultPoints = _cfgManager.GetCVar(CCVars.GameTraitsDefaultPoints);
+            var maxSlots = _cfgManager.GetCVar(CCVars.GameTraitsMax);
+            var remaining = Content.Shared.Traits.TraitPreferences.PointsRemaining(Profile.TraitPreferences, _prototypeManager, _cfgManager);
+            var slotsLeft = Content.Shared.Traits.TraitPreferences.SlotsRemaining(Profile.TraitPreferences, _prototypeManager, _cfgManager);
+
+            TraitPointsBar.MaxValue = Math.Max(1, defaultPoints);
+            TraitPointsBar.Value = Math.Clamp(remaining, 0, TraitPointsBar.MaxValue);
+            TraitPointsLabel.Text = Loc.GetString("humanoid-profile-editor-traits-header",
+                ("points", remaining),
+                ("max", defaultPoints),
+                ("slots", maxSlots - slotsLeft),
+                ("maxSlots", maxSlots));
+
+            if (!enabled)
+            {
+                TraitsList.AddChild(new Label
+                {
+                    Text = Loc.GetString("humanoid-profile-editor-no-traits"),
+                    FontColorOverride = Color.Gray,
+                });
+                return;
+            }
+
+            var traits = _prototypeManager.EnumeratePrototypes<TraitPrototype>()
+                .OrderBy(t => -t.Points)
+                .ThenBy(t => TraitPrototype.GetName(t))
+                .ToList();
 
             if (traits.Count < 1)
             {
@@ -615,101 +646,86 @@ namespace Content.Client.Lobby.UI
                 return;
             }
 
-            // Setup model
-            Dictionary<string, List<string>> traitGroups = new();
-            List<string> defaultTraits = new();
-            traitGroups.Add(TraitCategoryPrototype.Default, defaultTraits);
+            JobPrototype? highJob = null;
+            try
+            {
+                highJob = _controller.GetPreferredJob(Profile);
+            }
+            catch
+            {
+                // GetPreferredJob may throw if the preferred job is missing.
+            }
+
+            var showUnusable = TraitsShowUnusableButton.Pressed;
+            var groups = new Dictionary<string, List<TraitPrototype>>();
+            var defaultTraits = new List<TraitPrototype>();
+            groups[TraitCategoryPrototype.Default] = defaultTraits;
 
             foreach (var trait in traits)
             {
-                // Begin Goobstation: ported from DeltaV - Species trait exclusion
-                if (Profile?.Species is { } selectedSpecies && (trait.ExcludedSpecies.Contains(selectedSpecies) ||
-                    trait.IncludedSpecies.Count > 0 && !trait.IncludedSpecies.Contains(selectedSpecies)))
-                {
-                    Profile = Profile?.WithoutTraitPreference(trait.ID, _prototypeManager);
-                    continue;
-                }
-                // End Goobstation: ported from DeltaV - Species trait exclusion
-
                 if (trait.Category == null)
                 {
-                    defaultTraits.Add(trait.ID);
+                    defaultTraits.Add(trait);
                     continue;
                 }
 
                 if (!_prototypeManager.HasIndex(trait.Category))
                     continue;
 
-                var group = traitGroups.GetOrNew(trait.Category);
-                group.Add(trait.ID);
+                groups.GetOrNew(trait.Category).Add(trait);
             }
 
-            // Create UI view from model
-            foreach (var (categoryId, categoryTraits) in traitGroups)
+            foreach (var (categoryId, categoryTraits) in groups)
             {
-                TraitCategoryPrototype? category = null;
-
                 if (categoryId != TraitCategoryPrototype.Default)
                 {
-                    category = _prototypeManager.Index<TraitCategoryPrototype>(categoryId);
-                    // Label
+                    var category = _prototypeManager.Index<TraitCategoryPrototype>(categoryId);
+                    var catName = !string.IsNullOrEmpty(category.Name)
+                        ? Loc.GetString(category.Name)
+                        : Loc.GetString($"trait-category-{category.ID}");
                     TraitsList.AddChild(new Label
                     {
-                        Text = Loc.GetString(category.Name),
+                        Text = catName,
                         Margin = new Thickness(0, 10, 0, 0),
                         StyleClasses = { StyleClass.LabelHeading },
                     });
                 }
 
-                List<TraitPreferenceSelector?> selectors = new();
-                var selectionCount = 0;
-
-                foreach (var traitProto in categoryTraits)
+                foreach (var trait in categoryTraits)
                 {
-                    var trait = _prototypeManager.Index<TraitPrototype>(traitProto);
-                    var selector = new TraitPreferenceSelector(trait);
+                    var usable = CharacterRequirementsSystem.CheckRequirementsValid(
+                        trait.Requirements,
+                        highJob,
+                        Profile,
+                        new Dictionary<string, TimeSpan>(),
+                        true,
+                        trait,
+                        _entManager,
+                        _prototypeManager,
+                        _cfgManager,
+                        out _);
 
-                    selector.Preference = Profile?.TraitPreferences.Contains(trait.ID) == true;
-                    if (selector.Preference)
-                        selectionCount += trait.Cost;
+                    if (trait.IncludedSpecies.Count > 0 && !trait.IncludedSpecies.Contains(Profile.Species))
+                        usable = false;
+                    if (trait.ExcludedSpecies.Contains(Profile.Species))
+                        usable = false;
+
+                    var selected = Profile.TraitPreferences.Contains(trait.ID);
+                    var selector = new TraitPreferenceSelector(trait, highJob, Profile, _entManager, _prototypeManager, _cfgManager);
+                    selector.Preference = selected;
+                    selector.Valid = usable;
+                    selector.ShowUnusable = showUnusable;
 
                     selector.PreferenceChanged += preference =>
                     {
                         if (preference)
-                        {
                             Profile = Profile?.WithTraitPreference(trait.ID, _prototypeManager);
-                        }
                         else
-                        {
                             Profile = Profile?.WithoutTraitPreference(trait.ID, _prototypeManager);
-                        }
 
                         SetDirty();
-                        RefreshTraits(); // If too many traits are selected, they will be reset to the real value.
+                        RefreshTraits();
                     };
-                    selectors.Add(selector);
-                }
-
-                // Selection counter
-                if (category is { MaxTraitPoints: >= 0 })
-                {
-                    TraitsList.AddChild(new Label
-                    {
-                        Text = Loc.GetString("humanoid-profile-editor-trait-count-hint", ("current", selectionCount), ("max", category.MaxTraitPoints)),
-                        FontColorOverride = Color.Gray
-                    });
-                }
-
-                foreach (var selector in selectors)
-                {
-                    if (selector == null)
-                        continue;
-
-                    if (category is { MaxTraitPoints: >= 0 } &&
-                        selector.Cost + selectionCount > category.MaxTraitPoints)
-                    {
-                        selector.Checkbox.Label.FontColorOverride = Color.Red;
-                    }
 
                     TraitsList.AddChild(selector);
                 }

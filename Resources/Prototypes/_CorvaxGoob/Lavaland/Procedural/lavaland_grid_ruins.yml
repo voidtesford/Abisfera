@@ -4,6 +4,7 @@
   path: /Maps/_CorvaxGoob/Lavaland/Lavaland/ruin_syndicate_base.yml
   priority: -1 # highest priority
   patchToPlanet: false
+  limitGroup: Syndicate # Corvax-Goob: capped in the ruin pool
 
 #Corvax ruins
 - type: lavalandGridRuin
@@ -53,6 +54,7 @@
   path: /Maps/_CorvaxGoob/Lavaland/Lavaland/ruin_syndicate_shuttle.yml
   priority: 7
   patchToPlanet: false
+  limitGroup: Syndicate # Corvax-Goob: capped in the ruin pool
 
 - type: lavalandGridRuin
   id: CorvaxUnathi

@@ -31,7 +31,6 @@
         stomach: OrganDwarfStomach
         liver: OrganDwarfLiver
         kidneys: OrganHumanKidneys
-        butt: Butt # Goob
     right arm:
       part: RightArmHuman
       connections:

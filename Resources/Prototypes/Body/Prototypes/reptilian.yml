@@ -31,7 +31,6 @@
         stomach: OrganReptilianStomach
         liver: OrganAnimalLiver
         kidneys: OrganHumanKidneys
-        butt: Butt # Goob
     right arm:
       part: RightArmReptilian
       connections:

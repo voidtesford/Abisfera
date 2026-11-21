@@ -65,7 +65,7 @@ public partial class SharedMartialArtsSystem
 
         var afterEv = new AfterComboCheckEvent(uid, args.Target, args.Weapon, args.Type);
 
-        if (args.Weapon != uid)
+        if (args.Weapon != uid && !IsComboGloves(uid, args.Weapon)) // Abisfera - «Искусство панча» also works in gloves
         {
             component.LastAttacks.Clear();
             RaiseLocalEvent(uid, ref afterEv);
@@ -107,7 +107,7 @@ public partial class SharedMartialArtsSystem
             var list = comp.LastAttacks.GetRange(sum, proto.AttackTypes.Count).AsEnumerable();
             var attackList = proto.AttackTypes.AsEnumerable();
 
-            if (!list.SequenceEqual(attackList) || proto.ResultEvent == null)
+            if (!list.SequenceEqual(attackList, ComboStepComparer.Instance) || proto.ResultEvent == null) // Abisfera - Power fills Harm
                 continue;
             var beingPerformedEv = new ComboBeingPerformedEvent(proto.ID);
             var ev = proto.ResultEvent;
@@ -116,6 +116,41 @@ public partial class SharedMartialArtsSystem
             RaiseLocalEvent(uid, ev);
         }
     }
+    /// <summary>
+    /// Abisfera: «Искусство панча» combos also count punches thrown in worn gloves (boxing gloves are the melee weapon then).
+    /// Other arts keep the Goob rule: bare hands only.
+    /// </summary>
+    private bool IsComboGloves(EntityUid uid, EntityUid weapon)
+    {
+        return TryComp<MartialArtsKnowledgeComponent>(uid, out var knowledge)
+               && knowledge.MartialArtsForm == MartialArtsForms.ArtOfThePunch
+               && IsWornGloves(uid, weapon);
+    }
+
+    private bool IsWornGloves(EntityUid uid, EntityUid weapon)
+    {
+        return _inventory.TryGetSlotEntity(uid, "gloves", out var gloves) && gloves == weapon;
+    }
+
+    /// <summary>
+    /// Abisfera: a performed step matches a combo step if equal, or if it is «Тяжёлая атака» (Power) in a Harm slot,
+    /// so the heavy attack still counts as a punch for the Goob arts. Order: performed, then wanted.
+    /// </summary>
+    private sealed class ComboStepComparer : IEqualityComparer<ComboAttackType>
+    {
+        public static readonly ComboStepComparer Instance = new();
+
+        public bool Equals(ComboAttackType performed, ComboAttackType wanted)
+        {
+            return performed == wanted || performed == ComboAttackType.Power && wanted == ComboAttackType.Harm;
+        }
+
+        public int GetHashCode(ComboAttackType obj)
+        {
+            return 0;
+        }
+    }
+
     private void OnComboBeingPerformed(Entity<CanPerformComboComponent> ent, ref ComboBeingPerformedEvent args)
     {
         ent.Comp.BeingPerformed = args.ProtoId;

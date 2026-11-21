@@ -78,6 +78,9 @@
 - type: npcFaction
   id: Wizard # Not hostile to angry mobs
   hostile:
+    - Gilbert # CorvaxGoob - Gilbert
+    - ShogkkOperative # CorvaxGoob - SHOGKK operatives: hostile to them like to Gilbert
+    - ShogkkZombified # CorvaxGoob - SHOGKK zombified: hostile to them like to Gilbert
     - NanoTrasen
     - Syndicate
     - Zombie

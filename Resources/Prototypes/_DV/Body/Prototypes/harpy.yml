@@ -31,7 +31,6 @@
         stomach: OrganAnimalStomach
         liver:  OrganAnimalLiver
         kidneys: OrganAnimalKidneys
-        butt: Butt # Goob
     right arm:
       part: RightArmHarpy
       connections:

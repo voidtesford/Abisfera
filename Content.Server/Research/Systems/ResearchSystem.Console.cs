@@ -105,7 +105,9 @@ public sealed partial class ResearchSystem
         }*/
 
         // R&D Console Rework Start
-        var allTechs = PrototypeManager.EnumeratePrototypes<TechnologyPrototype>().ToList();
+        var allTechs = PrototypeManager.EnumeratePrototypes<TechnologyPrototype>()
+            .Where(proto => !IsTechnologyHidden(proto.ID)) // CorvaxGoob: event-locked technologies are not shown at all
+            .ToList();
         Dictionary<string, ResearchAvailability> techList;
         var points = 0;
 

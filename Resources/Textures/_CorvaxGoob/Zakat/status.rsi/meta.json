@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Made for Abisfera-SS14 (sentient disease «Закат»), generated pixel art",
+  "size": { "x": 15, "y": 13 },
+  "states": [
+    { "name": "infected" },
+    { "name": "immune" },
+    { "name": "healthy" }
+  ]
+}

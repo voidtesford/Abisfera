@@ -24,6 +24,7 @@ public sealed partial class AnomalySystem
 {
     [Dependency] private readonly SharedMapSystem _mapSystem = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private readonly EntityLookupSystem _lookup = default!; // CorvaxGoob-Pulsar
 
     private void InitializeGenerator()
     {
@@ -83,10 +84,10 @@ public sealed partial class AnomalySystem
         UpdateGeneratorUi(uid, component);
     }
 
-    public void SpawnOnRandomGridLocation(EntityUid grid, string toSpawn)
+    public Robust.Shared.Map.EntityCoordinates? SpawnOnRandomGridLocation(EntityUid grid, string toSpawn) // CorvaxGoob-Pulsar: returns the spot
     {
         if (!TryComp<MapGridComponent>(grid, out var gridComp))
-            return;
+            return null;
 
         var xform = Transform(grid);
 
@@ -153,6 +154,7 @@ public sealed partial class AnomalySystem
         }
 
         Spawn(toSpawn, targetCoords);
+        return targetCoords; // CorvaxGoob-Pulsar
     }
 
     private void OnGeneratingStartup(EntityUid uid, GeneratingAnomalyGeneratorComponent component, ComponentStartup args)
@@ -172,7 +174,14 @@ public sealed partial class AnomalySystem
             grid = xform.GridUid.Value;
         }
 
-        SpawnOnRandomGridLocation(grid, component.SpawnerPrototype);
+        var spot = SpawnOnRandomGridLocation(grid, component.SpawnerPrototype); // CorvaxGoob-Pulsar
+        // CorvaxGoob-Pulsar-Start: the generated anomaly is science's own, the station AI leaves it alone
+        if (spot is { } coords)
+        {
+            foreach (var made in _lookup.GetEntitiesInRange<Content.Shared.Anomaly.Components.AnomalyComponent>(coords, 0.75f))
+                EnsureComp<Content.Server._CorvaxGoob.Pulsar.PulsarScienceAnomalyComponent>(made).Generated = true;
+        }
+        // CorvaxGoob-Pulsar-End
         RemComp<GeneratingAnomalyGeneratorComponent>(uid);
         Appearance.SetData(uid, AnomalyGeneratorVisuals.Generating, false);
         Audio.PlayPvs(component.GeneratingFinishedSound, uid);

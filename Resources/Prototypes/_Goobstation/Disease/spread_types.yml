@@ -6,3 +6,8 @@
 - type: diseaseSpread
   id: Blood
   name: Blood
+
+# Abisfera - «Закат»: touching, hitting, shoving and pulling
+- type: diseaseSpread
+  id: Contact
+  name: Contact

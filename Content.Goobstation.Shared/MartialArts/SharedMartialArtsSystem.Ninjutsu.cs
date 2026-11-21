@@ -189,7 +189,8 @@ public abstract partial class SharedMartialArtsSystem
 
         ResetDebuff(ent);
 
-        if (args.Type != ComboAttackType.Harm || args.Target == args.Performer ||
+        if (args.Type is not (ComboAttackType.Harm or ComboAttackType.Power) || // Abisfera - Power
+            args.Target == args.Performer ||
             !IsWeaponValid(args.Performer, args.Weapon, out var melee) ||
             !_standingState.IsDown(args.Target))
             return;

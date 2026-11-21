@@ -1,0 +1,26 @@
+# What every zombified SHOGKK (Gilbert, the rank-and-file operatives) shares: they don't breathe, pressure (low or
+# high) doesn't hurt them, cold doesn't hurt them, and redspace map physics leave them alone. Heat (fire) still burns
+# them like an ordinary human.
+- type: entity
+  abstract: true
+  parent: BaseMobHuman
+  id: BaseMobShogkkZombified
+  components:
+  # No breathing at all: no suffocation, no breathing alerts, no internals or mask needed.
+  - type: BreathingImmunity
+  # No barotrauma (vacuum or overpressure) and no pressure alerts.
+  - type: PressureImmunity
+  # Cold immunity: temperature damage ignores resistances, so the cold damage itself is removed.
+  # Heat stays the same as an ordinary human's (BaseMobSpeciesOrganic).
+  - type: TemperatureDamage
+    heatDamageThreshold: 325
+    coldDamageThreshold: 0
+    coldDamage: {}
+    heatDamage:
+      types:
+        Heat: 1.0
+  # Redspace map physics don't touch them (see RedspaceImmuneComponent).
+  - type: RedspaceImmune
+  # Nobody plays them: no SSDIndicator (removed on map init) and no SSD sleep status, which since RT 293 also stuns and
+  # knocks the body down (Gilbert, the operatives and the zombified all lay down "asleep" otherwise).
+  - type: ShogkkNoSsdIndicator

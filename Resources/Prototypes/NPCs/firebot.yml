@@ -3,6 +3,10 @@
 - type: htnCompound
   id: FirebotCompound
   branches:
+    # CorvaxGoob-Pulsar: an order from the station AI comes first.
+    - tasks:
+        - !type:HTNCompoundTask
+          task: PulsarGotoCompound
     - tasks:
         - !type:HTNCompoundTask
           task: DouseFireTargetCompound

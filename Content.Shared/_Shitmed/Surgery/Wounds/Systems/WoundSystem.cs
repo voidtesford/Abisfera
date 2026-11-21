@@ -27,6 +27,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Content.Shared.Damage.Systems;
 using Content.Shared.Damage.Components;
+using Content.Shared._CorvaxGoob.Zakat; // Abisfera
 
 namespace Content.Shared._Shitmed.Medical.Surgery.Wounds.Systems;
 
@@ -155,10 +156,15 @@ public sealed partial class WoundSystem : EntitySystem
 
     private void ProcessHealing(Entity<WoundableComponent> woundable, EntityUid bodyEnt)
     {
-        if (woundable.Comp.CanHealBleeds)
+        // Abisfera - «Закат» «гемофилия»: bleeds never close by themselves
+        if (woundable.Comp.CanHealBleeds && !HasComp<ZakatHemophiliaComponent>(bodyEnt))
             TryHealBleedingWounds(woundable, (float) -woundable.Comp.BleedingTreatmentAbility, out _, woundable);
 
         if (!woundable.Comp.CanHealDamage)
+            return;
+
+        // Abisfera - «Закат» immune suppression: wounds stop closing by themselves (bleeds still clot)
+        if (HasComp<PassiveRegenSuppressedComponent>(bodyEnt))
             return;
 
         var healableCount = 0;

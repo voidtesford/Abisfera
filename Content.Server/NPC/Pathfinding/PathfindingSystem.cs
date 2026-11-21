@@ -362,9 +362,11 @@ namespace Content.Server.NPC.Pathfinding
             EntityCoordinates end,
             float range,
             CancellationToken cancelToken,
-            PathFlags flags = PathFlags.None)
+            PathFlags flags = PathFlags.None,
+            HashSet<(EntityUid Grid, Vector2i Tile)>? avoid = null) // CorvaxGoob-Pulsar
         {
             var request = GetRequest(entity, start, end, range, cancelToken, flags);
+            request.Avoid = avoid; // CorvaxGoob-Pulsar
             return await GetPath(request, true);
         }
 
@@ -450,7 +452,8 @@ namespace Content.Server.NPC.Pathfinding
         {
             if (!_npc.TryGetNpc(uid, out var npc))
             {
-                return PathFlags.None;
+                // CorvaxGoob-Gilbert: steering-only AIs (no HTN) keep their nav flags on the steering component.
+                return TryComp<Content.Server.NPC.Components.NPCSteeringComponent>(uid, out var steering) ? steering.Flags : PathFlags.None;
             }
 
             return GetFlags(npc.Blackboard);
@@ -483,6 +486,12 @@ namespace Content.Server.NPC.Pathfinding
             if (blackboard.TryGetValue<bool>(NPCBlackboard.NavBlob, out var blob, EntityManager) && blob) // Goobstation - Blob
             {
                 flags |= PathFlags.Blob;
+            }
+
+            // CorvaxGoob-Pulsar: a bot on a station AI order walks through access doors (the AI opens them).
+            if (blackboard.TryGetValue<bool>(NPCBlackboard.NavAccess, out var access, EntityManager) && access)
+            {
+                flags |= PathFlags.Access;
             }
 
             return flags;

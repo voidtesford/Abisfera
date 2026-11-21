@@ -31,6 +31,15 @@ public sealed partial class LavalandRuinPoolPrototype : IPrototype
     /// List of all grid ruins and their count.
     /// Used for ruins that are loaded as proper grids.
     /// </summary>
+    // Corvax-Goob-start: lavaland ruin performance
+    /// <summary>
+    /// Max number of grid ruins per <see cref="LavalandGridRuinPrototype.LimitGroup"/> that may spawn in one round,
+    /// counted across all lavaland planets.
+    /// </summary>
+    [DataField]
+    public Dictionary<string, int> GroupLimits = new();
+    // Corvax-Goob-end
+
     [DataField]
     public Dictionary<ProtoId<LavalandGridRuinPrototype>, ushort> GridRuins = new();
 

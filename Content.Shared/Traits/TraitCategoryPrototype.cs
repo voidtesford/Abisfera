@@ -4,9 +4,7 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Shared.Traits;
 
-/// <summary>
-/// Traits category with general settings. Allows you to limit the number of taken traits in one category
-/// </summary>
+/// <summary>A tab or group in the traits editor.</summary>
 [Prototype]
 public sealed partial class TraitCategoryPrototype : IPrototype
 {
@@ -16,15 +14,13 @@ public sealed partial class TraitCategoryPrototype : IPrototype
     [IdDataField]
     public string ID { get; private set; } = default!;
 
-    /// <summary>
-    ///     Name of the trait category displayed in the UI
-    /// </summary>
     [DataField]
     public LocId Name { get; private set; } = string.Empty;
 
-    /// <summary>
-    ///     The maximum number of traits that can be taken in this category.
-    /// </summary>
+    /// <summary>Shown as a top-level tab when true.</summary>
     [DataField]
-    public int? MaxTraitPoints;
+    public bool Root;
+
+    [DataField]
+    public List<ProtoId<TraitCategoryPrototype>> SubCategories = new();
 }

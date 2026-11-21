@@ -37,6 +37,9 @@ public abstract class PathRequest
     public readonly int CollisionLayer;
     public readonly int CollisionMask;
 
+    /// <summary>CorvaxGoob-Pulsar: tiles (grid, tile) treated as impassable for this request.</summary>
+    public HashSet<(EntityUid Grid, Vector2i Tile)>? Avoid;
+
     #endregion
 
     public PathRequest(EntityCoordinates start, PathFlags flags, int layer, int mask, CancellationToken cancelToken)

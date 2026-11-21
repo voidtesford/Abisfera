@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "license": "CC0-1.0",
+  "copyright": "Based on Structures/Walls/meat.rsi (EmoGarbage404, CC0-1.0, space-station-14); recoloured and veined for Abisfera-SS14 «Закат»",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "bwall0",
+      "directions": 4
+    },
+    {
+      "name": "bwall1",
+      "directions": 4
+    },
+    {
+      "name": "bwall2",
+      "directions": 4
+    },
+    {
+      "name": "bwall3",
+      "directions": 4
+    },
+    {
+      "name": "bwall4",
+      "directions": 4
+    },
+    {
+      "name": "bwall5",
+      "directions": 4
+    },
+    {
+      "name": "bwall6",
+      "directions": 4
+    },
+    {
+      "name": "bwall7",
+      "directions": 4
+    },
+    {
+      "name": "full"
+    }
+  ]
+}

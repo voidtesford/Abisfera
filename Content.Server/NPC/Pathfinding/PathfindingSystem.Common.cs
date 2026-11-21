@@ -44,6 +44,10 @@ public sealed partial class PathfindingSystem
     {
         var modifier = 1f;
 
+        // CorvaxGoob-Pulsar: tiles the requester was told to keep off (an airlock nobody can open for it).
+        if (request.Avoid != null && request.Avoid.Contains((end.GraphUid, (Vector2i) end.Box.Center.Floored())))
+            return 0f;
+
         // TODO
         if ((end.Data.Flags & PathfindingBreadcrumbFlag.Space) != 0x0)
         {
@@ -63,10 +67,27 @@ public sealed partial class PathfindingSystem
             {
                 modifier += 0.5f;
             }
+            // CorvaxGoob-Gilbert: access doors the NPC carries an ID for: almost as cheap as a normal door.
+            else if (isDoor && isAccess && (request.Flags & PathFlags.Access) != 0x0)
+            {
+                modifier += 1f;
+            }
+            // CorvaxGoob-Pulsar: loose things (a crate) we can shove out of the way.
+            else if ((end.Data.Flags & PathfindingBreadcrumbFlag.Movable) != 0x0 && (request.Flags & PathFlags.Pushing) != 0x0)
+            {
+                modifier += 4f;
+            }
             // Door we can force open one way or another
             else if (isDoor && isAccess && (request.Flags & PathFlags.Prying) != 0x0)
             {
                 modifier += 10f;
+            }
+            // CorvaxGoob-Gilbert: NPCs that opted into Access climb tables instead of smashing them, and the
+            // vault do-after is priced in: a table is crossed unless going round it is really shorter.
+            else if (isClimb && (request.Flags & (PathFlags.Climbing | PathFlags.Access)) == (PathFlags.Climbing | PathFlags.Access))
+            {
+                // Smashing set = the rage (vaults ~3x faster).
+                modifier += (request.Flags & PathFlags.Smashing) != 0x0 ? 1.5f : 4f;
             }
             else if ((request.Flags & PathFlags.Smashing) != 0x0 && end.Data.Damage > 0f)
             {

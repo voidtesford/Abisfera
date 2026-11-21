@@ -1,0 +1,58 @@
+- type: entity
+  id: BaseMagazineAkk762
+  name: magazine (7.62x39)
+  parent: [ BaseItem, BaseSecurityContraband ]
+  abstract: true
+  components:
+  - type: Tag
+    tags:
+    - MagazineAkk762
+  - type: BallisticAmmoProvider
+    mayTransfer: true
+    whitelist:
+      tags:
+      - CartridgeAkk762
+    proto: CartridgeAkk762
+    capacity: 30
+  - type: Item
+    size: Small
+  - type: ContainerContainer
+    containers:
+      ballistic-ammo: !type:Container
+  - type: Sprite
+    sprite: _CorvaxGoob/Objects/Weapons/Guns/Ammunition/Magazine/akk_mag.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+  - type: MagazineVisuals
+    magState: mag
+    steps: 2
+    zeroVisible: false
+  - type: Appearance
+
+- type: entity
+  id: MagazineAkk762
+  name: magazine (7.62x39)
+  parent: BaseMagazineAkk762
+  description: A curved 30-round magazine for the AKK. Holds only 7.62x39 cartridges.
+  components:
+  - type: BallisticAmmoProvider
+    proto: CartridgeAkk762
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: inhand-left-mag
+      right:
+      - state: inhand-right-mag
+
+- type: entity
+  id: MagazineAkk762Empty
+  name: magazine (7.62x39 any)
+  suffix: empty
+  parent: MagazineAkk762
+  description: A curved 30-round magazine for the AKK.
+  components:
+  - type: BallisticAmmoProvider
+    proto: null

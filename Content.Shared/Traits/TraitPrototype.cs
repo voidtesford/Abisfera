@@ -1,113 +1,120 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+using Content.Shared.Customization.Systems;
+using Content.Shared.Humanoid.Prototypes;
+using Content.Shared.Roles;
 using Content.Shared.Whitelist;
 using Robust.Shared.Prototypes;
-using Content.Shared.Humanoid.Prototypes;
-using Content.Shared.Roles; // Goob: Ported from DeltaV - Species specific trait support.
+using Robust.Shared.Serialization.Manager;
 
 namespace Content.Shared.Traits;
 
-/// <summary>
-/// Describes a trait.
-/// </summary>
+/// <summary>Describes a trait in the points-based character editor.</summary>
 [Prototype]
-public sealed partial class TraitPrototype : IPrototype
+public sealed partial class TraitPrototype : IPrototype, IComparable
 {
     [ViewVariables]
     [IdDataField]
     public string ID { get; private set; } = default!;
 
-    /// <summary>
-    /// The name of this trait.
-    /// </summary>
+    /// <summary>Display name. Falls back to trait-name-{ID} when empty.</summary>
     [DataField]
     public LocId Name { get; private set; } = string.Empty;
 
-    /// <summary>
-    /// The description of this trait.
-    /// </summary>
+    /// <summary>Display description. Falls back to trait-description-{ID} when empty.</summary>
     [DataField]
     public LocId? Description { get; private set; }
 
-    /// <summary>
-    /// Don't apply this trait to entities this whitelist IS NOT valid for.
-    /// </summary>
     [DataField]
     public EntityWhitelist? Whitelist;
 
-    /// <summary>
-    /// Don't apply this trait to entities this whitelist IS valid for. (hence, a blacklist)
-    /// </summary>
     [DataField]
     public EntityWhitelist? Blacklist;
 
-    /// <summary>
-    /// The components that get added to the player, when they pick this trait.
-    /// NOTE: When implementing a new trait, it's preferable to add it as a status effect instead if possible.
-    /// </summary>
+    /// <summary>Optional leftover from the old system; prefer <see cref="Functions"/>.</summary>
     [DataField]
-    [Obsolete("Use JobSpecial instead.")]
     public ComponentRegistry Components { get; private set; } = new();
 
-    /// <summary>
-    /// Special effects applied to the player who takes this Trait.
-    /// </summary>
     [DataField(serverOnly: true)]
     public List<JobSpecial> Specials { get; private set; } = new();
 
-    /// <summary>
-    /// Gear that is given to the player, when they pick this trait.
-    /// </summary>
     [DataField]
     public EntProtoId? TraitGear;
 
     /// <summary>
-    /// Trait Price. If negative number, points will be added.
+    /// Points this trait adds to the character budget. Negative spends points (an advantage),
+    /// positive refunds them (a disadvantage). Zero is free but still uses slots.
     /// </summary>
     [DataField]
-    public int Cost = 0;
+    public int Points;
 
-    /// <summary>
-    /// Adds a trait to a category, allowing you to limit the selection of some traits to the settings of that category.
-    /// </summary>
+    /// <summary>How many of the global trait slots this uses.</summary>
+    [DataField]
+    public int Slots = 1;
+
+    [DataField]
+    public List<CharacterRequirement> Requirements = new();
+
+    [DataField(serverOnly: true)]
+    public TraitFunction[] Functions { get; private set; } = Array.Empty<TraitFunction>();
+
+    /// <summary>Lower values are applied earlier when the character spawns.</summary>
+    [DataField]
+    public int Priority = 0;
+
     [DataField]
     public ProtoId<TraitCategoryPrototype>? Category;
 
-    /// <summary>
-    /// Goob: Ported from DeltaV - Hides traits from specific species
-    /// </summary>
     [DataField]
     public HashSet<ProtoId<SpeciesPrototype>> ExcludedSpecies = new();
 
-    /// <summary>
-    /// Goob: Only shows traits to specific species
-    /// </summary>
     [DataField]
     public HashSet<ProtoId<SpeciesPrototype>> IncludedSpecies = new();
 
-    // Einstein Engines - Language begin (remove this if trait system refactor)
-    /// <summary>
-    ///     The list of all Spoken Languages that this trait adds.
-    /// </summary>
     [DataField]
-    public List<string>? LanguagesSpoken { get; private set; } = default!;
+    public List<string>? LanguagesSpoken { get; private set; }
 
-    /// <summary>
-    ///     The list of all Understood Languages that this trait adds.
-    /// </summary>
     [DataField]
-    public List<string>? LanguagesUnderstood { get; private set; } = default!;
+    public List<string>? LanguagesUnderstood { get; private set; }
 
-    /// <summary>
-    ///     The list of all Spoken Languages that this trait removes.
-    /// </summary>
     [DataField]
-    public List<string>? RemoveLanguagesSpoken { get; private set; } = default!;
+    public List<string>? RemoveLanguagesSpoken { get; private set; }
 
-    /// <summary>
-    ///     The list of all Understood Languages that this trait removes.
-    /// </summary>
     [DataField]
-    public List<string>? RemoveLanguagesUnderstood { get; private set; } = default!;
-    // Einstein Engines - Language end
+    public List<string>? RemoveLanguagesUnderstood { get; private set; }
+
+    public int CompareTo(object? obj)
+    {
+        if (obj is not TraitPrototype other)
+            return -1;
+        var byPriority = Priority.CompareTo(other.Priority);
+        return byPriority != 0 ? byPriority : string.CompareOrdinal(ID, other.ID);
+    }
+
+    public static string GetName(TraitPrototype trait)
+    {
+        if (!string.IsNullOrEmpty(trait.Name))
+            return Loc.GetString(trait.Name);
+        return Loc.GetString($"trait-name-{trait.ID}");
+    }
+
+    public static string? GetDescription(TraitPrototype trait)
+    {
+        if (trait.Description is { } desc && !string.IsNullOrEmpty(desc))
+            return Loc.GetString(desc);
+        var key = $"trait-description-{trait.ID}";
+        var text = Loc.GetString(key);
+        return text == key ? null : text;
+    }
+}
+
+/// <summary>Hook that mutates a spawned player who took this trait.</summary>
+[ImplicitDataDefinitionForInheritors]
+public abstract partial class TraitFunction
+{
+    public abstract void OnPlayerSpawn(
+        EntityUid mob,
+        IComponentFactory factory,
+        IEntityManager entityManager,
+        ISerializationManager serializationManager);
 }
