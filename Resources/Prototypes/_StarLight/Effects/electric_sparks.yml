@@ -1,0 +1,38 @@
+# Electric spark effects for melee hits on powered entities
+- type: entity
+  id: EffectElectricHitSparks
+  name: electric hit sparks
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: Effects/sparks.rsi
+    state: sparks
+    noRot: true
+  - type: PointLight
+    color: "#FFD27F"
+    radius: 1.5
+    energy: 2
+  - type: TimedDespawn
+    lifetime: 0.5
+  - type: EmitSoundOnSpawn
+    sound:
+      path: /Audio/Effects/sparks1.ogg
+      params:
+        volume: -5
+
+- type: entity
+  id: EffectElectricHitArc
+  name: electric hit arc
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: Effects/sparks.rsi
+    state: sparks
+    noRot: true
+    scale: 1.3, 1.3
+  - type: PointLight
+    color: "#A0D8FF"
+    radius: 2
+    energy: 3
+  - type: TimedDespawn
+    lifetime: 0.4
