@@ -1,41 +1,36 @@
-using Content.Shared.Power.Components;
+using Content.Shared.Weapons.Melee;
 using Content.Shared.Weapons.Melee.Events;
+using Robust.Shared.GameObjects;
+using Robust.Shared.IoC;
 
 namespace Content.Server._Starlight.Effects;
 
 public sealed class ElectricSparksOnHitSystem : EntitySystem
 {
+    [Dependency] private readonly IComponentFactory _componentFactory = default!;
+
     public override void Initialize()
     {
-        SubscribeLocalEvent<MeleeHitEvent>(OnMeleeHit);
+        // MeleeHitEvent вызывается на ОРУЖИИ, поэтому подписываемся вместе с его компонентом.
+        SubscribeLocalEvent<MeleeWeaponComponent, MeleeHitEvent>(OnMeleeHit);
     }
 
-    private void OnMeleeHit(MeleeHitEvent args)
+    private void OnMeleeHit(EntityUid uid, MeleeWeaponComponent component, MeleeHitEvent args)
     {
-        // Fully defensive — never crash melee
-        try
+        if (args.HitEntities == null)
+            return;
+
+        // Ищем компонент питания по имени, чтобы не зависеть от того,
+        // как класс называется и где лежит в этой сборке (Shared/Server).
+        if (!_componentFactory.TryGetRegistration("ApcPowerReceiver", out var powerReg))
+            return;
+
+        foreach (var target in args.HitEntities)
         {
-            if (args.HitEntities == null || args.HitEntities.Count == 0)
-                return;
+            if (Deleted(target) || !EntityManager.HasComponent(target, powerReg.Type))
+                continue;
 
-            foreach (var target in args.HitEntities)
-            {
-                if (!target.IsValid())
-                    continue;
-
-                if (!HasComp<SharedApcPowerReceiverComponent>(target))
-                    continue;
-
-                var xform = Transform(target);
-                if (xform?.Coordinates is not { } coords || !coords.IsValid(EntityManager))
-                    continue;
-
-                Spawn("EffectSparks", coords);
-            }
-        }
-        catch
-        {
-            // swallow — sparks are cosmetic
+            Spawn("EffectElectricHitSparks", Transform(target).Coordinates);
         }
     }
 }
