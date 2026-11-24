@@ -1,0 +1,32 @@
+# Excess fat and molecule medicine
+- type: reagent
+  id: ExcessFat
+  name: reagent-name-excess-fat
+  group: Toxins
+  desc: reagent-desc-excess-fat
+  physicalDesc: reagent-physical-desc-opaque
+  flavor: bitter
+  color: "#8B6914"
+  metabolisms:
+    Poison:
+      effects:
+      - !type:PopupMessage
+        type: Local
+        visualType: Medium
+        messages: ["obesity-fat-slow"]
+        probability: 0.05
+
+- type: reagent
+  id: Molecule
+  name: reagent-name-molecule
+  group: Medicine
+  desc: reagent-desc-molecule
+  physicalDesc: reagent-physical-desc-crystalline
+  flavor: medicine
+  color: "#E0E0FF"
+  metabolisms:
+    Medicine:
+      effects:
+      - !type:AdjustReagent
+        reagent: ExcessFat
+        amount: -0.2

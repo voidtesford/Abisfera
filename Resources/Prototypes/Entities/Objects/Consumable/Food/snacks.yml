@@ -18,7 +18,7 @@
         maxVol: 30 # Room for extra condiments
         reagents:
         - ReagentId: Nutriment
-          Quantity: 5 # Goobstation - snacks are worse than cooked food
+          Quantity: 2 # Abisfera - snacks give almost no satiety
         - ReagentId: JunkFood # Goobstation - snacks are worse than cooked food
           Quantity: 5
   - type: Item
@@ -148,7 +148,7 @@
         maxVol: 30
         reagents:
         - ReagentId: Nutriment
-          Quantity: 5 # Goobstation - snacks are worse than cooked food
+          Quantity: 2 # Abisfera - snacks give almost no satiety
         - ReagentId: Theobromine
           Quantity: 3
         - ReagentId: CocoaPowder
@@ -379,7 +379,7 @@
         maxVol: 30 # Room for extra condiments
         reagents:
         - ReagentId: Nutriment
-          Quantity: 5 # Goobstation - snacks are worse than cooked food
+          Quantity: 2 # Abisfera - snacks give almost no satiety
         - ReagentId: Soysauce
           Quantity: 2
         - ReagentId: JunkFood # Goobstation - snacks are worse than cooked food
@@ -410,7 +410,7 @@
         maxVol: 30 # Room for extra condiments
         reagents:
         - ReagentId: Nutriment
-          Quantity: 5 # Goobstation - snacks are worse than cooked food
+          Quantity: 2 # Abisfera - snacks give almost no satiety
         - ReagentId: CapsaicinOil
           Quantity: 2
         - ReagentId: Soysauce
@@ -495,7 +495,7 @@
         maxVol: 20 #Goobstation
         reagents:
         - ReagentId: Nutriment
-          Quantity: 10 # Goobstation - junk food less useful
+          Quantity: 2 # Abisfera - snacks give almost no satiety
         - ReagentId: JunkFood # Goobstation - snacks are worse than cooked food
           Quantity: 5
 
@@ -543,7 +543,7 @@
         maxVol: 15
         reagents:
         - ReagentId: Nutriment
-          Quantity: 4 # Goobstation - junk food less useful
+          Quantity: 2 # Abisfera - snacks give almost no satiety
         - ReagentId: Theobromine
           Quantity: 3
         - ReagentId: JunkFood # Goobstation - snacks are worse than cooked food

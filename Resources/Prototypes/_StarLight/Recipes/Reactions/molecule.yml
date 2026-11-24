@@ -1,0 +1,10 @@
+# Molecule: 1 Bicaridine + 2 Ephedrine -> 2 Molecule
+- type: reaction
+  id: Molecule
+  reactants:
+    Bicaridine:
+      amount: 1
+    Ephedrine:
+      amount: 2
+  products:
+    Molecule: 2
