@@ -1,0 +1,25 @@
+diff a/Resources/Prototypes/_StarLight/Reagents/obesity.yml b/Resources/Prototypes/_StarLight/Reagents/obesity.yml	(rejected hunks)
+@@ -1,20 +1,14 @@
+ # Excess fat and molecule medicine
++# ExcessFat is NOT metabolized as Poison — otherwise it vanishes before the analyzer/slow can stick.
++# Removal: ObesitySystem decay (every 10 min) or Molecule medicine.
+ - type: reagent
+   id: ExcessFat
+   name: reagent-name-excess-fat
+-  group: Toxins
++  group: Biological
+   desc: reagent-desc-excess-fat
+   physicalDesc: reagent-physical-desc-opaque
+   flavor: bitter
+   color: "#8B6914"
+-  metabolisms:
+-    Poison:
+-      effects:
+-      - !type:PopupMessage
+-        type: Local
+-        visualType: Medium
+-        messages: ["obesity-fat-slow"]
+-        probability: 0.05
+ 
+ - type: reagent
+   id: Molecule

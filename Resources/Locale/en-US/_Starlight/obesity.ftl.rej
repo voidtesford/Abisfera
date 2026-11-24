@@ -1,0 +1,6 @@
+diff a/Resources/Locale/en-US/_Starlight/obesity.ftl b/Resources/Locale/en-US/_Starlight/obesity.ftl	(rejected hunks)
+@@ -3,3 +3,4 @@
+ reagent-name-molecule = molecule
+ reagent-desc-molecule = A medicine that breaks down excess fat.
+ obesity-fat-slow = You feel heavy...
++obesity-examine-fat = Looks a bit overweight.
