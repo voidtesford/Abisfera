@@ -1,10 +1,12 @@
-# Molecule: 1 Bicaridine + 2 Ephedrine -> 2 Molecule
+# Molecule: 2 Ephedrine + 1 Bicaridine + 1 Razorium (бритвиум в RU-локали)
 - type: reaction
   id: Molecule
   reactants:
-    Bicaridine:
-      amount: 1
     Ephedrine:
       amount: 2
+    Bicaridine:
+      amount: 1
+    Razorium:
+      amount: 1
   products:
-    Molecule: 2
+    Molecule: 4
