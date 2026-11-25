@@ -31,10 +31,10 @@
   - type: Gun
     fireRate: 6
     fireOnDropChance: 0.3 # CorvaxGoob-FireOnDrop
+    # Abisfera: base pistols semi-only; FullAuto added per-weapon if needed
     selectedMode: SemiAuto
     availableModes:
       - SemiAuto
-      - FullAuto
     soundGunshot:
       path: /Audio/Weapons/Guns/Gunshots/pistol.ogg
   - type: ChamberMagazineAmmoProvider
@@ -243,6 +243,7 @@
     storedOffset: 0,-2
   - type: Gun
     fireRate: 5
+    selectedMode: SemiAuto
     availableModes:
     - SemiAuto
     soundGunshot:

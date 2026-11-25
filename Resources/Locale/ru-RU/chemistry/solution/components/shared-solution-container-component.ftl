@@ -1,6 +1,6 @@
 shared-solution-container-component-on-examine-empty-container = Не содержит вещества.
 shared-solution-container-component-on-examine-main-text =
-    Содержит { INDEFINITE($desc) } [color={ $color }]{ $desc }[/color] { $chemCount ->
+    Содержит [color={ $color }]{ $desc }[/color] { $chemCount ->
         [1] вещество.
        *[other] смесь химических веществ.
     }

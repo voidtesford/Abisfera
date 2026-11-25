@@ -21,10 +21,11 @@
   - type: Gun
     fireRate: 12.5 # Reduced fireRate and increased projectileSpeed
     projectileSpeed: 30
-    minAngle: 15 # More controlled than before
-    maxAngle: 55
-    angleDecay: -8 # Intentionally negative, loses accuracy while not shooting
-    angleIncrease: -1.15 # Intentionally negative, gains accuracy while shooting
+    # Abisfera: zero spread
+    minAngle: 0
+    maxAngle: 0
+    angleDecay: 4
+    angleIncrease: 0
     availableModes:
     - FullAuto
     soundGunshot:

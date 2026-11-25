@@ -21,12 +21,13 @@
   - type: AmmoCounter
   - type: Gun
     fireOnDropChance: 0.3 # CorvaxGoob-FireOnDrop
-    minAngle: 2
-    maxAngle: 16
+    # Abisfera: zero spread SMG, no skill penalty
+    minAngle: 0
+    maxAngle: 0
     fireRate: 8
     burstFireRate: 8
-    angleIncrease: 3
-    angleDecay: 16
+    angleIncrease: 0
+    angleDecay: 4
     selectedMode: FullAuto
     availableModes:
     - SemiAuto
@@ -34,7 +35,7 @@
     soundGunshot:
       path: /Audio/Weapons/Guns/Gunshots/smg.ogg
     defaultDirection: 1, 0
-    requiresSkill: true # CorvaxGoob-Skills
+    requiresSkill: false
   - type: ChamberMagazineAmmoProvider
     soundRack:
       path: /Audio/Weapons/Guns/Cock/smg_cock.ogg
@@ -169,10 +170,10 @@
   description: A burst-fire C-20r submachine gun for use by cyborgs. Creates .35 caliber ammo on the fly from an internal ammo fabricator, which slowly self-charges.
   components:
   - type: Gun
-    minAngle: 2
-    maxAngle: 16
-    angleIncrease: 4
-    angleDecay: 16
+    minAngle: 0
+    maxAngle: 0
+    angleIncrease: 0
+    angleDecay: 4
     fireRate: 8
     burstFireRate: 8
     selectedMode: Burst
@@ -222,11 +223,11 @@
     - type: Wieldable
       unwieldOnUse: false
     - type: GunWieldBonus
-      minAngle: -19
-      maxAngle: -16
+      minAngle: 0
+      maxAngle: 0
     - type: Gun
-      minAngle: 21
-      maxAngle: 32
+      minAngle: 0
+      maxAngle: 0
       fireRate: 6
       burstFireRate: 18
       soundGunshot:
@@ -286,12 +287,13 @@
   - type: ChamberMagazineAmmoProvider
     boltClosed: null
   - type: Gun # Goobstation - I am the one who nerfs the WT.
-    minAngle: 2
-    maxAngle: 16
+    # Abisfera: zero spread
+    minAngle: 0
+    maxAngle: 0
     fireRate: 5
     burstFireRate: 8
-    angleIncrease: 3
-    angleDecay: 16
+    angleIncrease: 0
+    angleDecay: 4
     selectedMode: FullAuto
     availableModes:
     - FullAuto
@@ -353,8 +355,8 @@
       map: ["enum.GunVisualLayers.Base"]
   - type: Gun
     fireRate: 9
-    minAngle: 25
-    maxAngle: 32
+    minAngle: 0
+    maxAngle: 0
     availableModes:
     - FullAuto
     soundGunshot:

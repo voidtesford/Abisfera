@@ -2,13 +2,24 @@
 
 using Content.Shared.Weapons.Ranged.Systems;
 using Robust.Shared.GameStates;
+using Robust.Shared.Serialization;
 
 namespace Content.Shared.Weapons.Ranged.Components;
 
-[RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
-[Access(typeof(SharedGunSystem))]
+/// <summary>
+/// Optional target for a projectile. Null = hits everything.
+/// Networked manually so deleted targets do not crash PVS (n0D / missing MetaData).
+/// </summary>
+[RegisterComponent, NetworkedComponent]
+[Access(typeof(SharedGunSystem), typeof(TargetedProjectileSystem))]
 public sealed partial class TargetedProjectileComponent : Component
 {
-    [DataField, AutoNetworkedField]
-    public EntityUid? Target; // Goob edit - if null it hits everything
+    [DataField]
+    public EntityUid? Target;
+}
+
+[Serializable, NetSerializable]
+public sealed class TargetedProjectileComponentState : ComponentState
+{
+    public NetEntity Target;
 }

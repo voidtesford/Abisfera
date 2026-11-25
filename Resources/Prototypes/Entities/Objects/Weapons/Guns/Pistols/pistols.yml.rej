@@ -1,0 +1,23 @@
+diff a/Resources/Prototypes/Entities/Objects/Weapons/Guns/Pistols/pistols.yml b/Resources/Prototypes/Entities/Objects/Weapons/Guns/Pistols/pistols.yml	(rejected hunks)
+@@ -31,10 +31,10 @@
+   - type: Gun
+     fireRate: 6
+     fireOnDropChance: 0.3 # CorvaxGoob-FireOnDrop
++    # Abisfera: base pistols semi-only (Mk58 must not inherit FullAuto)
+     selectedMode: SemiAuto
+     availableModes:
+       - SemiAuto
+-      - FullAuto
+     soundGunshot:
+       path: /Audio/Weapons/Guns/Gunshots/pistol.ogg
+   - type: ChamberMagazineAmmoProvider
+@@ -242,7 +242,8 @@
+   - type: Item
+     storedOffset: 0,-2
+   - type: Gun
+-    fireRate: 5
++    fireRate: 4
++    selectedMode: SemiAuto
+     availableModes:
+     - SemiAuto
+     soundGunshot:

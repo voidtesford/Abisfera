@@ -6,9 +6,10 @@
   components:
   - type: Wieldable
     unwieldOnUse: false
+  # Hip-fire: original trash (21–32°). Wielded: slightly tighter than stock (0–1°).
   - type: GunWieldBonus
-    minAngle: -20
-    maxAngle: -30
+    minAngle: -21
+    maxAngle: -31
   - type: RestrictGunshotsByUserTag # Goobstation
     doesntContain:
     - Oni
@@ -19,3 +20,6 @@
   - type: Gun
     minAngle: 21
     maxAngle: 32
+    # Abisfera: less spread climb during sustained full-auto while wielded
+    angleIncrease: 0.35
+    angleDecay: 6

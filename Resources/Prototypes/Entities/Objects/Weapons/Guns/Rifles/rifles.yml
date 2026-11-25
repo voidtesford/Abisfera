@@ -103,8 +103,17 @@
       - state: mag-0
         map: ["enum.GunVisualLayers.Mag"]
   - type: Gun
+    # Hip-fire same trash as BaseGunWieldable (21–32). Wielded ~0–1°.
+    minAngle: 21
+    maxAngle: 32
+    angleIncrease: 0.25
+    angleDecay: 8
+    requiresSkill: false
     soundGunshot:
       path: /Audio/Weapons/Guns/Gunshots/rifle2.ogg
+  - type: GunWieldBonus
+    minAngle: -21
+    maxAngle: -31
   - type: ChamberMagazineAmmoProvider
     boltClosed: null # Goobstation
     soundRack:
