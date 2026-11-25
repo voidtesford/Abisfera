@@ -1,4 +1,4 @@
-# Analyzer reagent only. Gameplay fat is ObesityTrackerComponent.FatAmount.
+# Analyzer reagent. Gameplay fat is ObesityTrackerComponent.FatAmount.
 - type: reagent
   id: ExcessFat
   name: reagent-name-excess-fat
@@ -8,7 +8,7 @@
   flavor: bitter
   color: "#8B6914"
 
-# 5u Molecule → −1 fat (ObesitySystem). Side effects via metabolisms.
+# Side effects while curing fat + OD are handled in ObesitySystem (keep 5u → 1 fat).
 # Recipe: 2 Ephedrine + 1 Bicaridine + 1 Razorium (бритвиум).
 - type: reagent
   id: Molecule
@@ -21,32 +21,3 @@
   plantMetabolism:
   - !type:PlantAdjustToxins
     amount: 0.3
-  metabolisms:
-    Medicine:
-      metabolismRate: 0.5
-      effects:
-      - !type:HealthChange
-        damage:
-          types:
-            Slash: 0.5
-            Poison: 0.1
-      - !type:SatiateHunger
-        factor: -3
-      - !type:HealthChange
-        conditions:
-        - !type:ReagentCondition
-          reagent: Molecule
-          min: 20
-        damage:
-          types:
-            Slash: 1.5
-            Poison: 0.5
-      - !type:PopupMessage
-        conditions:
-        - !type:ReagentCondition
-          reagent: Molecule
-          min: 20
-        type: Local
-        visualType: MediumCaution
-        messages: [ "obesity-molecule-overdose" ]
-        probability: 0.15

@@ -3,10 +3,14 @@ using Content.Shared.Body.Components;
 using Content.Shared.Chemistry.Components;
 using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Chemistry.Reagent;
+using Content.Shared.Damage;
+using Content.Shared.Damage.Systems;
 using Content.Shared.Examine;
+using Content.Shared.Jittering;
 using Content.Shared.Movement.Systems;
 using Content.Shared.Nutrition;
 using Content.Shared.Nutrition.Components;
+using Content.Shared.Nutrition.EntitySystems;
 using Content.Shared.Popups;
 using Content.Shared.Tag;
 using Robust.Shared.Prototypes;
@@ -16,8 +20,8 @@ using Robust.Shared.Timing;
 namespace Content.Server._Starlight.Nutrition;
 
 /// <summary>
-/// Snack obesity: fat is tracked on ObesityTrackerComponent (source of truth).
-/// Mirrored into bloodstream for the analyzer. Molecule medicine: 5u → −1 fat.
+/// Snack obesity: fat on ObesityTrackerComponent. Molecule 5u → 1 fat with side effects.
+/// Overdose (≥20u Molecule in blood): jitter, strong hunger, 30 poison total once per OD episode.
 /// </summary>
 public sealed class ObesitySystem : EntitySystem
 {
@@ -27,6 +31,9 @@ public sealed class ObesitySystem : EntitySystem
     [Dependency] private readonly SharedSolutionContainerSystem _solution = default!;
     [Dependency] private readonly MovementSpeedModifierSystem _movement = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly DamageableSystem _damageable = default!;
+    [Dependency] private readonly HungerSystem _hunger = default!;
+    [Dependency] private readonly SharedJitteringSystem _jitter = default!;
 
     private static readonly ProtoId<ReagentPrototype> ExcessFatId = "ExcessFat";
     private static readonly ProtoId<ReagentPrototype> MoleculeId = "Molecule";
@@ -39,6 +46,14 @@ public sealed class ObesitySystem : EntitySystem
 
     /// <summary>5 units of Molecule remove 1 unit of fat.</summary>
     private const float MoleculePerFat = 5f;
+
+    private const float SlashPerMol = 0.5f;
+    private const float PoisonPerMol = 0.1f;
+    private const float HungerPerMol = -3f;
+
+    private const float OverdoseThreshold = 20f;
+    private const float OverdosePoisonTotal = 30f;
+    private static readonly TimeSpan OverdoseJitterTime = TimeSpan.FromSeconds(6);
 
     public override void Initialize()
     {
@@ -53,7 +68,6 @@ public sealed class ObesitySystem : EntitySystem
         var query = EntityQueryEnumerator<ObesityTrackerComponent>();
         while (query.MoveNext(out var uid, out var tracker))
         {
-            // Medicine first: Molecule in bloodstream burns component fat (5:1).
             ProcessMolecule(uid, tracker);
 
             if (tracker.FatAmount <= 0)
@@ -123,7 +137,6 @@ public sealed class ObesitySystem : EntitySystem
         TryMirrorFatToBlood(uid, amount);
         _movement.RefreshMovementSpeedModifiers(uid);
 
-        // Single red warning only.
         _popup.PopupEntity(Loc.GetString("obesity-fat-slow"), uid, uid, PopupType.MediumCaution);
     }
 
@@ -140,8 +153,7 @@ public sealed class ObesitySystem : EntitySystem
     }
 
     /// <summary>
-    /// 5u Molecule in bloodstream → −1 FatAmount. Consumes Molecule from blood.
-    /// Works even if ExcessFat reagent already vanished.
+    /// 5u Molecule → 1 fat. Applies treatment side effects; OD at ≥20u.
     /// </summary>
     private void ProcessMolecule(EntityUid uid, ObesityTrackerComponent tracker)
     {
@@ -150,42 +162,111 @@ public sealed class ObesitySystem : EntitySystem
 
         var molecule = solution.GetTotalPrototypeQuantity(MoleculeId);
         if (molecule <= 0)
+        {
+            // Reset OD tracker when molecule is gone
+            if (tracker.OdPoisonApplied > 0f)
+            {
+                tracker.OdPoisonApplied = 0f;
+                Dirty(uid, tracker);
+            }
             return;
+        }
+
+        var molFloat = molecule.Float();
+        var overdose = molFloat >= OverdoseThreshold;
 
         // How much fat we can clear with available molecule (5 mol : 1 fat).
-        var fatCanClear = molecule.Float() / MoleculePerFat;
+        var fatCanClear = molFloat / MoleculePerFat;
         if (fatCanClear <= 0)
             return;
 
         var fatRemove = Math.Min(tracker.FatAmount, fatCanClear);
-        // Even with 0 component fat, still consume molecule vs blood ExcessFat below.
+        float molUsedFloat;
 
         if (fatRemove > 0)
         {
             tracker.FatAmount = Math.Max(0f, tracker.FatAmount - fatRemove);
             Dirty(uid, tracker);
 
-            var molUsed = FixedPoint2.New(fatRemove * MoleculePerFat);
+            molUsedFloat = fatRemove * MoleculePerFat;
+            var molUsed = FixedPoint2.New(molUsedFloat);
             solution.RemoveReagent(new ReagentId(MoleculeId, null), FixedPoint2.Min(molecule, molUsed));
 
-            // Keep analyzer reagent roughly in sync.
             TryRemoveFatFromBlood(uid, fatRemove);
             _movement.RefreshMovementSpeedModifiers(uid);
+
+            // Treatment side effects (while removing fat)
+            ApplyTreatmentEffects(uid, molUsedFloat, overdose);
         }
         else
         {
-            // No component fat — still let molecule eat leftover ExcessFat reagent in blood (5:1).
+            // No component fat — clear leftover ExcessFat reagent in blood (5:1), no treatment damage
             var bloodFat = solution.GetTotalPrototypeQuantity(ExcessFatId);
             if (bloodFat <= 0)
+            {
+                if (overdose)
+                    ApplyOverdoseOnly(uid, tracker);
+                Dirty(solEnt);
                 return;
+            }
 
-            var bloodRemove = FixedPoint2.Min(bloodFat, molecule.Float() / MoleculePerFat);
-            var molUsed = FixedPoint2.Min(molecule, bloodRemove * MoleculePerFat);
+            var bloodRemove = FixedPoint2.Min(bloodFat, molFloat / MoleculePerFat);
+            molUsedFloat = Math.Min(molFloat, bloodRemove.Float() * MoleculePerFat);
+            var molUsed = FixedPoint2.New(molUsedFloat);
             solution.RemoveReagent(new ReagentId(ExcessFatId, null), bloodRemove);
-            solution.RemoveReagent(new ReagentId(MoleculeId, null), molUsed);
+            solution.RemoveReagent(new ReagentId(MoleculeId, null), FixedPoint2.Min(molecule, molUsed));
         }
 
+        if (overdose)
+            ApplyOverdoseOnly(uid, tracker);
+
         Dirty(solEnt);
+    }
+
+    /// <summary>Slash / poison / hunger while molecule burns fat.</summary>
+    private void ApplyTreatmentEffects(EntityUid uid, float molUsed, bool overdose)
+    {
+        if (molUsed <= 0)
+            return;
+
+        var damage = new DamageSpecifier
+        {
+            DamageDict =
+            {
+                ["Slash"] = molUsed * SlashPerMol,
+                ["Poison"] = molUsed * PoisonPerMol,
+            }
+        };
+        _damageable.TryChangeDamage(uid, damage, interruptsDoAfters: false);
+
+        if (TryComp<HungerComponent>(uid, out var hunger))
+            _hunger.ModifyHunger(uid, HungerPerMol * molUsed, hunger);
+    }
+
+    /// <summary>
+    /// OD (≥20u): jitter, strong hunger, up to 30 poison total per OD episode.
+    /// </summary>
+    private void ApplyOverdoseOnly(EntityUid uid, ObesityTrackerComponent tracker)
+    {
+        _jitter.DoJitter(uid, OverdoseJitterTime, refresh: true, amplitude: 15f, frequency: 5f);
+
+        if (TryComp<HungerComponent>(uid, out var hunger))
+            _hunger.ModifyHunger(uid, -15f, hunger);
+
+        var poisonLeft = OverdosePoisonTotal - tracker.OdPoisonApplied;
+        if (poisonLeft > 0)
+        {
+            var chunk = poisonLeft; // apply remaining OD poison (up to 30 total)
+            var damage = new DamageSpecifier
+            {
+                DamageDict = { ["Poison"] = chunk }
+            };
+            _damageable.TryChangeDamage(uid, damage, interruptsDoAfters: false);
+            tracker.OdPoisonApplied += chunk;
+            Dirty(uid, tracker);
+
+            _popup.PopupEntity(Loc.GetString("obesity-molecule-overdose"), uid, uid, PopupType.MediumCaution);
+        }
     }
 
     private bool TryGetBloodSolution(EntityUid uid, out Entity<SolutionComponent> solEnt, out Solution solution)
@@ -245,4 +326,8 @@ public sealed partial class ObesityTrackerComponent : Component
 
     [DataField]
     public float DecayMultiplier = 1f;
+
+    /// <summary>Poison already dealt from current OD episode (cap 30).</summary>
+    [DataField]
+    public float OdPoisonApplied;
 }
