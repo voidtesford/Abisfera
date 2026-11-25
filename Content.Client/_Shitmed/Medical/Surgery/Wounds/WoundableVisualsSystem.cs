@@ -51,9 +51,8 @@ public sealed class WoundableVisualsSystem : VisualizerSystem<WoundableVisualsCo
 
     private void InitBleeding(Entity<WoundableVisualsComponent> ent)
     {
-        if (ent.Comp.BleedingOverlay == null)
-            return;
-        AddDamageLayerToSprite(ent.Owner, ent.Comp.BleedingOverlay, BuildStateKey(ent.Comp.OccupiedLayer, MinorSuffix), BuildLayerKey(ent.Comp.OccupiedLayer, BleedingSuffix));
+        // Abisfera: fully disable red bleeding pixel overlay
+        return;
     }
 
     private void InitDamage(Entity<WoundableVisualsComponent> ent)
@@ -96,14 +95,8 @@ public sealed class WoundableVisualsSystem : VisualizerSystem<WoundableVisualsCo
                         sprite.Color);
                 }
         }
-        if (!_sprite.LayerMapTryGet(bodyUid, BuildLayerKey(ent.Comp.OccupiedLayer, BleedingSuffix), out _, false)
-            && ent.Comp.BleedingOverlay != null)
-        {
-            AddDamageLayerToSprite(bodyUid,
-                ent.Comp.BleedingOverlay,
-                BuildStateKey(ent.Comp.OccupiedLayer, MinorSuffix),
-                BuildLayerKey(ent.Comp.OccupiedLayer, BleedingSuffix));
-        }
+        // Abisfera: do not add bleeding overlay layers
+        
 
         UpdateWoundableVisuals(ent, bodyUid);
     }
@@ -207,16 +200,23 @@ public sealed class WoundableVisualsSystem : VisualizerSystem<WoundableVisualsCo
     }
     private void UpdateBleedingVisuals(Entity<WoundableVisualsComponent> ent, Entity<SpriteComponent?> sprite)
     {
-        if (!TryComp<BodyPartComponent>(ent, out var bodyPart))
+        // Abisfera: fully disable red bleeding pixel overlay; strip leftover layers on this part
+        if (!Resolve(sprite, ref sprite.Comp, false))
             return;
 
-        if (ent.Comp.BleedingOverlay is null)
+        var keys = new[]
         {
-            UpdateParentBleedingVisuals(ent, bodyPart, sprite);
-            return;
+            BuildLayerKey(ent.Comp.OccupiedLayer, BleedingSuffix),
+            BuildLayerKey(ent.Comp.OccupiedLayer.ToString(), BleedingSuffix),
+        };
+        foreach (var bleedingKey in keys)
+        {
+            if (!_sprite.LayerMapTryGet(sprite, bleedingKey, out var bleedLayer, false))
+                continue;
+            _sprite.LayerSetVisible(sprite, bleedLayer, false);
+            _sprite.RemoveLayer(sprite, bleedLayer);
+            _sprite.LayerMapRemove(sprite, bleedingKey);
         }
-
-        UpdateOwnBleedingVisuals(ent, sprite);
     }
 
     private void UpdateParentBleedingVisuals(

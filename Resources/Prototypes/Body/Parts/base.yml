@@ -91,7 +91,7 @@
         color: "#FF0000"
       Burn:
         sprite: _Shitmed/Mobs/Effects/burn_damage.rsi
-    bleedingOverlay: _Shitmed/Mobs/Effects/bleeding_damage.rsi
+    bleedingOverlay: null # Abisfera: no red bleeding pixels
   - type: ConsciousnessRequired
     identifier: "chest"
     causesDeath: true
@@ -151,7 +151,7 @@
         color: "#FF0000"
       Burn:
         sprite: _Shitmed/Mobs/Effects/burn_damage.rsi
-    bleedingOverlay: _Shitmed/Mobs/Effects/bleeding_damage.rsi
+    bleedingOverlay: null # Abisfera: no red bleeding pixels
   - type: ConsciousnessRequired
     identifier: "groin"
     causesDeath: false
@@ -213,7 +213,7 @@
         color: "#FF0000"
       Burn:
         sprite: _Shitmed/Mobs/Effects/burn_damage.rsi
-    bleedingOverlay: _Shitmed/Mobs/Effects/bleeding_damage.rsi
+    bleedingOverlay: null # Abisfera: no red bleeding pixels
   - type: ConsciousnessRequired
     identifier: "head"
     causesDeath: true
@@ -251,7 +251,7 @@
         color: "#FF0000"
       Burn:
         sprite: _Shitmed/Mobs/Effects/burn_damage.rsi
-    bleedingOverlay: _Shitmed/Mobs/Effects/bleeding_damage.rsi
+    bleedingOverlay: null # Abisfera: no red bleeding pixels
   - type: Woundable
     integrity: 80
     integrityCap: 80
@@ -288,7 +288,7 @@
         color: "#FF0000"
       Burn:
         sprite: _Shitmed/Mobs/Effects/burn_damage.rsi
-    bleedingOverlay: _Shitmed/Mobs/Effects/bleeding_damage.rsi
+    bleedingOverlay: null # Abisfera: no red bleeding pixels
   - type: Woundable
     integrity: 80
     integrityCap: 80
@@ -392,7 +392,7 @@
         color: "#FF0000"
       Burn:
         sprite: _Shitmed/Mobs/Effects/burn_damage.rsi
-    bleedingOverlay: _Shitmed/Mobs/Effects/bleeding_damage.rsi
+    bleedingOverlay: null # Abisfera: no red bleeding pixels
   - type: Woundable
     integrity: 80
     integrityCap: 80
@@ -430,7 +430,7 @@
         color: "#FF0000"
       Burn:
         sprite: _Shitmed/Mobs/Effects/burn_damage.rsi
-    bleedingOverlay: _Shitmed/Mobs/Effects/bleeding_damage.rsi
+    bleedingOverlay: null # Abisfera: no red bleeding pixels
   - type: Woundable
     integrity: 80
     integrityCap: 80

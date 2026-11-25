@@ -22,10 +22,10 @@
     fireRate: 12.5 # Reduced fireRate and increased projectileSpeed
     projectileSpeed: 30
     # Abisfera: zero spread
-    minAngle: 0
-    maxAngle: 0
-    angleDecay: 4
-    angleIncrease: 0
+    minAngle: 4
+    maxAngle: 12
+    angleDecay: 8
+    angleIncrease: 1.0
     availableModes:
     - FullAuto
     soundGunshot:

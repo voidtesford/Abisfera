@@ -21,13 +21,13 @@
   - type: AmmoCounter
   - type: Gun
     fireOnDropChance: 0.3 # CorvaxGoob-FireOnDrop
-    # Abisfera: zero spread SMG, no skill penalty
-    minAngle: 0
-    maxAngle: 0
+    # Abisfera balance: better than stock, not laser
+    minAngle: 2
+    maxAngle: 8
     fireRate: 8
     burstFireRate: 8
-    angleIncrease: 0
-    angleDecay: 4
+    angleIncrease: 1.2
+    angleDecay: 10
     selectedMode: FullAuto
     availableModes:
     - SemiAuto
@@ -170,10 +170,10 @@
   description: A burst-fire C-20r submachine gun for use by cyborgs. Creates .35 caliber ammo on the fly from an internal ammo fabricator, which slowly self-charges.
   components:
   - type: Gun
-    minAngle: 0
-    maxAngle: 0
-    angleIncrease: 0
-    angleDecay: 4
+    minAngle: 2
+    maxAngle: 8
+    angleIncrease: 1.5
+    angleDecay: 10
     fireRate: 8
     burstFireRate: 8
     selectedMode: Burst
@@ -223,11 +223,11 @@
     - type: Wieldable
       unwieldOnUse: false
     - type: GunWieldBonus
-      minAngle: 0
-      maxAngle: 0
+      minAngle: -18
+      maxAngle: -26
     - type: Gun
-      minAngle: 0
-      maxAngle: 0
+      minAngle: 21
+      maxAngle: 32
       fireRate: 6
       burstFireRate: 18
       soundGunshot:
@@ -287,13 +287,13 @@
   - type: ChamberMagazineAmmoProvider
     boltClosed: null
   - type: Gun # Goobstation - I am the one who nerfs the WT.
-    # Abisfera: zero spread
-    minAngle: 0
-    maxAngle: 0
+    # Abisfera balance
+    minAngle: 2
+    maxAngle: 8
     fireRate: 5
     burstFireRate: 8
-    angleIncrease: 0
-    angleDecay: 4
+    angleIncrease: 1.2
+    angleDecay: 10
     selectedMode: FullAuto
     availableModes:
     - FullAuto
@@ -355,8 +355,8 @@
       map: ["enum.GunVisualLayers.Base"]
   - type: Gun
     fireRate: 9
-    minAngle: 0
-    maxAngle: 0
+    minAngle: 4
+    maxAngle: 10
     availableModes:
     - FullAuto
     soundGunshot:

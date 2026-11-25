@@ -28,6 +28,15 @@
     soundGunshot:
       path: /Audio/Weapons/Guns/Gunshots/batrifle.ogg
     requiresSkill: true # CorvaxGoob-Skills
+    # Abisfera: ballistic rifles only (not lasers). Hip still from BaseGunWieldable 21-32.
+    # Wielded ends ~3-5° via bonus below; milder spray in full-auto.
+    minAngle: 21
+    maxAngle: 32
+    angleIncrease: 0.55
+    angleDecay: 5
+  - type: GunWieldBonus
+    minAngle: -18
+    maxAngle: -27
   - type: ChamberMagazineAmmoProvider
     soundRack:
       path: /Audio/Weapons/Guns/Cock/sf_rifle_cock.ogg
@@ -103,17 +112,17 @@
       - state: mag-0
         map: ["enum.GunVisualLayers.Mag"]
   - type: Gun
-    # Hip-fire same trash as BaseGunWieldable (21–32). Wielded ~0–1°.
+    # Abisfera ballistic only. Hip trash 21-32, wielded ~2-4°.
     minAngle: 21
     maxAngle: 32
-    angleIncrease: 0.25
-    angleDecay: 8
+    angleIncrease: 0.5
+    angleDecay: 6
     requiresSkill: false
     soundGunshot:
       path: /Audio/Weapons/Guns/Gunshots/rifle2.ogg
   - type: GunWieldBonus
-    minAngle: -21
-    maxAngle: -31
+    minAngle: -19
+    maxAngle: -28
   - type: ChamberMagazineAmmoProvider
     boltClosed: null # Goobstation
     soundRack:
