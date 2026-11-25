@@ -68,10 +68,7 @@ namespace Content.Client.Hands
 
         protected override bool BeforeDraw(in OverlayDrawArgs args)
         {
-            if (!_cfg.GetCVar(CCVars.HudHeldItemShow))
-                return false;
-
-            return base.BeforeDraw(in args);
+            return false; // Disabled: no item icon near cursor / above head
         }
 
         protected override void Draw(in OverlayDrawArgs args)

@@ -81,6 +81,8 @@ public sealed partial class StellarInteractionParticleSystem : EntitySystem
 
     private void OnInteractionParticle(StellarInteractionParticleEvent ev)
     {
+        return; // Disabled: no hand/palm particle on interact
+
         var performer = GetEntity(ev.Performer);
         var target = GetEntity(ev.Target);
 
