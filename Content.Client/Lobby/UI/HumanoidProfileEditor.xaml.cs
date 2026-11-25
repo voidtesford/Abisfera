@@ -748,8 +748,6 @@ namespace Content.Client.Lobby.UI
             {
                 var name = Loc.GetString(_species[i].Name);
 
-                if (_species[i].SponsorOnly) // CorvaxGoob-Sponsors
-                    name += SponsorUtils.GetSponsorOnlySuffix();
 
                 SpeciesButton.AddItem(name, i);
 

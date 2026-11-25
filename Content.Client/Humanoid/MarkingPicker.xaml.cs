@@ -225,7 +225,7 @@ public sealed partial class MarkingPicker : Control
         var sortedMarkings = GetMarkings(_selectedMarkingCategory).Values.Where(m =>
             m.ID.ToLower().Contains(filter.ToLower()) ||
             GetMarkingName(m).ToLower().Contains(filter.ToLower())
-        ).OrderBy(p => Loc.GetString(GetMarkingName(p)));
+        ).OrderBy(p => GetMarkingName(p));
 
         foreach (var marking in sortedMarkings)
         {
@@ -235,14 +235,7 @@ public sealed partial class MarkingPicker : Control
             }
 
             var item = CMarkingsUnused.AddItem($"{GetMarkingName(marking)}", _sprite.Frame0(marking.Sprites[0]));
-            if (marking.SponsorOnly) // CorvaxGoob-Start
-                item.Text += SponsorUtils.GetSponsorOnlySuffix();
-            // Corvax-Sponsors-End
             item.Metadata = marking;
-            // CorvaxGoob-Sponsors-Start
-            if (marking.SponsorOnly && _sponsorsManager != null)
-                item.Disabled = !_sponsorsManager.GetClientPrototypes().Contains(marking.ID);
-            // CorvaxGoob-Sponsors-End
         }
 
         CMarkingPoints.Visible = _currentMarkings.PointsLeft(_selectedMarkingCategory) != -1;

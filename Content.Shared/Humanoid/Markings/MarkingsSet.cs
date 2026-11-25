@@ -209,31 +209,9 @@ public sealed partial class MarkingSet
     /// <param name="prototypeManager">Prototype manager.</param>
     public void FilterSponsor(string[] sponsorMarkings, MarkingManager? markingManager = null, IPrototypeManager? prototypeManager = null)
     {
-        IoCManager.Resolve(ref markingManager);
-        IoCManager.Resolve(ref prototypeManager);
-
-        var toRemove = new List<(MarkingCategories category, string id)>();
-        foreach (var (category, list) in Markings)
-        {
-            foreach (var marking in list)
-            {
-                if (prototypeManager.TryIndex<MarkingPrototype>(marking.MarkingId, out var proto) && !proto.SponsorOnly)
-                {
-                    continue;
-                }
-
-                var allowedToHave = sponsorMarkings.Contains(marking.MarkingId);
-                if (!allowedToHave)
-                {
-                    toRemove.Add((category, marking.MarkingId));
-                }
-            }
-        }
-
-        foreach (var marking in toRemove)
-        {
-            Remove(marking.category, marking.id);
-        }
+        // Sponsor content unlocked for everyone
+        return;
+    
     }
     // CorvaxGoob-Sponsors-End
 

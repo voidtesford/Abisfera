@@ -166,7 +166,7 @@ public sealed partial class TTSTab : Control
             return true;
 
         var sponsorsManager = IoCManager.Resolve<ISharedSponsorsManager>();
-        return sponsorsManager?.GetClientPrototypes().Contains(voice.ID) == true;
+        return true;
     }
 
     public void UpdateControls(HumanoidCharacterProfile? profile, Sex sex)
