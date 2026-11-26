@@ -61,6 +61,14 @@ namespace Content.Client.Info
             };
             buttons.AddChild(guidebookButton);
 
+            // Abisfera - Support button
+            var supportButton = new Button() { Text = "Поддержать нас" };
+            supportButton.OnPressed += _ =>
+            {
+                uriOpener.OpenUri("https://boosty.to/abisfera/donate");
+            };
+            buttons.AddChild(supportButton);
+
             var changelogButton = new ChangelogButton();
             changelogButton.OnPressed += args => UserInterfaceManager.GetUIController<ChangelogUIController>().ToggleWindow();
             buttons.AddChild(changelogButton);

@@ -212,3 +212,5 @@ guide-entry-analysisconsole = Аналитическая консоль
 guide-entry-lawsets = Наборы законов синтетиков
 
 guide-entry-xenoborgs = Ксеноборги
+
+guide-entry-obesity = Ожирение

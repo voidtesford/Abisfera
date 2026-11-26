@@ -5,13 +5,10 @@ tickrate = 30
 limit = 25.0
 
 [infolinks]
-discord = "https://discord.ss14.ru"
-github = "https://github.com/space-syndicate/Goob-Station"
-wiki = "https://station14.ru"
-patreon = "https://boosty.to/corvax"
-appeal = "https://discord.ss14.ru"
-bug_report = "https://discord.ss14.ru"
-website = "https://ss14.ru"
+discord = "https://discord.gg/qgf6NsKcGf"
+github = "https://github.com/voidtesford/Abisfera"
+patreon = "https://boosty.to/abisfera/donate"
+appeal = "https://discord.gg/FWZdzesQpZ"
 
 [viewport]
 maximum_width = 26

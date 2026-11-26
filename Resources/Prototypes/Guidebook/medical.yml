@@ -12,6 +12,7 @@
   - Surgery # Shitmed Change
   - MedicalPatches # Fix for Medicine Patches
   - Virology # Goobstation
+  - Obesity # Abisfera
 
 - type: guideEntry
   id: MedicalDoctor
@@ -61,3 +62,8 @@
   id: PlasticProduction
   name: guide-entry-plastic
   text: "/ServerInfo/Guidebook/Medical/PlasticProduction.xml"
+
+- type: guideEntry
+  id: Obesity
+  name: guide-entry-obesity
+  text: "/ServerInfo/Guidebook/Medical/Obesity.xml"
