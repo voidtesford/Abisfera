@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="Abisfera" width="400" height="400" src="logo.png" />
+  <img alt="Abisfera Station 14" width="700" src="logo.png" />
 </p>
 
 **Abisfera** — активно модифицируемый форк CorvaxGoob / Goob Station, направленный на создание собственного контента.
