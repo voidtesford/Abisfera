@@ -52,7 +52,7 @@
     allowedEmotes: ['Squish', 'Bubble', 'Pop'] # Imp: add Bubble, Pop
   - type: TypingIndicator
     proto: slime
-  - type: Jiggle # Goobstation
+  # - type: Jiggle # Goobstation — disabled (no jelly wobble)
   - type: SlimeRegrowth # Goobstation
     damage:
       types:
