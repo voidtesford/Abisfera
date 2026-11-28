@@ -10,7 +10,7 @@ using Robust.Shared.Reflection;
 
 namespace Content.Client.Stylesheets
 {
-    public sealed class StylesheetManager : IStylesheetManager
+    public sealed partial class StylesheetManager : IStylesheetManager
     {
         [Dependency] private readonly ILogManager _logManager = default!;
         [Dependency] private readonly IUserInterfaceManager _userInterfaceManager = default!;
@@ -65,6 +65,8 @@ namespace Content.Client.Stylesheets
                     .ToArray();
                 sawmill.Error($"There are unloaded sheetlets: {string.Join(", ", sheetlets)}");
             }
+
+            InitializeStyleTheme();
 
             sawmill.Debug($"Initialized {_styleRuleCount} style rules in {sw.Elapsed}");
         }

@@ -35,6 +35,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                           Text="{Loc 'ui-options-vp-vertical-fit'}"
                           ToolTip="{Loc 'ui-options-vp-vertical-fit-tooltip'}" />
 
+                <!-- Abisfera UI themes -->
+                <Label Text="{Loc 'abisfera-ui-style-theme-title'}" StyleClasses="LabelKeyText"/>
+                <BoxContainer Name="StyleThemeContainer" Orientation="Vertical" Margin="0 4 0 8"/>
+
                 <!-- Misc -->
                 <Label Text="{Loc 'ui-options-misc-label'}" StyleClasses="LabelKeyText"/>
                 <CheckBox Name="FpsCounterCheckBox" Text="{Loc 'ui-options-fps-counter'}" />

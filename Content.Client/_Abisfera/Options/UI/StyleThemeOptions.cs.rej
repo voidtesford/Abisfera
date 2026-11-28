@@ -1,0 +1,235 @@
+diff a/Content.Client/_Abisfera/Options/UI/StyleThemeOptions.cs b/Content.Client/_Abisfera/Options/UI/StyleThemeOptions.cs	(rejected hunks)
+@@ -1,121 +1,112 @@
+-using System.Linq;
+-using Content.Shared._Abisfera.CCVar;
+-using Content.Shared._Abisfera.UserInterface;
+-using Robust.Client.Graphics;
+-using Robust.Client.UserInterface;
+-using Robust.Client.UserInterface.Controls;
+-using Robust.Shared.Configuration;
+-using Robust.Shared.Prototypes;
+-
+-namespace Content.Client._Abisfera.Options.UI;
+-
+-/// <summary>
+-/// Grid of theme swatches. Embed in Graphics/Misc options tab.
+-/// </summary>
+-public sealed class StyleThemePicker : GridContainer
+-{
+-    public const string StyleClassSwatchButton = "SwatchButton";
+-
+-    private readonly Dictionary<string, ContainerButton> _cards = new();
+-
+-    public event Action? OnPicked;
+-    public string? Selected { get; private set; }
+-
+-    public StyleThemePicker()
+-    {
+-        Columns = 4;
+-        HSeparationOverride = 6;
+-        VSeparationOverride = 6;
+-
+-        var proto = IoCManager.Resolve<IPrototypeManager>();
+-        foreach (var theme in proto.EnumeratePrototypes<StyleThemePrototype>().OrderBy(t => t.Order))
+-        {
+-            var card = new ContainerButton { ToggleMode = true, ToolTip = Loc.GetString(theme.Name) };
+-            card.AddChild(new BoxContainer
+-            {
+-                Orientation = BoxContainer.LayoutOrientation.Vertical,
+-                Children =
+-                {
+-                    new BoxContainer
+-                    {
+-                        Orientation = BoxContainer.LayoutOrientation.Horizontal,
+-                        HorizontalAlignment = HAlignment.Center,
+-                        Children =
+-                        {
+-                            Swatch(theme.Background, 22, 28),
+-                            Swatch(theme.SurfaceRaised, 22, 28),
+-                            Swatch(theme.ElementHovered, 22, 28),
+-                        },
+-                    },
+-                    new Label { Text = Loc.GetString(theme.Name), HorizontalAlignment = HAlignment.Center },
+-                },
+-            });
+-
+-            var id = theme.ID;
+-            card.OnPressed += _ =>
+-            {
+-                Selected = id;
+-                UpdatePressed();
+-                OnPicked?.Invoke();
+-            };
+-            _cards[id] = card;
+-            AddChild(card);
+-        }
+-    }
+-
+-    public void Select(string id)
+-    {
+-        Selected = id;
+-        UpdatePressed();
+-    }
+-
+-    private void UpdatePressed()
+-    {
+-        foreach (var (id, card) in _cards)
+-            card.Pressed = id == Selected;
+-    }
+-
+-    public static PanelContainer Swatch(Color color, float width, float height)
+-        => new()
+-        {
+-            PanelOverride = new StyleBoxFlat { BackgroundColor = color },
+-            MinSize = new(width, height),
+-        };
+-}
+-
+-/// <summary>
+-/// Standalone control: theme picker + Apply/Save via CVar.
+-/// Drop into GraphicsTab or open as a window.
+-/// </summary>
+-public sealed class StyleThemeOptionsPanel : BoxContainer
+-{
+-    private readonly IConfigurationManager _cfg;
+-    private readonly StyleThemePicker _picker;
+-
+-    public StyleThemeOptionsPanel()
+-    {
+-        Orientation = LayoutOrientation.Vertical;
+-        SeparationOverride = 8;
+-        _cfg = IoCManager.Resolve<IConfigurationManager>();
+-
+-        AddChild(new Label
+-        {
+-            Text = Loc.GetString("abisfera-ui-style-theme-title"),
+-            StyleClasses = { "LabelHeading" },
+-        });
+-
+-        _picker = new StyleThemePicker();
+-        _picker.Select(_cfg.GetCVar(AbisferaCCVars.StyleTheme));
+-        _picker.OnPicked += Apply;
+-        AddChild(_picker);
+-    }
+-
+-    private void Apply()
+-    {
+-        if (_picker.Selected is not { } id)
+-            return;
+-
+-        _cfg.SetCVar(AbisferaCCVars.StyleTheme, id);
+-        _cfg.SaveToFile();
+-    }
+-}
++using System.Linq;
++using Content.Shared._CorvaxGoob.CCCVars;
++using Content.Shared.Abisfera.UserInterface;
++using Robust.Client.Graphics;
++using Robust.Client.UserInterface;
++using Robust.Client.UserInterface.Controls;
++using Robust.Shared.Configuration;
++using Robust.Shared.Prototypes;
++
++namespace Content.Client.Options.UI;
++
++public sealed class StyleThemePicker : GridContainer
++{
++    private readonly Dictionary<string, ContainerButton> _cards = new();
++
++    public event Action? OnPicked;
++    public string? Selected { get; private set; }
++
++    public StyleThemePicker()
++    {
++        Columns = 4;
++        HSeparationOverride = 6;
++        VSeparationOverride = 6;
++
++        var proto = IoCManager.Resolve<IPrototypeManager>();
++        foreach (var theme in proto.EnumeratePrototypes<StyleThemePrototype>().OrderBy(t => t.Order))
++        {
++            var card = new ContainerButton { ToggleMode = true, ToolTip = Loc.GetString(theme.Name) };
++            card.AddChild(new BoxContainer
++            {
++                Orientation = BoxContainer.LayoutOrientation.Vertical,
++                Children =
++                {
++                    new BoxContainer
++                    {
++                        Orientation = BoxContainer.LayoutOrientation.Horizontal,
++                        HorizontalAlignment = HAlignment.Center,
++                        Children =
++                        {
++                            Swatch(theme.Background, 22, 28),
++                            Swatch(theme.SurfaceRaised, 22, 28),
++                            Swatch(theme.ElementHovered, 22, 28),
++                        },
++                    },
++                    new Label { Text = Loc.GetString(theme.Name), HorizontalAlignment = HAlignment.Center },
++                },
++            });
++
++            var id = theme.ID;
++            card.OnPressed += _ =>
++            {
++                Selected = id;
++                UpdatePressed();
++                OnPicked?.Invoke();
++            };
++            _cards[id] = card;
++            AddChild(card);
++        }
++    }
++
++    public void Select(string id)
++    {
++        Selected = id;
++        UpdatePressed();
++    }
++
++    private void UpdatePressed()
++    {
++        foreach (var (id, card) in _cards)
++            card.Pressed = id == Selected;
++    }
++
++    public static PanelContainer Swatch(Color color, float width, float height)
++        => new()
++        {
++            PanelOverride = new StyleBoxFlat { BackgroundColor = color },
++            MinSize = new(width, height),
++        };
++}
++
++public sealed class StyleThemeOptionsPanel : BoxContainer
++{
++    private readonly IConfigurationManager _cfg;
++    private readonly StyleThemePicker _picker;
++
++    public StyleThemeOptionsPanel()
++    {
++        Orientation = LayoutOrientation.Vertical;
++        SeparationOverride = 8;
++        _cfg = IoCManager.Resolve<IConfigurationManager>();
++
++        AddChild(new Label
++        {
++            Text = Loc.GetString("abisfera-ui-style-theme-title"),
++            StyleClasses = { "LabelHeading" },
++        });
++
++        _picker = new StyleThemePicker();
++        _picker.Select(_cfg.GetCVar(AbisferaCVars.StyleTheme));
++        _picker.OnPicked += Apply;
++        AddChild(_picker);
++    }
++
++    private void Apply()
++    {
++        if (_picker.Selected is not { } id)
++            return;
++
++        _cfg.SetCVar(AbisferaCVars.StyleTheme, id);
++        _cfg.SaveToFile();
++    }
++}

@@ -1,0 +1,18 @@
+diff a/Content.Client/_Abisfera/Stylesheets/BaseStylesheet.Abisfera.cs b/Content.Client/_Abisfera/Stylesheets/BaseStylesheet.Abisfera.cs	(rejected hunks)
+@@ -1,8 +1,8 @@
+-// ReSharper disable once CheckNamespace
+-namespace Content.Client.Stylesheets;
+-
+-public abstract partial class BaseStylesheet
+-{
+-    /// <summary>Exposed config object (StyleTheme or NoConfig).</summary>
+-    protected object Config => _config;
+-}
++// ReSharper disable once CheckNamespace
++namespace Content.Client.Stylesheets;
++
++public abstract partial class BaseStylesheet
++{
++    /// <summary>Exposed config object (StyleTheme or NoConfig).</summary>
++    protected object Config => _config;
++}
