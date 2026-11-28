@@ -1,0 +1,10 @@
+diff a/Resources/Locale/ru-RU/ss14-ru/prototypes/entities/objects/misc/books.ftl b/Resources/Locale/ru-RU/ss14-ru/prototypes/entities/objects/misc/books.ftl	(rejected hunks)
+@@ -28,7 +28,7 @@ ent-BookMedicalReferenceBook = Медицинский справочник
+ ent-BookHowToSurvive = Как выжить
+     .desc = По иронии судьбы автор этой книги умер.
+ ent-BookSpaceLaw = Корпоративный закон
+-    .desc = Набор правил NanoTrasen для поддержания закона и порядка на своих космических станциях.
++    .desc = Корпоративный закон Abisfera — свод требований к поведению на станции.
+ ent-BookChemicalCompendium = Химпендиум
+     .desc = Исчерпывающее руководство о химическом синтезе, написанное каким-то пожилым скелетом профессора.
+ ent-BookRandom = { ent-BookBase }

@@ -6,7 +6,7 @@
 
 ## Ссылки
 
-[Наш Discord](https://discord.gg/qgf6NsKcGf) | [Steam](https://store.steampowered.com/app/1255460/Space_Station_14/) | [Клиент без Steam](https://spacestation14.io/about/nightlies/) | [Основной репозиторий](https://github.com/space-wizards/space-station-14)
+[Наш Discord](https://discord.gg/qgf6NsKcGf) | [Steam](https://store.steampowered.com/app/1255460/Space_Station_14/) | [Клиент без Steam](https://spacestation14.io/about/nightlies/) | [Основной репозиторий](https://github.com/space-wizards/space-station-14) | **[Корпоративный Закон (КЗ)](KZ.md)**
 
 ## Документация
 
@@ -34,3 +34,7 @@
 Большинство медиа-активов лицензированы по [CC-BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/), если не указано иное. Информация о лицензии и авторских правах для активов находится в файле метаданных. [Пример](https://github.com/space-wizards/space-station-14/blob/master/Resources/Textures/Objects/Tools/crowbar.rsi/meta.json).
 
 Обратите внимание, что некоторые активы лицензированы по некоммерческой лицензии [CC-BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/) или аналогичным некоммерческим лицензиям, и их необходимо удалить, если вы планируете использовать этот проект в коммерческих целях.
+
+## Корпоративный Закон
+
+Основной Корпоративный Закон сервера Abisfera: [KZ.md](KZ.md)

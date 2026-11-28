@@ -1,32 +1,29 @@
 <Document>
 
-# Раздел 3. Экономические преступления
+# 3XX — Тяжёлые нарушения
 
-## Глава 1. Преступления против собственности
+## 300 — Нападение на правоохранительные органы
+[italic]Нападение на сотрудников службы безопасности или иных представителей правоохранительных органов.[/italic]
 
-## 311 - Мелкая кража
-<FTLTextpart Key="guidebook-corporatelaw-311-desc"/>
+## 301 — Причинение тяжкого вреда здоровью
+[italic]Причинение тяжкого вреда здоровью разумного существа.[/italic]
 
-<FTLTextpart Key="guidebook-corporatelaw-311-note"/>
+## 302 — Хранение контрабанды
+[italic]Хранение предметов, запрещённых к обороту на станции (контрабанда).[/italic]
 
-## 312 - Кража
-<FTLTextpart Key="guidebook-corporatelaw-312-desc"/>
+## 303 — Использование незаконного оружия
+[italic]Применение незаконного оружия против разумных существ или имущества.[/italic]
 
-<FTLTextpart Key="guidebook-corporatelaw-312-note"/>
+## 304 — Мошенничество
+[italic]Мошенничество, обман с целью получения выгоды.[/italic]
 
-## 313 - Грабеж
-<FTLTextpart Key="guidebook-corporatelaw-313-desc"/>
+## 305 — Присвоение важного имущества станции
+[italic]Присвоение важного имущества станции или корпорации.[/italic]
 
-<FTLTextpart Key="guidebook-corporatelaw-313-note"/>
+## 306 — Проникновение в стратегическую точку
+[italic]Несанкционированное проникновение в стратегически важную зону станции.[/italic]
 
-## 314 - Крупное хищение
-<FTLTextpart Key="guidebook-corporatelaw-314-desc"/>
-
-<FTLTextpart Key="guidebook-corporatelaw-314-note"/>
-
-## 315 - Хищение особо ценного имущества
-<FTLTextpart Key="guidebook-corporatelaw-315-desc"/>
-
-<FTLTextpart Key="guidebook-corporatelaw-315-note"/>
+## 307 — Саботаж
+[italic]Саботаж работы станции, её систем или персонала.[/italic]
 
 </Document>

@@ -1,0 +1,125 @@
+diff a/Resources/ServerInfo/_CorvaxGoob/Guidebook/CorporateLaw/Punishments.xml b/Resources/ServerInfo/_CorvaxGoob/Guidebook/CorporateLaw/Punishments.xml	(rejected hunks)
+@@ -2,114 +2,15 @@
+ 
+ # Санкции
+ 
+-  <Table Columns="7">
+-    <ColorBox>
+-      <Box HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2">
+-        Статья
+-      </Box>
+-    </ColorBox>
+-    <ColorBox Color="#0F4F27">
+-      <Box HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2">
+-        XX1
+-      </Box>
+-    </ColorBox>
+-    <ColorBox Color="#414700">
+-      <Box HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2">
+-        XX2
+-      </Box>
+-    </ColorBox>
+-    <ColorBox Color="#5F3800">
+-      <Box HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2">
+-        XX3
+-      </Box>
+-    </ColorBox>
+-    <ColorBox Color="#611300">
+-      <Box HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2">
+-        XX4
+-      </Box>
+-    </ColorBox>
+-    <ColorBox Color="#56000C">
+-      <Box HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2">
+-        XX5
+-      </Box>
+-    </ColorBox>
+-    <ColorBox Color="#121212">
+-      <Box HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2">
+-        XX6
+-      </Box>
+-    </ColorBox>
+-    <ColorBox>
+-      <Box HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2">
+-        Правовое наказание
+-      </Box>
+-    </ColorBox>
+-    <ColorBox Color="#0F4F27">
+-      <Box HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2">
+-        5 минут тюремного заключения
+-      </Box>
+-    </ColorBox>
+-    <ColorBox Color="#414700">
+-      <Box HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2">
+-        10 минут тюремного заключения
+-      </Box>
+-    </ColorBox>
+-    <ColorBox Color="#5F3800">
+-      <Box HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2">
+-        15 минут тюремного заключения
+-      </Box>
+-    </ColorBox>
+-    <ColorBox Color="#611300">
+-      <Box HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2">
+-        25 минут тюремного заключения
+-      </Box>
+-    </ColorBox>
+-    <ColorBox Color="#56000C">
+-      <Box HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2">
+-        Пожизненное заключение
+-      </Box>
+-    </ColorBox>
+-    <ColorBox Color="#121212">
+-      <Box HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2">
+-        Высшая мера наказания
+-      </Box>
+-    </ColorBox>
+-    <ColorBox>
+-      <Box HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2">
+-        Дисциплинарное наказание
+-      </Box>
+-    </ColorBox>
+-    <ColorBox Color="#0F4F27">
+-      <Box HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2">
+-        Не предусмотрено
+-      </Box>
+-    </ColorBox>
+-    <ColorBox Color="#414700">
+-      <Box HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2">
+-        На усмотрение главы отдела
+-      </Box>
+-    </ColorBox>
+-    <ColorBox Color="#5F3800">
+-      <Box HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2">
+-        На усмотрение главы отдела
+-      </Box>
+-    </ColorBox>
+-    <ColorBox Color="#611300">
+-      <Box HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2">
+-        На усмотрение главы отдела
+-      </Box>
+-    </ColorBox>
+-    <ColorBox Color="#56000C">
+-      <Box HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2">
+-        Увольнение
+-      </Box>
+-    </ColorBox>
+-    <ColorBox Color="#121212">
+-      <Box HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2">
+-        Увольнение
+-      </Box>
+-    </ColorBox>
+-  </Table>
++Наказания за нарушения Корпоративного Закона Abisfera определяются сотрудниками службы безопасности и командованием станции в зависимости от тяжести нарушения, обстоятельств и рецидива.
+ 
+-  <FTLTextpart Key="guidebook-corporatelaw-punishments"/>
++[bold]Общие рекомендации:[/bold]
++- 1XX — предупреждение, штраф, короткое задержание
++- 2XX — задержание 10–20 минут
++- 3XX — задержание 20–40 минут
++- 4XX — длительное задержание или пермабриг
++- 5XX — пермабриг, казнь (по решению командования/ЦК)
++
++Окончательное решение принимает уполномоченное лицо с учётом модификаторов.
+ 
+ </Document>

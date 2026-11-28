@@ -36,16 +36,10 @@
   text: "/ServerInfo/_CorvaxGoob/Guidebook/CorporateLaw/CrimeList.xml"
   children:
   - CLChapter11
-  - CLChapter12
-  - CLChapter13
-  - CLChapter14
   - CLChapter21
-  - CLChapter22
   - CLChapter31
-  - CLChapter32
   - CLChapter41
   - CLChapter42
-  - CLChapter43
 
 # Список глав со списками статьей
 - type: guideEntry
@@ -97,8 +91,3 @@
   id: CLChapter42
   name: guide-entry-cl-chapter-42
   text: "/ServerInfo/_CorvaxGoob/Guidebook/CorporateLaw/Chapter42.xml"
-
-- type: guideEntry
-  id: CLChapter43
-  name: guide-entry-cl-chapter-43
-  text: "/ServerInfo/_CorvaxGoob/Guidebook/CorporateLaw/Chapter43.xml"
